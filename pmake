@@ -14,6 +14,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.c
 
 # bootstrap our boostrap, if we have not been here before
 if [ ! -e "$HOME/pkgsrc" ]; then
+    echo "installing pkgsrc"
     cd
     cvs -danoncvs@anoncvs.netbsd.org:/cvsroot checkout pkgsrc
     cd pkgsrc/bootstrap
@@ -24,6 +25,7 @@ fi
 # http://stackoverflow.com/a/255913/1763984
 for pkg in "$@"
 do
+    echo "installing $pkg"
     cd "${HOME}/pkgsrc/$pkg"
     bmake
     bmake install
