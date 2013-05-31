@@ -1,14 +1,23 @@
 appstrap
 ========
 
-utilities to bootstrap your app stack
+utilitie(s) to bootstrap your app stack
 
 ## pmake
 
 [pkgsrc](http://www.pkgsrc.org) where have you been all my life?  So glad
 to finally find this from NetBSD.  I wrote a little wrapper for it.
 
-[The complete list of packages](http://ftp.netbsd.org/pub/pkgsrc/current/pkgsrc/README-all.html)
+### How to find a package
+
+1. Find your package in one of these lists.
+
+ * [The complete list of packages](http://ftp.netbsd.org/pub/pkgsrc/current/pkgsrc/README-all.html)
+ * [Packages by Category](http://ftp.netbsd.org/pub/pkgsrc/current/pkgsrc/README.html)
+
+2. Find the directory name on the package `README.html`.  Look for *The package is located in the "xxx/yyy" directory*.
+
+3. Use the directory name as a command line parameter to `pmake`.
 
 For example
 
@@ -17,9 +26,13 @@ For example
 ```
 
 will install `pkgsrc` if it is not already there; and then install
-git with all its dependencies into `~/pkg`.  Works on the SUSE
-VMs I can get from the datacenter.
+[git](http://git-scm.com) with all its dependencies into `~/pkg`.
+Works on the SUSE VMs I can get from the datacenter.
 
+Note: it is sort of slow the first time because it has to download and
+all the source and build all the packages, but I'm going to try to figure
+out how to set up a local repository of the packages so that I only have to 
+build them once per each of -dev, -stg, and prod.
 
 # License 
 
