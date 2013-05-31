@@ -31,11 +31,14 @@ add this line to the end of your `.bashrc`
 
 ### How to find a package and add it to your app stack
 
- #1. Find your package in one of these lists.
+1. Find your package in one of these lists.
    * [The complete list of packages](http://ftp.netbsd.org/pub/pkgsrc/current/pkgsrc/README-all.html)
    * [Packages by Category](http://ftp.netbsd.org/pub/pkgsrc/current/pkgsrc/README.html)
- #2. Find the directory name on the package `README.html`.  Look for *The package is located in the "xxx/yyy" directory*. xxx/yyy will be a link
- #3. Use the directory name as a command line parameter to `pmake`.
+
+2. Find the directory name on the package `README.html`.  Look for *The
+package is located in the "xxx/yyy" directory*. xxx/yyy will be a link
+
+3. Use the directory name as a command line parameter to `pmake`.
 
 For example
 
