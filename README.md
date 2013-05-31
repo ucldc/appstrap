@@ -31,7 +31,7 @@ will install `pkgsrc` if it is not already there; and then install
 This will install ffmpeg and shibboleth
 
 ```bash
-./pmake ACCEPTABLE_LICENSES=lame-license ./pmake multimedia/ffmpeg
+ACCEPTABLE_LICENSES=lame-license ./pmake multimedia/ffmpeg
 ./pmake www/shibboleth-sp
 ```
 
