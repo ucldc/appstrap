@@ -8,7 +8,7 @@ utilitie(s) to bootstrap your app stack
 [pkgsrc](http://www.pkgsrc.org) where have you been all my life?
 So glad to finally find this from NetBSD -- it works on Linux too!
 I wrote a little wrapper for it so I can do one command installs
-of these NetBSD packages for my app stack.
+of <a href="http://ftp.netbsd.org/pub/pkgsrc/current/pkgsrc/README.html">these NetBSD packages</a> for my SUSE/Linux app stack.
 
 ### Install appstrap
 
