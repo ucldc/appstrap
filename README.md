@@ -5,8 +5,10 @@ utilitie(s) to bootstrap your app stack
 
 ## pmake
 
-[pkgsrc](http://www.pkgsrc.org) where have you been all my life?  So glad
-to finally find this from NetBSD.  I wrote a little wrapper for it.
+[pkgsrc](http://www.pkgsrc.org) where have you been all my life?
+So glad to finally find this from NetBSD -- it works on Linux too!
+I wrote a little wrapper for it so I can do one command installs
+of these NetBSD packages for my app stack.
 
 ### Install appstrap
 
@@ -24,8 +26,8 @@ add this line to the end of your `.bashrc`
 ```
 .
 ├── appstrap     # this repository
-├── pkg          # the NetBSD packages get installed in here
-├── pkgsrc       # magic / source / built packages
+├── pkg          # packages get installed in here
+├── pkgsrc       # magic checked out from NetBSD CVS / downloaded source / built packages
 └── servers      # local edits to pkg/etc files
 ```
 
