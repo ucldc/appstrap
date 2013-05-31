@@ -27,6 +27,7 @@ for pkg in "$@"
 do
     echo "installing $pkg"
     cd "${HOME}/pkgsrc/$pkg"
+    bmake clean
     bmake
     bmake install
     bmake clean
