@@ -28,6 +28,13 @@ For example
 will install `pkgsrc` if it is not already there; and then install
 [git](http://git-scm.com) with all its dependencies into `~/pkg`.
 
+This will install ffmpeg and shibboleth
+
+```bash
+./pmake ACCEPTABLE_LICENSES=lame-license ./pmake multimedia/ffmpeg
+./pmake www/shibboleth-sp
+```
+
 Works on the SUSE VMs I can get from the datacenter.
 
 Note: it is sort of slow the first time because it has to download and
