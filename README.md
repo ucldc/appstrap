@@ -8,16 +8,34 @@ utilitie(s) to bootstrap your app stack
 [pkgsrc](http://www.pkgsrc.org) where have you been all my life?  So glad
 to finally find this from NetBSD.  I wrote a little wrapper for it.
 
-### How to find a package
+### Install appstrap
 
- 1. Find your package in one of these lists.
+Go to your home directory and check out this repository.
 
+add this line to the end of your `.bashrc`
+
+```bash
+# .bashrc
+. appstrap/setenv.sh
+```
+
+### Directory Structure
+
+```
+.
+├── appstrap     # this repository
+├── pkg          # the NetBSD packages get installed in here
+├── pkgsrc       # magic / source / built packages
+└── servers      # local edits to pkg/etc files
+```
+
+### How to find a package and add it to your app stack
+
+ #1. Find your package in one of these lists.
    * [The complete list of packages](http://ftp.netbsd.org/pub/pkgsrc/current/pkgsrc/README-all.html)
    * [Packages by Category](http://ftp.netbsd.org/pub/pkgsrc/current/pkgsrc/README.html)
-
- 2. Find the directory name on the package `README.html`.  Look for *The package is located in the "xxx/yyy" directory*. xxx/yyy will be a link
-
- 3. Use the directory name as a command line parameter to `pmake`.
+ #2. Find the directory name on the package `README.html`.  Look for *The package is located in the "xxx/yyy" directory*. xxx/yyy will be a link
+ #3. Use the directory name as a command line parameter to `pmake`.
 
 For example
 
@@ -35,6 +53,11 @@ ACCEPTABLE_LICENSES=lame-license ./pmake multimedia/ffmpeg
 ./pmake www/shibboleth-sp
 ```
 
+or, install many things at once
+```bash
+./pmake graphics/ImageMagick print/poppler-utils
+```
+
 Works on the SUSE VMs I can get from the datacenter.
 
 Note: it is sort of slow the first time because it has to download and
@@ -42,12 +65,13 @@ all the source and build all the packages, but I'm going to try to figure
 out how to set up a local repository of the packages so that I only have to 
 build them once per each of -dev, -stg, and prod.
 
-> ## About pkgsrc
+> #### About pkgsrc
 
 > The NetBSD Packages Collection (pkgsrc) is a framework for building third-party software on NetBSD and other UNIX-like systems, currently containing over 13000 packages. It is used to enable freely available software to be configured and built easily on supported platforms.
 
-It has stable branches that are tagged every quarter of the year, and the curren (2013-05-30) release is their 50th.
+It has stable branches that are tagged every quarter of the year, and the current (2013-05-30) release is their 50th.
 
+## TODO scripts that set up httpd and tomcat servers from templates
 
 # License 
 
