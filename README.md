@@ -21,6 +21,18 @@ add this line to the end of your `.bashrc`
 . appstrap/setenv.sh
 ```
 
+This command will install the utility `tree`
+
+```bash
+./appstrap/pmake sysutils/tree
+```
+
+This command will install pkgsrc without any packages.
+
+```bash
+./appstrap/pmake
+```
+
 ### Directory Structure
 
 ```
