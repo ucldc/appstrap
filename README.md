@@ -13,11 +13,11 @@ to finally find this from NetBSD.  I wrote a little wrapper for it.
 For example
 
 ```bash
-./pmake www/shibboleth-sp
+./pmake devel/scmgit-base
 ```
 
 will install `pkgsrc` if it is not already there; and then install
-shibboleth with all its dependencies into `~/pkg`.  Works on the SUSE
+git with all its dependencies into `~/pkg`.  Works on the SUSE
 VMs I can get from the datacenter.
 
 
