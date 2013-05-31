@@ -10,7 +10,7 @@
 set -eu
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
-. "$DIR/set-path.sh"
+. "$DIR/setenv.sh"
 
 # bootstrap our boostrap, if we have not been here before
 if [ ! -e "$HOME/pkgsrc" ]; then
