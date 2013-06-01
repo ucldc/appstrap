@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+set -eu
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
+. "$DIR/setenv.sh"
+
+cd $DIR
+
+if [ ! -e "$HOME/pkgsrc/distfiles/shibboleth-sp-2.4.3.tar.gz" ]; then
+  ./pmake www/shibboleth-sp
+fi
+
+if [ ! -e "$HOME/pkgsrc/distfiles/shibboleth-sp-2.4.3.tar.gz" ]; then
+  echo "must have upgraded pkgsrc..., now this scripts needs updating"
+  exit 1
+fi
+
+shibdir="$HOME/servers/shibboleth"
+mkdir -p $shibdir
+cd $shibdir
+
+tar zxf "$HOME/pkgsrc/distfiles/shibboleth-sp-2.4.3.tar.gz"
+cd shibboleth-2.4.3
+./configure --prefix=$shibdir --with-xmltooling=$HOME/pkg
+make install

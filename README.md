@@ -14,11 +14,13 @@ of <a href="http://ftp.netbsd.org/pub/pkgsrc/current/pkgsrc/README.html">these N
 
 Go to your home directory and check out this repository.
 
-add this line to the end of your `.bashrc`
+add something like this to the end of your `.bashrc`
 
 ```bash
 # .bashrc
-. appstrap/setenv.sh
+if [ -e $HOME/appstrap/setenv.sh ]; then
+  . $HOME/appstrap/setenv.sh
+fi
 ```
 
 This command will install the utility `tree`
@@ -37,7 +39,8 @@ This command will install pkgsrc without any packages.
 
 ```
 .
-├── appstrap     # this repository
+├── appstrap     # <= this repository (you are here)
+├── certs        # put ssl certs and other credentials in this directory
 ├── pkg          # packages get installed in here
 ├── pkgsrc       # magic checked out from NetBSD CVS / downloaded source / built packages
 └── servers      # local edits to pkg/etc files
@@ -89,6 +92,12 @@ build them once per each of -dev, -stg, and prod.
 It has stable branches that are tagged every quarter of the year, and the current (2013-05-30) release is their 50th.
 
 ## TODO scripts that set up httpd and tomcat servers from templates
+
+## role_test_certs
+Create test certificates for use with ssl/https
+
+## shib_it
+Shibboleth needs to be compiled with --prefix to run w/o root.  Run this command to set up shibboleth.
 
 # License 
 
