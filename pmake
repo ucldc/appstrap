@@ -21,15 +21,18 @@ if [ ! -e "$HOME/pkgsrc" ]; then
     ./bootstrap --unprivileged
 fi
 
+# TODO: set BINPKG_SITES to point to pre-built packages
+
 # for each package named on the command line; make and install it
 # http://stackoverflow.com/a/255913/1763984
 for pkg in "$@"
 do
     echo "installing $pkg"
     cd "${HOME}/pkgsrc/$pkg"
+    # http://netbsd.org/docs/pkgsrc/build.html#build.helpful-targets
     bmake clean
-    bmake
-    bmake install
+    bmake clean-depends
+    bmake bin-install 
     bmake clean
     bmake clean-depends
 done
