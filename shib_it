@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# pkgsrc can compile www/shibboleth-sp; but the version it compiles is configured to run
+# as root -- so pkgsrc is used to get all the dependencies; and then it is recompiled
+# again setting a prefix
+
 set -eu
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
@@ -9,6 +13,7 @@ cd $DIR
 
 if [ ! -e "$HOME/pkgsrc/distfiles/shibboleth-sp-2.4.3.tar.gz" ]; then
   ./pmake www/shibboleth-sp
+  pkg_delete shibboleth-sp-2.4.3nb2
 fi
 
 if [ ! -e "$HOME/pkgsrc/distfiles/shibboleth-sp-2.4.3.tar.gz" ]; then
@@ -51,4 +56,3 @@ make install
 # CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
 # POSSIBILITY OF SUCH DAMAGE.
-
