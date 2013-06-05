@@ -30,6 +30,10 @@ cd shibboleth-2.4.3
 ./configure --prefix=$shibdir --with-xmltooling=$HOME/pkg
 make install
 
+echo "before you run apache; set these
+  export SHIBSP_PREFIX=$HOME/servers/shibboleth
+  export LD_LIBRARY_PATH=$HOME/servers/shibboleth/lib"
+
 # Copyright © 2013, Regents of the University of California
 # All rights reserved.
 # 
