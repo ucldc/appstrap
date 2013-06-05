@@ -1,18 +1,22 @@
 appstrap
 ========
 
-utilitie(s) to bootstrap your app stack
-
-## pmake
+utilities to bootstrap your app stack
 
 [pkgsrc](http://www.pkgsrc.org) where have you been all my life?
 So glad to finally find this from NetBSD -- it works on Linux too!
 I wrote a little wrapper for it so I can do one command installs
 of <a href="http://ftp.netbsd.org/pub/pkgsrc/current/pkgsrc/README.html">these NetBSD packages</a> for my SUSE/Linux app stack.
 
-### Install appstrap
+Appstrap provides a wrapper around `pkgsrc` called `pmake` and some other utility scripts to set up web servers.
+
+## Install appstrap
 
 Go to your home directory and check out this repository.
+
+```
+git clone https://github.com/tingletech/appstrap.git
+```
 
 add something like this to the end of your `.bashrc`
 
@@ -23,28 +27,14 @@ if [ -e $HOME/appstrap/setenv.sh ]; then
 fi
 ```
 
-This command will install the utility `tree`
+This will install the utility `tree`
 
 ```bash
 ./appstrap/pmake sysutils/tree
 ```
 
-This command will install pkgsrc without any packages.
+For this shell, you will need to `source ~/.bashrc` and now `tree` should be on your path.
 
-```bash
-./appstrap/pmake
-```
-
-### Directory Structure
-
-```
-.
-├── appstrap     # <= this repository (you are here)
-├── certs        # put ssl certs and other credentials in this directory
-├── pkg          # packages get installed in here
-├── pkgsrc       # magic checked out from NetBSD CVS / downloaded source / built packages
-└── servers      # local edits to pkg/etc files
-```
 
 ### How to find a package and add it to your app stack
 
@@ -80,12 +70,23 @@ or, install many things at once
 
 Works on the SUSE VMs I can get from the datacenter.
 
+### Directory Structure
+
+```
+.
+├── appstrap     # <= this repository (you are here)
+├── certs        # put ssl certs and other credentials in this directory
+├── pkg          # packages get installed in here
+├── pkgsrc       # magic checked out from NetBSD CVS / downloaded source / built packages
+└── servers      # local edits to pkg/etc files
+```
+
 Note: it is sort of slow the first time because it has to download and
 all the source and build all the packages, but I'm going to try to figure
 out how to set up a local repository of the packages so that I only have to 
 build them once per each of -dev, -stg, and prod.
 
-> #### About pkgsrc
+#### About pkgsrc
 
 > The NetBSD Packages Collection (pkgsrc) is a framework for building third-party software on NetBSD and other UNIX-like systems, currently containing over 13000 packages. It is used to enable freely available software to be configured and built easily on supported platforms.
 
