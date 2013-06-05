@@ -32,7 +32,11 @@ make install
 
 echo "before you run apache; set these
   export SHIBSP_PREFIX=$HOME/servers/shibboleth
-  export LD_LIBRARY_PATH=$HOME/servers/shibboleth/lib"
+  export LD_LIBRARY_PATH=$HOME/servers/shibboleth/lib
+  UseCanonicalName On
+  ServerName app.example.org:443
+  also Include a copy of $HOME/servers/shibboleth/etc/shibboleth/apache22.config 
+"
 
 # Copyright © 2013, Regents of the University of California
 # All rights reserved.
