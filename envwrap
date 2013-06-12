@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -u
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
+. "$DIR/setenv.sh"
+# http://stackoverflow.com/questions/3356476/debugging-monit
+$@
