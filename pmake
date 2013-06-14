@@ -8,6 +8,7 @@
 # do what one expects trying to get the script to stop on a failure,
 # better to check command status explicitly
 set -eu
+set -x
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
 . "$DIR/setenv.sh"
@@ -16,6 +17,10 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.c
 if [ ! -e "$HOME/pkgsrc" ]; then
     echo "installing pkgsrc"
     cd
+    # set up a clear ssh channel to the cvs so this can run unattened on a new host
+    touch ~/.ssh/known_hosts  # ssh-keygen -R will die if this ain't here
+    /usr/bin/ssh-keygen -R anoncvs.netbsd.org   # remove the entry http://serverfault.com/a/316100/156875
+    /usr/bin/ssh-keyscan -H anoncvs.netbsd.org >> ~/.ssh/known_hosts  # create the entry
     cvs -danoncvs@anoncvs.netbsd.org:/cvsroot checkout pkgsrc
     cd pkgsrc/bootstrap
     ./bootstrap --unprivileged
