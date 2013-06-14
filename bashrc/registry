@@ -1,3 +1,9 @@
 if [ -e $HOME/appstrap/setenv.sh ]; then
   . $HOME/appstrap/setenv.sh
 fi
+
+user=`who -m | awk '{ print $1 }'`
+
+if [ -e $HOME/.bashrc-${user} ]; then
+  . "$HOME/.bashrc-${user}"
+fi
