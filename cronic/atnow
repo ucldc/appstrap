@@ -1,0 +1,11 @@
+#!/bin/bash
+echo "$@"
+#set -x
+set -u
+set -e
+command="$@"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
+echo $DIR/cronic $command
+at now <<EOF
+$DIR/cronic $command
+EOF

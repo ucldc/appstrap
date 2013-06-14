@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# http://mywiki.wooledge.org/BashFAQ/034
+i=1
+sp="/-\|"
+echo -n ' '
+while true
+do
+    sleep 1
+    printf "\b${sp:i++%${#sp}:1}"
+done
