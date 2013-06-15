@@ -1,0 +1,24 @@
+set daemon 30
+#set logfile syslog facility log_daemon
+set logfile /apps/nuxeo/servers/monit/logs/monit.log
+
+set httpd port 28812
+    allow localhost
+    allow 127.0.0.1
+
+check process shibd
+    with pidfile "/apps/nuxeo/servers/shibboleth/var/run/shibd.pid"
+    start program "/apps/nuxeo/appstrap/envwrap /apps/nuxeo/servers/shibboleth/sbin/shibd -p /apps/nuxeo/servers/shibboleth/var/run/shibd.pid"
+    stop program "/bin/bash -c '/bin/kill `/bin/cat /apps/nuxeo/servers/shibboleth/var/run/shibd.pid`'"
+    if failed unixsocket
+        /apps/nuxeo/servers/shibboleth/var/run/shibboleth/shibd.sock
+    then 
+        restart
+
+check process http
+    with pidfile "/apps/nuxeo/servers/httpd/logs/httpd.pid"
+    start program "/apps/nuxeo/appstrap/envwrap /apps/nuxeo/servers/httpd/bin/apachectl start"
+    stop program "/apps/nuxeo/appstrap/envwrap /apps/nuxeo/servers/httpd/bin/apachectl stop"
+    if failed host nuxeo-dev.cdlib.org port 443 type TCPSSL SSLV3 protocol http
+    then 
+        restart
