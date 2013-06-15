@@ -10,7 +10,6 @@
 # do what one expects trying to get the script to stop on a failure,
 # better to check command status explicitly
 set -eu
-set -x
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
 . "$DIR/setenv.sh"
@@ -34,14 +33,21 @@ fi
 # http://stackoverflow.com/a/255913/1763984
 for pkg in "$@"
 do
-    echo "installing $pkg"
-    cd "${HOME}/pkgsrc/$pkg"
-    # http://netbsd.org/docs/pkgsrc/build.html#build.helpful-targets
-    bmake clean
-    bmake clean-depends
-    bmake bin-install 
-    bmake clean
-    bmake clean-depends
+    # check if the package is already installed
+    set +e
+    if pkg_info -e ${pkg##*/}; then  # bash parameter substitution http://stackoverflow.com/a/3162500/1763984
+        echo "already installed"
+    else
+        set -e
+        echo "installing $pkg"
+        cd "${HOME}/pkgsrc/$pkg"
+        # http://netbsd.org/docs/pkgsrc/build.html#build.helpful-targets
+        bmake clean
+        bmake clean-depends
+        bmake bin-install 
+        bmake clean
+        bmake clean-depends
+    fi
 done
 
 # TODO:? usage if no arguments are supplied?
