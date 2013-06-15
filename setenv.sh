@@ -1,8 +1,3 @@
-
-# there is no $HOME in monit...
-export USER=$(/usr/bin/whoami) # http://codeblog.vurdalakov.net/2010/12/how-to-get-current-user-name-in-bash.html
-export HOME=$(getent passwd $USER | cut -d: -f6) # http://stackoverflow.com/a/7359006/1763984
-
 export JAVA_HOME=${HOME}/pkg/java/sun-7
 #export JAVA_HOME=${HOME}/pkg/java/sun-6
 
