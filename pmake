@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-# pmake script 
+# `pmake` script 
+# wrapper for http://www.pkgsrc.org
 
+# TODO; add the ability to invoke as `remake` to force a new git checkout of pkgsrc
 
 
 # I read somewhere not to `set -eu` like this, because it does not always
@@ -17,14 +19,14 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.c
 if [ ! -e "$HOME/pkgsrc" ]; then
     echo "installing pkgsrc"
     cd
-    # set up a clear ssh channel to the cvs so this can run unattened on a new host
-    touch ~/.ssh/known_hosts  # ssh-keygen -R will die if this ain't here
-    /usr/bin/ssh-keygen -R anoncvs.netbsd.org   # remove the entry http://serverfault.com/a/316100/156875
-    /usr/bin/ssh-keyscan -H anoncvs.netbsd.org >> ~/.ssh/known_hosts  # create the entry
-    cvs -danoncvs@anoncvs.netbsd.org:/cvsroot checkout pkgsrc
+    git clone git://github.com/jsonn/pkgsrc.git
     cd pkgsrc/bootstrap
-    ./bootstrap --unprivileged
+    TAG=`git rev-parse --short --verify HEAD`  # http://stackoverflow.com/a/949391/1763984
+    ./bootstrap --prefix "$HOME/pkgbld/$TAG" --unprivileged
+    cd
+    ln -s "pkgbld/$TAG" pkg
 fi
+
 
 # TODO: set BINPKG_SITES to point to pre-built packages
 
