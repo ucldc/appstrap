@@ -1,0 +1,26 @@
+# Berkeley DB
+databases/db4
+
+# mediatools
+devel/libidn
+multimedia/openquicktime
+graphics/gif2png
+graphics/gd
+
+# util
+editors/nano
+www/cronolog
+databases/mysql55-client
+
+# languages
+devel/ruby-rake
+misc/rubygems
+graphics/py-imaging
+devel/py-virtualenv
+devel/py-pip
+devel/p5-App-cpanminus
+
+# servers
+# www/shibboleth-sp
+www/ap2-wsgi
+www/ap2-perl

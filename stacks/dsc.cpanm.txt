@@ -1,0 +1,6 @@
+XML::SAX
+YAML
+G/GA/GAAS/libwww-perl-5.834.tar.gz SBECK/Date-Manip-5.56.tar.gz XML::LibXML XML::LibXSLT Image::Size BSD::Resource Digest::SHA Archive::Tar
+XML::Schematron
+File::List HTML::Template Date::Format MLDBM
+App::Ack Linux::IO_Prio autodie::hints IPC::System::Simple

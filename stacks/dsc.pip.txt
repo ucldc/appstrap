@@ -1,0 +1,17 @@
+reportlab
+html5lib pyPdf pisa pp plac
+bpython
+south
+django_extensions
+selenium
+webtest
+django-webtest
+django-extensions
+coverage
+requests
+pymarc
+iotop
+--src=$PREFIX/src -e git+git://github.com/mredar/django-staticgenerator.git#egg=staticgenerator
+--src=$PREFIX/src -e hg+https://bitbucket.org/mredar/ezid#egg=EZID
+django-dublincore
+django-sortable
