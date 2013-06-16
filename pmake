@@ -3,8 +3,6 @@
 # `pmake` script 
 # wrapper for http://www.pkgsrc.org
 
-# TODO; add the ability to invoke as `remake` to force a new git checkout of pkgsrc
-
 
 # I read somewhere not to `set -eu` like this, because it does not always
 # do what one expects trying to get the script to stop on a failure,
@@ -12,7 +10,9 @@
 set -eu
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
-. "$DIR/setenv.sh"
+if [ ! which bmake ]; then				# need to hack the path during upgrades; need a better test?
+    . "$DIR/setenv.sh"
+fi
 
 # bootstrap our boostrap, if we have not been here before
 if [ ! -e "$HOME/pkgsrc" ]; then
@@ -20,12 +20,11 @@ if [ ! -e "$HOME/pkgsrc" ]; then
     cd
     git clone git://github.com/jsonn/pkgsrc.git
     cd pkgsrc/bootstrap
-    TAG=`git rev-parse --short --verify HEAD`  # http://stackoverflow.com/a/949391/1763984
-    ./bootstrap --prefix "$HOME/pkgbld/$TAG" --unprivileged
+    tag=`git rev-parse --short --verify HEAD`  # http://stackoverflow.com/a/949391/1763984
+    ./bootstrap --prefix "$HOME/pkgbld/$tag" --pkgdbdir "$HOME/pkgbld/$tag/var/db/pkg" --unprivileged
     cd
     ln -s "pkgbld/$TAG" pkg
 fi
-
 
 # TODO: set BINPKG_SITES to point to pre-built packages
 
@@ -34,17 +33,21 @@ fi
 for pkg in "$@"
 do
     # check if the package is already installed
+    cd "${HOME}/pkgsrc/$pkg"
+
+    package_name=`bmake info | head -1`
+    package_name=${package_name/Information for /}
+    package_name=${package_name/:/}
     set +e
-    if pkg_info -e ${pkg##*/}; then  # bash parameter substitution http://stackoverflow.com/a/3162500/1763984
+    if pkg_info -e "$package_name"; then
         echo "already installed"
     else
         set -e
         echo "installing $pkg"
-        cd "${HOME}/pkgsrc/$pkg"
         # http://netbsd.org/docs/pkgsrc/build.html#build.helpful-targets
         bmake clean
-        bmake clean-depends
-        bmake bin-install 
+        # bmake clean-depends
+        bmake install 
         bmake clean
         bmake clean-depends
     fi
