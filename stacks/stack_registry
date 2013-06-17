@@ -15,8 +15,4 @@ cd $DIR
 . stack_run.sh  # gives us `stack_run_batch`
 
 ../shib_it
-ACCEPTABLE_LICENSES=lame-license stack_run_batch "../pmake" nuxeo.pkgsrc.txt
-
-# install openoffice "by hand"
-
-# install nuxeo; has some steps that really must actually be done by hand :(
+stack_run_batch "../pmake" registry.pkgsrc.txt
