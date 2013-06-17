@@ -21,6 +21,7 @@ stack_run_batch() {
   while read p; do
     package=`stack_run_line "$p"`
     if [ "$package" ]; then                # skip blank lines
+      echo "-- $command $package"
       $command $package
     fi
   done < $file
