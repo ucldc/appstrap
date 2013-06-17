@@ -1,33 +1,28 @@
 #!/usr/bin/env bash
 
+if [ -z "$DEBUG" ]; then 
+  set -x
+fi
+set -eu
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
 cd $DIR
 
-#
-parse_line() {
-  # remove comments and clean whitespace from the input file
-  local var=$@
-  var=${var/\#*/}                        # remove comments
-  # http://stackoverflow.com/a/3352015/1763984
-  var="${var#"${var%%[![:space:]]*}"}"   # remove leading whitespace characters
-  var="${var%"${var##*[![:space:]]}"}"   # remove trailing whitespace characters
-  echo -n "$var"
-}
+. stack_run.sh
 
-run_for_each() {
-  # run the command for every non-comment in file
-  local command=$1
-  local file=$2
-  # http://stackoverflow.com/a/1521498/1763984
-  while read p; do
-    package=`parse_line "$p"`
-    if [ "$package" ]; then                # skip blank lines
-      "$command" "$package"
-    fi
-  done < $file
-}
+# unset build-dsc-solaris10 environment
+unset CFLAGS
+unset CPPFLAGS
+unset LDFLAGS
+unset LD_LIBRARY_PATH
+unset LD_RUN_PATH
+unset PERL5LIB
+unset PREFIX
+# restore default path on SUSE
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/X11R6/bin:/usr/games:/usr/lib/mit/bin:/usr/lib/mit/sbin
 
 ../shib_it
-run_for_each pmake dsc.pkgsrc.txt
-run_for_each  "pip install" dsc.pip.txt
-run_for_each "cpanm" dsc.cpanm.txt
+stack_run_batch "../pmake" dsc.pkgsrc.txt
+. ../setenv.sh
+stack_run_batch  "pip install" dsc.pip.txt
+stack_run_batch "cpanm" dsc.cpanm.txt

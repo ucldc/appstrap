@@ -3,7 +3,7 @@ databases/db4
 
 # mediatools
 devel/libidn
-multimedia/openquicktime
+# multimedia/openquicktime
 graphics/gif2png
 graphics/gd
 
