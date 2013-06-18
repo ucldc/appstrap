@@ -24,4 +24,5 @@ unset PYTHONPATH
 unset PYTHONSTARTUP
 
 export PATH=${HOME}/pkg/bin:${HOME}/pkg/sbin:${HOME}/pkg/lib/perl5/site_perl/bin:${JAVA_HOME}/bin:${PATH}
-export MANPATH=${HOME}/pkg/man
+export MANPATH=${HOME}/pkg/man:/usr/local/man:/usr/local/share/man:/usr/share/man
+
