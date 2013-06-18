@@ -36,6 +36,8 @@ fi
 
 # for each package named on the command line; make and install it
 # http://stackoverflow.com/a/255913/1763984
+
+export PKG_JVM_DEFAULT=sun-jdk7
 for pkg in "$@"
 do
     # check if the package is already installed

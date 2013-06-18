@@ -15,4 +15,5 @@ cd $DIR
 . stack_run.sh  # gives us `stack_run_batch`
 
 ../shib_it
+../cdl/get_java
 stack_run_batch "../pmake" registry.pkgsrc.txt

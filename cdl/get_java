@@ -9,12 +9,21 @@ set -o errtrace  # trace ERR through 'time command' and other functions
 set -o nounset   ## set -u : exit the script if you try to use an uninitialised variable
 set -o errexit   ## set -e : exit the script if any statement returns a non-true return value
 
-mkdir -p $HOME/java
-cd $HOME/java
+# if [ ! -e jdk-7u21-linux-x64.tar.gz ] && [ ! -e java7 ]; then
+#   wget http://mvn.cdlib.org/content/repositories/thirdparty/java/jdk/7u21-linux-x64/jdk-7u21-linux-x64.tar.gz
+#   tar zxf jdk-7u21-linux-x64.tar.gz
+#   ln -s jdk1.7.0_21 java7
+# fi
 
-if [ ! -e jdk-7u21-linux-x64.tar.gz ] && [ ! -e java7 ]; then
-  wget http://mvn.cdlib.org/content/repositories/thirdparty/java/jdk/7u21-linux-x64/jdk-7u21-linux-x64.tar.gz
-  tar zxf jdk-7u21-linux-x64.tar.gz
-  ln -s jdk1.7.0_21 java7
+if [ ! -e $HOME/pkgsrc/distfiles/jdk-7u21-linux-x64.tar.gz ]; then
+  curl http://mvn.cdlib.org/content/repositories/thirdparty/java/jdk/7u21-linux-x64/jdk-7u21-linux-x64.tar.gz \
+    > $HOME/pkgsrc/distfiles/jdk-7u21-linux-x64.tar.gz
 fi
 
+if [ ! -e $HOME/pkgsrc/distfiles/jre-7u21-linux-x64.tar.gz ]; then
+  curl http://mvn.cdlib.org/content/repositories/thirdparty/java/jre/7u21-linux-x64/7u21-linux-x64/7u21-linux-x64-7u21-linux-x64.tar.gz \
+    > $HOME/pkgsrc/distfiles/jre-7u21-linux-x64.tar.gz 
+fi
+
+export PKG_JVM_DEFAULT=sun-jdk7
+ACCEPTABLE_LICENSES=oracle-binary-code-license ~/appstrap/pmake x11/libX11 lang/sun-jdk7
