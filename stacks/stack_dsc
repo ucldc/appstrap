@@ -25,7 +25,6 @@ unset PREFIX
 # restore default path on SUSE
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/X11R6/bin:/usr/games:/usr/lib/mit/bin:/usr/lib/mit/sbin
 
-../shib_it
 stack_run_batch "../pmake" dsc.pkgsrc.txt
 # install openquicktime "by hand" (needs patch?)
 . ../setenv.sh
