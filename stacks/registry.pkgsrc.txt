@@ -1,4 +1,5 @@
 # util
+sysutils/monit
 editors/nano
 www/cronolog
 databases/mysql55-client
