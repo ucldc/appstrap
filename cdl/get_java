@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ -z "$DEBUG" ]; then
+if [[ -n "$DEBUG" ]]; then
   set -x
 fi
 

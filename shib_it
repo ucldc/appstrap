@@ -5,7 +5,7 @@
 # as root -- so pkgsrc is used to get all the dependencies; and then it is recompiled
 # again setting a prefix
 
-if [ -z "$DEBUG" ]; then
+if [[ -n "$DEBUG" ]]; then
   set -x
 fi
 

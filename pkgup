@@ -5,7 +5,7 @@
 # using method nubmer 12 Alternative LOCALBASE and PKG_DBDIR
 # http://wiki.netbsd.org/pkgsrc/how_to_upgrade_packages/#index14h2
 
-if [ -z "$DEBUG" ]; then
+if [[ -n "$DEBUG" ]]; then
   set -x
 fi
 set -eu

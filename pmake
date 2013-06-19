@@ -3,7 +3,7 @@
 # `pmake` script 
 # wrapper for http://www.pkgsrc.org
 
-if [ -z "$DEBUG" ]; then
+if [[ -n "$DEBUG" ]]; then
   set -x
 fi
 
