@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# wrap a command in the appstrap environment
+# espically useful with monit
+set -u
+
+# there is no $HOME in monit...
+export USER=$(/usr/bin/whoami) # http://codeblog.vurdalakov.net/2010/12/how-to-get-current-user-name-in-bash.html
+export HOME=$(getent passwd $USER | cut -d: -f6) # http://stackoverflow.com/a/7359006/1763984
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
+. "$DIR/setenv.sh"
+# http://stackoverflow.com/questions/3356476/debugging-monit
+# export; echo $@
+$@

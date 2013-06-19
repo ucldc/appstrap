@@ -1,0 +1,19 @@
+reportlab
+html5lib pyPdf pisa pp plac
+bpython
+south
+django_extensions
+selenium
+webtest
+django-webtest
+django-extensions
+coverage
+requests
+pymarc
+http://guichaz.free.fr/iotop/files/iotop-0.4.4.tar.gz
+#--src=$PREFIX/src -e "git+https://github.com/mredar/django-staticgenerator.git#egg=staticgenerator"
+http://github.com/mredar/django-staticgenerator/archive/master.zip
+#--src=$PREFIX/src -e "hg+https://bitbucket.org/mredar/ezid#egg=EZID"
+http://bitbucket.org/mredar/ezid/get/tip.tar.gz
+django-dublincore
+django-sortable

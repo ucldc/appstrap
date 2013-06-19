@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 
-# pmake script 
+# `pmake` script 
+# wrapper for http://www.pkgsrc.org
 
-
+if [[ -n "$DEBUG" ]]; then
+  set -x
+fi
 
 # I read somewhere not to `set -eu` like this, because it does not always
 # do what one expects trying to get the script to stop on a failure,
@@ -10,31 +13,52 @@
 set -eu
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
-. "$DIR/setenv.sh"
+# need to hack the path during upgrades, if `bmake` is already here; we have already hacked the path.
+# ; need a better test?
+# test if command is (not) on the path http://stackoverflow.com/a/677212/1763984
+if  ! command -v bmake >/dev/null 2>&1 ; then
+    . "$DIR/setenv.sh"
+fi
 
 # bootstrap our boostrap, if we have not been here before
 if [ ! -e "$HOME/pkgsrc" ]; then
     echo "installing pkgsrc"
     cd
-    cvs -danoncvs@anoncvs.netbsd.org:/cvsroot checkout pkgsrc
+    git clone git://github.com/jsonn/pkgsrc.git
     cd pkgsrc/bootstrap
-    ./bootstrap --unprivileged
+    tag=`git rev-parse --short --verify HEAD`  # http://stackoverflow.com/a/949391/1763984
+    ./bootstrap --prefix "$HOME/pkgbld/$tag" --pkgdbdir "$HOME/pkgbld/$tag/var/db/pkg" --unprivileged
+    cd
+    ln -s "pkgbld/$tag" pkg
 fi
 
 # TODO: set BINPKG_SITES to point to pre-built packages
 
 # for each package named on the command line; make and install it
 # http://stackoverflow.com/a/255913/1763984
+
+export PKG_JVM_DEFAULT=sun-jdk7
 for pkg in "$@"
 do
-    echo "installing $pkg"
+    # check if the package is already installed
     cd "${HOME}/pkgsrc/$pkg"
-    # http://netbsd.org/docs/pkgsrc/build.html#build.helpful-targets
-    bmake clean
-    bmake clean-depends
-    bmake bin-install 
-    bmake clean
-    bmake clean-depends
+
+    package_name=`bmake info | head -1`
+    package_name=${package_name/Information for /}
+    package_name=${package_name/:/}
+    set +e
+    if pkg_info -e "$package_name"; then
+        echo "already installed"
+    else
+        set -e
+        echo "installing $pkg"
+        # http://netbsd.org/docs/pkgsrc/build.html#build.helpful-targets
+        bmake clean
+        # bmake clean-depends
+        bmake install 
+        bmake clean
+        bmake clean-depends
+    fi
 done
 
 # TODO:? usage if no arguments are supplied?

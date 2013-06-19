@@ -1,48 +1,50 @@
 #!/usr/bin/env bash
 
-# `shib_it`
-# pkgsrc can compile www/shibboleth-sp; but the version it compiles is configured to run
-# as root -- so pkgsrc is used to get all the dependencies; and then it is recompiled
-# again setting a prefix
+# `pkgup`
+# upgrade all installed packages into a new directory in pkgbld
+# using method nubmer 12 Alternative LOCALBASE and PKG_DBDIR
+# http://wiki.netbsd.org/pkgsrc/how_to_upgrade_packages/#index14h2
 
 if [[ -n "$DEBUG" ]]; then
   set -x
 fi
-
 set -eu
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
-. "$DIR/setenv.sh"
+. "$DIR/setenv.sh"		# is this actually needed if we aren't bootstrapping?
 
-cd $DIR
+# get a list of installed packages
+packages=$(pkg_info -a -B | grep PKGPATH)
+packages=${packages//PKGPATH=/}
+echo "re-installing these packages into a new LOCALBASE"
+echo $packages
 
-if [ ! -e "$HOME/pkgsrc/distfiles/shibboleth-sp-2.4.3.tar.gz" ]; then
-  ./pmake www/shibboleth-sp
-  pkg_delete shibboleth-sp-2.4.3nb2
-  shibdir="$HOME/servers/shibboleth"
-  mkdir -p $shibdir
-  cd $shibdir
-  
-  tar zxf "$HOME/pkgsrc/distfiles/shibboleth-sp-2.4.3.tar.gz"
-  cd shibboleth-2.4.3
-  ./configure --prefix=$shibdir --with-xmltooling=$HOME/pkg --with-apxs22=$HOME/pkg/sbin/apxs
-  make install
+# update the pkgsrc directory via git commands
 
-  echo "before you run apache; set these
-  export SHIBSP_PREFIX=$HOME/servers/shibboleth
-  export LD_LIBRARY_PATH=$HOME/servers/shibboleth/lib
-  UseCanonicalName On
-  ServerName app.example.org:443
-  also Include a copy of $HOME/servers/shibboleth/etc/shibboleth/apache22.config 
-  "
-else 
-  echo "looks like shibboleth might have been installed already; this is for a new machine"
+cd $HOME/pkgsrc
+
+# check if git needs updating
+# http://stackoverflow.com/a/16920556/1763984
+if [ "`git log --pretty=%H ...trunk^ | head -n 1`" = "`git ls-remote origin -h trunk |cut -f1`" ] ; then
+    echo "Already up-to-date."
+    exit
 fi
+# pull in the latest changes from github
+git pull
 
-if [ ! -e "$HOME/pkgsrc/distfiles/shibboleth-sp-2.4.3.tar.gz" ]; then
-  echo "must have upgraded pkgsrc..., now this scripts needs updating"
-  exit 1
-fi
+# re-bootstrap to a new pkgbld/<gitchksum>
+cd bootstrap
+rm -rf work
+tag=`git rev-parse --short --verify HEAD`
+./bootstrap --prefix "$HOME/pkgbld/$tag" --pkgdbdir "$HOME/pkgbld/$tag/var/db/pkg" --unprivileged
+
+# hack the path to point to the new directory
+export PATH=${PATH//$HOME\/pkg/$HOME\/pkgbld\/$tag}
+
+# install all the packages into the new directory
+$DIR/pmake $packages
+
+echo "change the symbolic link to point to $TAG"
 
 
 # Copyright © 2013, Regents of the University of California
