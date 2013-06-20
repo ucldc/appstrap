@@ -16,6 +16,7 @@ cd $DIR
 
 echo "===============================GET JAVA NEXT"
 export PKG_JVM_DEFAULT=sun-jdk7
+export PKG_OPTIONS.sun-jre7=sun-jre-jce
 ACCEPTABLE_LICENSES=oracle-binary-code-license ../pmake lang/sun-jre7
 echo "================================PMAKE solr.pkgsrc.txt"
 ACCEPTABLE_LICENSES=oracle-binary-code-license stack_run_batch "../pmake" solr.pkgsrc.txt
