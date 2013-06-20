@@ -1,6 +1,6 @@
 set daemon 30
 #set logfile syslog facility log_daemon
-set logfile /apps/nuxeo/servers/monit/logs/monit.log
+set logfile /apps/nuxeo/appstrap/monit/log/monit.log
 
 set httpd port 28812
     allow localhost
