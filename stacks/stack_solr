@@ -14,5 +14,8 @@ cd $DIR
 
 . stack_run.sh  # gives us `stack_run_batch`
 
-../cdl/get_java
+echo "===============================GET JAVA NEXT"
+export PKG_JVM_DEFAULT=sun-jdk7
+ACCEPTABLE_LICENSES=oracle-binary-code-license ../pmake lang/sun-jre7
+echo "================================PMAKE solr.pkgsrc.txt"
 ACCEPTABLE_LICENSES=oracle-binary-code-license stack_run_batch "../pmake" solr.pkgsrc.txt

@@ -5,8 +5,8 @@ databases/mysql55-client
 devel/scmgit-base
 devel/scmgit-docs
 devel/mercurial
-devel/gettext textproc/groff  # needed for perldoc to work
-textproc/p5-ack
+#devel/gettext textproc/groff  # needed for perldoc to work
+#textproc/p5-ack
 
 #servers
 www/apache-tomcat7
