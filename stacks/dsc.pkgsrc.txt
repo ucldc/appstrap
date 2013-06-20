@@ -16,6 +16,7 @@ devel/scmgit-base
 devel/scmgit-docs
 devel/mercurial
 devel/gettext textproc/groff # needed for `perldoc` to work
+sysutils/ansible
 
 # languages
 devel/ruby-rake
