@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<SPConfig xmlns="urn:mace:shibboleth:2.0:native:sp:config" xmlns:conf="urn:mace:shibboleth:2.0:native:sp:config" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" clockSkew="180">
+  <UnixListener address="shibd.sock"/>
+  <ApplicationDefaults entityID="https://{{ ansible_facts.ansible_fqdn }}/shibboleth" REMOTE_USER="eppn email persistent-id targeted-id">
+    <Sessions lifetime="28800" timeout="3600" checkAddress="false" relayState="ss:mem" handlerSSL="false">
+      <!-- https://wiki.shibboleth.net/confluence/display/EDS10/3.1+Configuring+the+Service+Provider#id-31ConfiguringtheServiceProvider-311SPsinstalledsinceVersion24andlater
+-->
+      <SSO discoveryProtocol="SAMLDS" discoveryURL="https://{{ ansible_facts.ansible_fqdn }}/ds">SAML2 SAML1</SSO>
+      <Logout>SAML2 Local</Logout>
+      <Handler type="MetadataGenerator" Location="/Metadata" signing="false"/>
+      <Handler type="Status" Location="/Status" acl="127.0.0.1"/>
+      <Handler type="Session" Location="/Session" showAttributeValues="false"/>
+      <Handler type="DiscoveryFeed" Location="/DiscoFeed"/>
+    </Sessions>
+    <Errors supportContact="oacops@cdlib.org" logoLocation="/shibboleth-sp/logo.jpg" styleSheet="/shibboleth-sp/main.css"/>
+    <MetadataProvider type="XML" uri="http://wayf.incommonfederation.org/InCommon/InCommon-metadata.xml" backingFilePath="/apps/{{  ansible_facts.ansible_user_id }}/servers/shibboleth/var/run/shibboleth/InCommon-metadata.xml" maxRefreshDelay="28800" legacyOrgNames="true">
+      <SignatureMetadataFilter certificate="incommon.pem"/>
+      <!-- https://atyourserviceonline.ucop.edu/Shibboleth.sso/DiscoFeed -->
+      <MetadataFilter type="Whitelist">
+        <Include>urn:mace:incommon:berkeley.edu</Include>
+        <Include>urn:mace:incommon:ucdavis.edu</Include>
+        <Include>urn:mace:incommon:uci.edu</Include>
+        <Include>urn:mace:incommon:ucla.edu</Include>
+        <Include>urn:mace:incommon:ucmerced.edu</Include>
+        <Include>urn:mace:incommon:ucr.edu</Include>
+        <Include>urn:mace:incommon:ucsd.edu</Include>
+        <Include>urn:mace:incommon:ucsf.edu</Include>
+        <Include>urn:mace:incommon:ucsc.edu</Include>
+        <Include>urn:mace:incommon:ucop.edu</Include>
+        <Include>https://shibboleth.uchastings.edu/idp/shibboleth</Include>
+      </MetadataFilter>
+    </MetadataProvider>
+    <TrustEngine type="Chaining">
+      <TrustEngine type="ExplicitKey"/>
+      <TrustEngine type="PKIX"/>
+    </TrustEngine>
+    <AttributeExtractor type="XML" validate="true" path="attribute-map.xml"/>
+    <AttributeResolver type="Query" subjectMatch="true"/>
+    <AttributeFilter type="XML" validate="true" path="attribute-policy.xml"/>
+    <CredentialResolver type="File" key="sp-key.pem" certificate="sp-cert.pem"/>
+    <!-- sp-key.pem and sp-cert.pem will be different on each virtual machine -->
+  </ApplicationDefaults>
+  <SecurityPolicyProvider type="XML" validate="true" path="security-policy.xml"/>
+  <ProtocolProvider type="XML" validate="true" reloadChanges="false" path="protocols.xml"/>
+</SPConfig>
