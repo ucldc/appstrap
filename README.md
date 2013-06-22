@@ -3,6 +3,24 @@ appstrap
 
 utilities to bootstrap your app stack
 
+Consistent, reproducible computing environments.  In a unix shell account of an unprivileged user.
+
+"role" account as per standard operating procedure is a unix shell account.
+
+To set up an application stack in a new or "distclean" role account, first checkout this repository:
+
+```bash
+cd
+git clone https://github.com/tingletech/appstrap.git
+```
+
+Then; run one of scripts to set up your application stack:
+
+  * `~/appstack/stack_dsc`
+  * `~/appstack/stack_nuxeo`
+  * `~/appstack/stack_registry`
+  * `~/appstack/stack_solr`
+
 See also https://github.com/tingletech/appstrap/wiki
 
 [pkgsrc](http://www.pkgsrc.org) where have you been all my life?

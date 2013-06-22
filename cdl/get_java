@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+## TODO: replace this with ansible
+##   ansible_facts will tell us if we are running on SUSE vs. Amazon, so
+##   we can fine tune where to grab the java from based on that
+
+## this will still need to be CDL specific because it deals with java licensing...
+## have the CDL specific stuff in parameters of type URL (file, http?s, s3)
+
 if [[ -n "$DEBUG" ]]; then
   set -x
 fi
