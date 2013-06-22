@@ -15,9 +15,12 @@ unset LD_LIBRARY_PATH
 unset LD_RUN_PATH
 unset PERL5LIB
 unset PREFIX
-# restore default path on SUSE
-export PATH=/usr/local/bin:/usr/bin:/bin:/usr/X11R6/bin:/usr/games:/usr/lib/mit/bin:/usr/lib/mit/sbin
 
+# restore default path on SUSE, this should/should this only run on /dsc/ stacks?
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/X11R6/bin:/usr/games:/usr/lib/mit/bin:/usr/lib/mit/sbin:$HOME/bin
+#           /usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/aws/bin:/home/tingle/bin # <-- Amazon Linux AMI path
+#                         [^^^^^^^^^^^^^]  /bin and /usr/bin switched; sbin's, /opt/aws/ and $HOME
+#                                          
 
 # don't pick up SUSE's python
 unset PYTHONPATH
