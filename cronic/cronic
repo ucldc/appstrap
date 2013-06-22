@@ -26,6 +26,8 @@ set -e
 
 if [ -e /usr/xpg4/bin/grep ]; then # solaris
   GREP=/usr/xpg4/bin/grep
+elif [ -e /bin/grep ]; then # Amazon Linux AMI
+  GREP=/bin/grep
 else 
   GREP=/usr/bin/grep
 fi
