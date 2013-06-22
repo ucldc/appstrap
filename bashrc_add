@@ -1,0 +1,3 @@
+if [ -e $HOME/appstrap/setenv.sh ]; then
+  . $HOME/appstrap/setenv.sh
+fi
