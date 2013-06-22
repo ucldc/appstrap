@@ -19,8 +19,8 @@ print/poppler-utils
 #devel/ruby-rake
 #misc/rubygems
 #graphics/py-imaging
-#devel/py-virtualenv
-#devel/py-pip
+devel/py-virtualenv
+devel/py-pip
 #devel/p5-App-cpanminus
 
 # servers
