@@ -17,3 +17,5 @@ set +u
 source bin/activate
 set -u
 pip install -r requirements.txt --use-mirrors
+
+echo "don't forget to `. bin/activate` to activate virtualenv"
