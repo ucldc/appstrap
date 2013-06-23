@@ -5,6 +5,7 @@ environment=$( dialog  \
     --backtitle "MajorTom Cloud Control" \
     --menu "☼ choose an environment" 15 80 15 \
     pkgsrc	"use pkgsrc/appstrap" \
+    pkgsrc+	"use pkgsrc with /opt/aws in front" \
     ansible	"use ansible virtualenv" \
     batch	"PDF batch job control" \
     system	"Default Amazon Linux AMI environment" \
@@ -19,6 +20,10 @@ case $environment in
     "pkgsrc" )
     . ~/appstrap/setenv.sh
     ;;
+    "pkgsrc+" )
+    . ~/appstrap/setenv.sh
+    export PATH="/opt/aws/bin:$PATH"
+    ;;
     "ansible" )
     . ~/appstrap/setenv.sh
     . ~/appstrap/ansible-virtualenv/bin/activate
@@ -27,7 +32,6 @@ case $environment in
     if [[ -n ${_ENVIRONMENT} ]]; then # try to clean up
         # deactivate and virtualenv
         type deactivate &>/dev/null && deactivate    # http://www.cyberciti.biz/faq/bash-shell-scripting-find-out-if-function-definedornot/
-        export JAVA_HOME="/usr/lib/jvm/jre"
         export PATH="/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/aws/bin:$HOME/bin"
     fi
     # Source global definitions

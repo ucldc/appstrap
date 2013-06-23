@@ -1,4 +1,7 @@
-export JAVA_HOME=${HOME}/pkg/java/sun-7
+java_home="${HOME}/pkg/java/sun-7"
+if [[ -e $jave_home ]]; then 
+    export JAVA_HOME=$java_home
+fi
 #export JAVA_HOME=${HOME}/pkg/java/sun-6
 
 # don't pick SUSE's java
