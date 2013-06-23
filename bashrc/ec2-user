@@ -1,0 +1,50 @@
+export AWS_DEFAULT_REGION="us-east-1"
+
+#                    --menu text height width menu-height [ tag item ] 
+environment=$( dialog  \
+    --backtitle "MajorTom Cloud Control" \
+    --menu "☼ choose an environment" 15 80 15 \
+    pkgsrc	"use pkgsrc/appstrap" \
+    ansible	"use ansible virtualenv" \
+    batch	"PDF batch job control" \
+    system	"Default Amazon Linux AMI environment" \
+    2>&1 > /dev/tty )
+    # ^^ http://sgros.blogspot.com/2012/02/error-cannot-open-tty-output.html
+
+if [[ $(curl --silent http://169.254.169.254/latest/meta-data/public-ipv4) ==  "54.225.112.8" ]]; then 
+    export PS1="[$environment ʍτ \W]\$ "
+fi
+
+case $environment in 
+    "pkgsrc" )
+    . ~/appstrap/setenv.sh
+    ;;
+    "ansible" )
+    . ~/appstrap/setenv.sh
+    . ~/appstrap/ansible-virtualenv/bin/activate
+    ;;
+    * )
+    if [[ -n ${_ENVIRONMENT} ]]; then # try to clean up
+        # deactivate and virtualenv
+        type deactivate &>/dev/null && deactivate    # http://www.cyberciti.biz/faq/bash-shell-scripting-find-out-if-function-definedornot/
+        export JAVA_HOME="/usr/lib/jvm/jre"
+        export PATH="/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/aws/bin:$HOME/bin"
+    fi
+    # Source global definitions
+    if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+    fi
+    ;;
+esac
+export _ENVIRONMENT=$environment
+
+user=$(who -m | awk '{ print $1 }')
+bashrc="$HOME/.bashrc-$user"
+if [ -e $bashrc ]; then
+  . "$bashrc"
+  message="$(tput dim)~/.bashrc-$user sourced $(tput sgr0)"
+else
+  message="$(tput bold)please create ~/.bashrc-$user $(tput sgr0)"
+fi 
+echo "$environment ⥌ $message"
+uptime
