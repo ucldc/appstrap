@@ -16,6 +16,7 @@ cd $DIR
 
 ../shib_it
 ../cdl/get_java
+./monit_binary
 ACCEPTABLE_LICENSES=lame-license stack_run_batch "../pmake" nuxeo.pkgsrc.txt
 
 # install openoffice "by hand"

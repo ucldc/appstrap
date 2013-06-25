@@ -32,4 +32,5 @@ which pip
 stack_run_batch  "pip install" dsc.pip.txt
 which cpanm
 stack_run_batch "cpanm" dsc.cpanm.txt
+./monit_binary
 # install File::List "by hand"

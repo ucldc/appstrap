@@ -16,4 +16,5 @@ cd $DIR
 
 ../shib_it
 ../cdl/get_java
+./monit_binary
 stack_run_batch "../pmake" registry.pkgsrc.txt
