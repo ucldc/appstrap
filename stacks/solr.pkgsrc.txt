@@ -1,6 +1,5 @@
 # util
 devel/libtool
-sysutils/monit
 www/cronolog
 databases/mysql55-client
 devel/scmgit-base

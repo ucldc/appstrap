@@ -34,3 +34,15 @@ which cpanm
 stack_run_batch "cpanm" dsc.cpanm.txt
 ./monit_binary
 # install File::List "by hand"
+
+# hack pkg
+
+cat <<HERE >  ~/pkg/setenv.bash
+export PATH="/apps/dsc/pkg/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/SUNWspro/bin:/usr/ccs/bin:/usr/perl5/5.8.4/bin:/cdlcommon/products/libxml2-2.5.8/bin:/usr/sfw/bin:/lib/
+svc/bin:/opt/SUNWspro/contrib/vim/bin:/usr/local/bin:/opt/csw/bin:/apps/dsc/pkg/lib/perl5/site_perl/bin/"
+unset PERL5LIB
+HERE
+
+cd $HOME/pkg
+ln -s sbin/httpd bin/httpd
+ln -s lib/httpd/ modules
