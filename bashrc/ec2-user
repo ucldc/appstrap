@@ -13,8 +13,20 @@ environment=$( dialog  \
     # ^^ http://sgros.blogspot.com/2012/02/error-cannot-open-tty-output.html
 
 if [[ $(curl --silent http://169.254.169.254/latest/meta-data/public-ipv4) ==  "54.225.112.8" ]]; then 
-    export PS1="[$environment ʍτ \W]\$ "
+    on="$(tput setab 3; tput setaf 1 ; tput bold )"
+    off="$(tput sgr0)"
+    pipestatus() {
+        local statuses=${PIPESTATUS[*]}
+        local exitcode=$(echo \"${statuses// /+}\" | bc)
+        if [[ $exitcode -ne 0 ]]; then
+            echo "${on}${statuses}${off} "
+        fi
+    }
+    export PS1="[$environment ʍτ \W] \$(pipestatus)\$ "
 fi
+
+shopt -s checkwinsize
+shopt -s histappend
 
 case $environment in 
     "pkgsrc" )
@@ -33,6 +45,7 @@ case $environment in
         # deactivate and virtualenv
         type deactivate &>/dev/null && deactivate    # http://www.cyberciti.biz/faq/bash-shell-scripting-find-out-if-function-definedornot/
         export PATH="/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/aws/bin:$HOME/bin"
+        unset MANPATH
     fi
     # Source global definitions
     if [ -f /etc/bashrc ]; then
