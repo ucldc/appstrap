@@ -72,6 +72,7 @@ fi
 
 #TODO: Add ansible bootstrap and run of appropriate playbook
 cat >> ec2_solr_init.sh << DELIM
+chmod 666 /var/log/cloud-init.log # let ec2-user write there
 su ec2-user
 pushd ~ec2-user
 git clone https://github.com/mredar/appstrap.git
