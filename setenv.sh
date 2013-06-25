@@ -1,5 +1,7 @@
+
+set -x 
 java_home="${HOME}/pkg/java/sun-7"
-if [[ -e $jave_home ]]; then 
+if [[ -e "$java_home" ]]; then 
     export JAVA_HOME=$java_home
 fi
 #export JAVA_HOME=${HOME}/pkg/java/sun-6
