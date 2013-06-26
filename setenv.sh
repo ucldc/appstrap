@@ -1,7 +1,9 @@
 
+set +u
 if [[ -n "$DEBUG" ]]; then
   set -x
 fi
+set -u
 
 for java_home in "${HOME}/pkg/java/sun-7" "${HOME}/java/java7" # last existing path wins
 do
