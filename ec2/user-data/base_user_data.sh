@@ -17,26 +17,20 @@ yum -y update			# get the latest security updates
 # install the rest of the software we need
 # git is needed for the build
 yum -y install git 
-# ant gives us better java
-yum -y install ant 
 
+# handles pkgsrc requirements
 yum -y groupinstall "Development Tools"
-pip install boto_rsync      # put this in the system python
-yum -y install python-devel  # needed to install(init?) virtualenv with local python
-yum -y install dialog
-
-################################################################################
-#   pkgsrc requirements
-yum -y install ncurses-devel # needed to install pkgsrc python
-yum -y install zlib-devel
-yum -y install openssl-devel
-yum -y install gcc
-yum -y install gcc-c++
-yum -y install libstdc++-devel # for java
-#   pkgsrc requirements end
-################################################################################
-
+easy_install pip
 pip install virtualenv
 
-# iotop is a handy utility on linux
-pip install http://guichaz.free.fr/iotop/files/iotop-0.4.4.tar.gz
+pip install boto_rsync      # put this in the system python
+yum -y install python-devel  # needed to install(init?) virtualenv with local python
+yum -y install ncurses-devel # needed to install pkgsrc python
+yum -y install dialog
+yum -y install openssl-devel
+yum -y install libjpeg-devel
+yum -y install freetype-devel
+yum -y install libtiff-devel
+yum -y install lcms-devel
+
+su - ec2-user -c 'curl https://raw.github.com/tingletech/appstrap/master/cdl/ucldc-operator-keys.txt >> ~/.ssh/authorized_keys'
