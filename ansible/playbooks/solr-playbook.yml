@@ -1,5 +1,5 @@
 ---
--   hosts: ec2
+-   hosts: localhost
     tasks:
     - name: add_bash
       shell: cat $HOME/appstrap/bashrc_add >> $HOME/.bashrc

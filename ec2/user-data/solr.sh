@@ -43,11 +43,12 @@ chmod 700 ~solr/init.sh
 cat > ~solr/init.sh <<EOSETUP
 #!/usr/bin/env bash
 cd
-git clone https://github.com/tingletech/appstrap.git
-./appstrap/cronic/atnow ./appstrap/stacks/stack_solr
-./appstrap/ansible-virtualenv/init.sh
-. ./appstrap/ansible-virtualenv/bin/activate
-ansible-playbook localhost ./appstrap/playbooks/solr-playbook.yml
+git clone https://github.com/mredar/appstrap.git
+./appstrap/cdl/get_java
+./appstrap/setenv.sh
+./appstrap/ansible/ansible-virtualenv/init.sh
+. ./appstrap/ansible/ansible-virtualenv/bin/activate
+ansible-playbook -i ./appstrap/host_inventory ./appstrap/ansible/playbooks/solr-playbook.yml
 EOSETUP
 su - solr -c ~solr/init.sh
 rm ~solr/init.sh 
