@@ -8,7 +8,5 @@
       shell: $HOME/appstrap/pmake
     - name: check_appstrap
       shell: . $HOME/appstrap/setenv.sh
-    - name: get_jre_dist
-      command: aws s3 get-object --bucket dsc-internal-java --key java7/jre-7u21-linux-x64.tar.gz pkgsrc/distfiles/jre-7u21-linux-x64.tar.gz
     - name: run_appstrap_stack
       shell: $HOME/appstrap/stacks/stack_solr
