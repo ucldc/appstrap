@@ -40,3 +40,26 @@ pip install virtualenv
 
 # iotop is a handy utility on linux
 pip install http://guichaz.free.fr/iotop/files/iotop-0.4.4.tar.gz
+
+su - ec2-user -c 'curl https://raw.github.com/tingletech/appstrap/master/cdl/ucldc-operator-keys.txt >> ~/.ssh/authorized_keys'
+
+useradd solr
+touch ~solr/init.sh
+chown solr:solr ~solr/init.sh
+chmod 700 ~solr/init.sh
+# write the file
+cat > ~solr/init.sh <<EOSETUP
+#!/usr/bin/env bash
+cd
+git clone https://github.com/tingletech/appstrap.git
+./appstrap/cronic/atnow ./appstrap/stacks/stack_solr
+./appstrap/ansible-virtualenv/init.sh
+. ./appstrap/ansible-virtualenv/bin/activate
+ansible-playbook localhost ./appstrap/playbooks/solr-playbook.yml
+EOSETUP
+su - solr -c ~solr/init.sh
+rm ~solr/init.sh 
+pushd ~ec2-user
+git clone https://github.com/mredar/appstrap.git
+
+

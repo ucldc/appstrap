@@ -18,38 +18,7 @@ ZONE=us-east-1b
 EC2_REGION=us-east-1
 cd $DIR
 
-# start user-data script payload
-# https://help.ubuntu.com/community/CloudInit
-cat base_user_data.sh > ec2_solr_init.sh
-
-cat >> ec2_solr_init.sh << DELIM
-## system configuration
-# redirect port 8080 to port 80 so we don't have to run tomcat as root
-# http://forum.slicehost.com/index.php?p=/discussion/2497/iptables-redirect-port-80-to-port-8080/p1
-iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 8080
-chkconfig sendmail off
-
-easy_install pip
-pip install awscli
-pip install virtualenv
-
-# if we run the jar file; we need daemonize
-yum -y install http://fr2.rpmfind.net/linux/dag/redhat/el5/en/x86_64/dag/RPMS/daemonize-1.6.0-1.el5.rf.x86_64.rpm
-
-# these aren't strictly necessary for the application but will be usful for debugging
-
-# iotop is a handy utility on linux
-pip install http://guichaz.free.fr/iotop/files/iotop-0.4.4.tar.gz
-
-
-# _   /|  ack is a tool like grep, optimized for programmers
-# \'o.O'  http://beyondgrep.com
-# =(___)=
-#    U    ack!
-# what is the permalink for this no longer works as of 20130625->: curl http://beyondgrep.com/ack-1.96-single-file > /usr/local/bin/ack && chmod 0755 /usr/local/bin/ack
-
-
-DELIM
+cat user-data/solr.sh > ec2_solr_init.sh
 
 # only on the t1.micro, tune swap
 if [ "$EC2_SIZE" == 't1.micro' ]; then
@@ -70,19 +39,7 @@ DELIM
 
 fi
 
-#TODO: Add ansible bootstrap and run of appropriate playbook
-cat >> ec2_solr_init.sh << DELIM
-chmod 666 /var/log/cloud-init.log # let ec2-user write there
-su ec2-user
-pushd ~ec2-user
-git clone https://github.com/mredar/appstrap.git
-./appstrap/ansible-virtualenv/init.sh
-. ./appstrap/ansible-virtualenv/bin/activate
-ansible-playbook localhost ./appstrap/playbooks/solr-playbook.yml
-DELIM
-
 gzip ec2_solr_init.sh
-#base64 ec2_solr_init.sh.gz > ec2_solr_init.sh.gz.base64
 
 command="aws ec2 run-instances 
      --region $EC2_REGION 
