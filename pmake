@@ -17,7 +17,9 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.c
 # ; need a better test?
 # test if command is (not) on the path http://stackoverflow.com/a/677212/1763984
 if  ! command -v bmake >/dev/null 2>&1 ; then
+    set +u
     . "$DIR/setenv.sh"
+    set -u
 fi
 
 # bootstrap our boostrap, if we have not been here before
