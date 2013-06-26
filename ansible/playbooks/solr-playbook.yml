@@ -2,8 +2,8 @@
 -   hosts: localhost
     connection: local
     tasks:
-    - name: add_bash
-      shell: cat $HOME/appstrap/bashrc_add >> $HOME/.bashrc
+#    - name: add_bash
+#      shell: cat $HOME/appstrap/bashrc_add >> $HOME/.bashrc
     - name: pkgsrc_make
       shell: $HOME/appstrap/pmake
     - name: check_appstrap
