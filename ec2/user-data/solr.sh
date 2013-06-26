@@ -24,6 +24,8 @@ easy_install pip
 pip install virtualenv
 
 pip install boto_rsync      # put this in the system python
+pip install awscli  #not sure what version is installed on ec2 image - there is
+#no aws executable
 yum -y install python-devel  # needed to install(init?) virtualenv with local python
 yum -y install ncurses-devel # needed to install pkgsrc python
 yum -y install dialog
