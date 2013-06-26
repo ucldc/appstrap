@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+## TODO: replace this with ansible
+##   ansible_facts will tell us if we are running on SUSE vs. Amazon, so
+##   we can fine tune where to grab the java from based on that
+
+## this will still need to be CDL specific because it deals with java licensing...
+## have the CDL specific stuff in parameters of type URL (file, http?s, s3)
+
+if [[ -n "$DEBUG" ]]; then
+  set -x
+fi
+
+set -o pipefail  # trace ERR through pipes
+set -o errtrace  # trace ERR through 'time command' and other functions
+set -o nounset   ## set -u : exit the script if you try to use an uninitialised variable
+set -o errexit   ## set -e : exit the script if any statement returns a non-true return value
+
+# if [ ! -e jdk-7u21-linux-x64.tar.gz ] && [ ! -e java7 ]; then
+#   wget http://mvn.cdlib.org/content/repositories/thirdparty/java/jdk/7u21-linux-x64/jdk-7u21-linux-x64.tar.gz
+#   tar zxf jdk-7u21-linux-x64.tar.gz
+#   ln -s jdk1.7.0_21 java7
+# fi
+
+onAws=$(which aws)
+
+if [ ! -e $HOME/pkgsrc/distfiles/jdk-7u21-linux-x64.tar.gz ]; then
+  if [[ $onAws ]]; then 
+    aws s3 get-object --bucket dsc-internal-java --key java7/jdk-7u21-linux-x64.tar.gz $HOME/pkgsrc/distfiles/jdk-7u21-linux-x64.tar.gz
+  else
+    curl http://mvn.cdlib.org/content/repositories/thirdparty/java/jdk/7u21-linux-x64/jdk-7u21-linux-x64.tar.gz \
+      > $HOME/pkgsrc/distfiles/jdk-7u21-linux-x64.tar.gz
+  fi
+fi
+
+if [ ! -e $HOME/pkgsrc/distfiles/jre-7u21-linux-x64.tar.gz ]; then
+  if [[ $onAws ]]; then 
+    aws s3 get-object --bucket dsc-internal-java --key java7/jre-7u21-linux-x64.tar.gz $HOME/pkgsrc/distfiles/jre-7u21-linux-x64.tar.gz
+  else
+    curl http://mvn.cdlib.org/content/repositories/thirdparty/java/jre/7u21-linux-x64/7u21-linux-x64/7u21-linux-x64-7u21-linux-x64.tar.gz \
+      > $HOME/pkgsrc/distfiles/jre-7u21-linux-x64.tar.gz 
+  fi
+fi
+
+export PKG_JVM_DEFAULT=sun-jdk7
+ACCEPTABLE_LICENSES=oracle-binary-code-license ~/appstrap/pmake x11/libX11 lang/sun-jdk7

@@ -1,9 +1,15 @@
 
-set -x 
-java_home="${HOME}/pkg/java/sun-7"
-if [[ -e "$java_home" ]]; then 
-    export JAVA_HOME=$java_home
+if [[ -n "$DEBUG" ]]; then
+  set -x
 fi
+
+for java_home in "${HOME}/pkg/java/sun-7" "${HOME}/java/java7" # last existing path wins
+do
+    if [[ -e "$java_home" ]]; then 
+        export JAVA_HOME=$java_home
+    fi
+done
+
 #export JAVA_HOME=${HOME}/pkg/java/sun-6
 
 # don't pick SUSE's java

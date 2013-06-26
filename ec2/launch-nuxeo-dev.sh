@@ -11,7 +11,7 @@ DELIM
 
 ec2-run-instances $AMI_EBS          \
      --verbose                        \
-     --user-data-file nuxeo_ec2_init.sh  \
+     --user-data-file user-data/nuxeo.sh  \
      --key majorTom-keypair                \
      --monitor                        \
      --instance-type $EC2_SIZE         \

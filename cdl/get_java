@@ -16,21 +16,24 @@ set -o errtrace  # trace ERR through 'time command' and other functions
 set -o nounset   ## set -u : exit the script if you try to use an uninitialised variable
 set -o errexit   ## set -e : exit the script if any statement returns a non-true return value
 
-# if [ ! -e jdk-7u21-linux-x64.tar.gz ] && [ ! -e java7 ]; then
-#   wget http://mvn.cdlib.org/content/repositories/thirdparty/java/jdk/7u21-linux-x64/jdk-7u21-linux-x64.tar.gz
-#   tar zxf jdk-7u21-linux-x64.tar.gz
-#   ln -s jdk1.7.0_21 java7
-# fi
+onAws=$(which aws)
 
-if [ ! -e $HOME/pkgsrc/distfiles/jdk-7u21-linux-x64.tar.gz ]; then
-  curl http://mvn.cdlib.org/content/repositories/thirdparty/java/jdk/7u21-linux-x64/jdk-7u21-linux-x64.tar.gz \
-    > $HOME/pkgsrc/distfiles/jdk-7u21-linux-x64.tar.gz
+if [[ -e "$HOME/java" ]]; then
+    echo "$HOME/java exists, been done?"
 fi
 
-if [ ! -e $HOME/pkgsrc/distfiles/jre-7u21-linux-x64.tar.gz ]; then
-  curl http://mvn.cdlib.org/content/repositories/thirdparty/java/jre/7u21-linux-x64/7u21-linux-x64/7u21-linux-x64-7u21-linux-x64.tar.gz \
-    > $HOME/pkgsrc/distfiles/jre-7u21-linux-x64.tar.gz 
-fi
+mkdir -p $HOME/java
 
-export PKG_JVM_DEFAULT=sun-jdk7
-ACCEPTABLE_LICENSES=oracle-binary-code-license ~/appstrap/pmake x11/libX11 lang/sun-jdk7
+# do we even really need sun java?  (except for XTF)
+
+if [[ ! -e $HOME/jdk-7u21-linux-x64.tar.gz ]] && [[ ! -e java7 ]]; then
+  if [[ $onAws ]]; then 
+    aws s3 get-object --bucket dsc-internal-java --key java7/jdk-7u21-linux-x64.tar.gz $HOME/java/jdk-7u21-linux-x64.tar.gz
+  else
+    curl http://mvn.cdlib.org/content/repositories/thirdparty/java/jdk/7u21-linux-x64/jdk-7u21-linux-x64.tar.gz \
+      > $HOME/java/jdk-7u21-linux-x64.tar.gz
+  fi
+  cd $HOME/java
+  tar zxf jdk-7u21-linux-x64.tar.gz
+  ln -s jdk1.7.0_21 java7
+fi
