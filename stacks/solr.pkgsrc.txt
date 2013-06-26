@@ -1,7 +1,6 @@
 # util
 devel/libtool
 www/cronolog
-databases/mysql55-client
 devel/scmgit-base
 devel/scmgit-docs
 devel/mercurial
