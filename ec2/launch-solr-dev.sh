@@ -11,46 +11,27 @@
 
 set -eu
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
-. $DIR/setenv.sh
+AMI_EBS="ami-1624987f"
+EC2_SIZE="t1.micro"
+EC2_SIZE="m1.large"
+ZONE=us-east-1b
+EC2_REGION=us-east-1
 cd $DIR
-# make these parameters; not stuff read from setenv.sh
-echo "$TAG $EC2_SIZE"
 
 # start user-data script payload
 # https://help.ubuntu.com/community/CloudInit
-cat > aws_init.sh << DELIM
-#!/bin/bash
-set -eux
-# this gets run as root on the amazon machine when it boots up
+cat base_user_data.sh > ec2_solr_init.sh
 
-# install packages we need from amazon's repo
-yum -y update			# get the latest security updates
-
+cat >> ec2_solr_init.sh << DELIM
 ## system configuration
 # redirect port 8080 to port 80 so we don't have to run tomcat as root
 # http://forum.slicehost.com/index.php?p=/discussion/2497/iptables-redirect-port-80-to-port-8080/p1
 iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 8080
 chkconfig sendmail off
 
-# install the rest of the software we need
-# git is needed for the build
-yum -y install git 
-# ant gives us better java
-yum -y install ant 
-
-################################################################################
-#   pkgsrc requirements
-yum -y install ncurses-devel ncurses
-yum -y install zlib-devel zlib
-yum -y install openssl-devel openssl
-yum -y install gcc
-yum -y install gcc-c++
-yum -y install libstdc++-devel
-#   pkgsrc requirements end
-################################################################################
-
 easy_install pip
 pip install awscli
+pip install virtualenv
 
 # if we run the jar file; we need daemonize
 yum -y install http://fr2.rpmfind.net/linux/dag/redhat/el5/en/x86_64/dag/RPMS/daemonize-1.6.0-1.el5.rf.x86_64.rpm
@@ -65,14 +46,14 @@ pip install http://guichaz.free.fr/iotop/files/iotop-0.4.4.tar.gz
 # \'o.O'  http://beyondgrep.com
 # =(___)=
 #    U    ack!
-curl http://beyondgrep.com/ack-1.96-single-file > /usr/local/bin/ack && chmod 0755 /usr/local/bin/ack
+# what is the permalink for this no longer works as of 20130625->: curl http://beyondgrep.com/ack-1.96-single-file > /usr/local/bin/ack && chmod 0755 /usr/local/bin/ack
 
 
 DELIM
 
 # only on the t1.micro, tune swap
 if [ "$EC2_SIZE" == 't1.micro' ]; then
-  cat >> aws_init.sh << DELIM
+  cat >> ec2_solr_init.sh << DELIM
 # t1.micro's don't come with any swap; let's add 1G
 ## to do -- add test for micro
 # http://cloudstory.in/2012/02/adding-swap-space-to-amazon-ec2-linux-micro-instance-to-increase-the-performance/
@@ -90,9 +71,17 @@ DELIM
 fi
 
 #TODO: Add ansible bootstrap and run of appropriate playbook
+cat >> ec2_solr_init.sh << DELIM
+su ec2-user
+pushd ~ec2-user
+git clone https://github.com/mredar/appstrap.git
+./appstrap/ansible-virtualenv/init.sh
+. ./appstrap/ansible-virtualenv/bin/activate
+ansible-playbook localhost ./appstrap/playbooks/solr-playbook.yml
+DELIM
 
-gzip aws_init.sh
-#base64 aws_init.sh.gz > aws_init.sh.gz.base64
+gzip ec2_solr_init.sh
+#base64 ec2_solr_init.sh.gz > ec2_solr_init.sh.gz.base64
 
 command="aws ec2 run-instances 
      --region $EC2_REGION 
@@ -102,7 +91,7 @@ command="aws ec2 run-instances
      --min-count 1                                   
      --image-id $AMI_EBS                             
      --max-count 1                                   
-     --user-data file://aws_init.sh.gz
+     --user-data file://ec2_solr_init.sh.gz
      --key-name UCLDC_keypair_0
      --security-groups Solr
      --iam-instance-profile name=s3-readonly"
@@ -135,7 +124,8 @@ while [ "$hostname" = 'null' ]
 echo "INSTANCE:$instance"
 echo $hostname
 
-#TODO: cleanup init file aws_init.sh.gz
+#TODO: cleanup init file ec2_solr_init.sh.gz
 
 #Associate with our solr-dev elastic ip address
-#retval=`aws ec2 associate-address --region=$EC2_REGION --instance-id $instance --public-ip 107.21.228.130`
+retval=`aws ec2 associate-address --region=$EC2_REGION --instance-id $instance --public-ip 107.21.228.130`
+echo "ASSOCIATE ELASTIC IP ADDRESS RETURNED: $retval"
