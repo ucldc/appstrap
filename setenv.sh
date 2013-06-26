@@ -1,5 +1,8 @@
 
-set -x 
+if [[ -n "$DEBUG" ]]; then
+  set -x
+fi
+
 java_home="${HOME}/pkg/java/sun-7"
 if [[ -e "$java_home" ]]; then 
     export JAVA_HOME=$java_home
