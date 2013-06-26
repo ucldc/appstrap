@@ -5,7 +5,7 @@ ZONE=us-east-1b
 
 ec2-run-instances $AMI_EBS          \
      --verbose                        \
-     --user-data-file base_user_data.sh  \
+     --user-data-file user-data/nuxeo.sh  \
      --key majorTom-keypair                \
      --monitor                        \
      --instance-type $EC2_SIZE         \
