@@ -1,8 +1,8 @@
 cronic/log
 monit/log
-ansible-virtualenv/bin/
-ansible-virtualenv/include/
-ansible-virtualenv/lib/
-ansible-virtualenv/lib64
-ansible-virtualenv/share/
+ansible/bin/
+ansible/include/
+ansible/lib/
+ansible/lib64
+ansible/share/
 *.gz
