@@ -24,10 +24,24 @@
       action: command cp -rp ~/java/tomcat/ ~/servers/tomcat
     - name: create servers solr directory
       action: file path=~/servers/solr state=directory
-    - name: copy solr config tree
-      action: command cp -rp ~/appstrap/ansible/templates/solr/solr/ ~/servers/solr
+    - name: create dc-collection solr core directory
+      action: file path=~/servers/solr/dc-collection state=directory
+    - name: copy solr.xml
+      action: copy src=./templates/solr/solr/solr.xml dest=~/servers/solr
+    - name: copy zoo.cfg
+      action: copy src=./templates/solr/solr/zoo.cfg dest=~/servers/solr
+    - name: copy example collection files to dc-collection
+      action: command cp -rp ~/java/solr/example/solr/collection1/ ~/servers/solr/dc-collection
+    - name: copy dc-collection schema.xml into webapp
+      action: copy src=./templates/solr/solr/dc-collection/conf/schema.xml dest=~/servers/solr/dc-collection/conf/
     - name: install solr to tomcat
-      action: copy src=~/java/solr/dist/solr-4.3.1.jar dest=~/servers/tomcat/webapps/ #restart tomcat now, to unpack solr. then change WEB-INF/web.xml
+      action: copy src=~/java/solr/dist/solr-4.3.1.war dest=~/servers/tomcat/webapps/ #restart tomcat now, to unpack solr. then change WEB-INF/web.xml
+    - name: stop tomcat
+      action: command ~/servers/tomcat/bin/shutdown.sh
+    - name: replace web.xml for solr webapp
+      action: copy src=./templates/solr/solr/web.xml dest=~/servers/tomcat/webapps/solr/WEB-INF/web.xml
+    - name: start tomcat
+      action: command ~/servers/tomcat/bin/startup.sh
 # to add  
 ##    <env-entry>
 ##       <env-entry-name>solr/home</env-entry-name>
