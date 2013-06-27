@@ -1,0 +1,15 @@
+set daemon 30
+#set logfile syslog facility log_daemon
+set logfile {{ role_home_dir.stdout }}/appstrap/monit/log/monit.log
+
+set httpd port 28812
+    allow localhost
+    allow 127.0.0.1
+
+check process tomcat
+    with pidfile "{{ role_home_dir.stdout }}/servers/tomcat/tomcat.pid"
+    start program "{{ role_home_dir.stdout }}/appstrap/envwrap {{ role_home_dir.stdout }}/servers/tomcat/bin/startup.sh"
+    stop program "{{ role_home_dir.stdout }}/appstrap/envwrap {{ role_home_dir.stdout }}/servers/tomcat/bin/shutdown.sh"
+    if failed host {{ ansible_fqdn }} port 8080
+    then 
+        restart
