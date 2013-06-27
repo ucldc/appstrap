@@ -6,3 +6,6 @@ ansible/lib/
 ansible/lib64
 ansible/share/
 *.gz
+java/apache-maven-3.0.5/
+java/maven
+java/twincat/
