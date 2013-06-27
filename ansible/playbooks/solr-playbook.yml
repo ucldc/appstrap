@@ -2,11 +2,5 @@
 -   hosts: localhost
     connection: local
     tasks:
-#    - name: add_bash
-#      shell: cat $HOME/appstrap/bashrc_add >> $HOME/.bashrc
-    - name: pkgsrc_make
-      shell: $HOME/appstrap/pmake
     - name: check_appstrap
       shell: . $HOME/appstrap/setenv.sh
-    - name: run_appstrap_stack
-      shell: $HOME/appstrap/stacks/stack_solr

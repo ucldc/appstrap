@@ -46,7 +46,7 @@ cat > ~solr/init.sh <<EOSETUP
 #!/usr/bin/env bash
 cd
 git clone https://github.com/mredar/appstrap.git
-./appstrap/cdl/get_java
+./appstrap/stacks/stack_solr
 ./appstrap/setenv.sh
 ./appstrap/ansible/ansible-virtualenv/init.sh
 . ./appstrap/ansible/ansible-virtualenv/bin/activate
