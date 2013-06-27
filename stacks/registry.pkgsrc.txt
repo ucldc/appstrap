@@ -7,7 +7,6 @@ devel/scmgit-docs
 devel/mercurial
 devel/gettext textproc/groff # needed for `perldoc` to work
 textproc/p5-ack
-sysutils/ansible
 
 #
 databases/py-sqlite3
