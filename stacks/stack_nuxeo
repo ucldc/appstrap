@@ -14,13 +14,12 @@ cd $DIR
 
 . stack_run.sh  # gives us `stack_run_batch`
 
+# install pkgsrc packages
+ACCEPTABLE_LICENSES=lame-license stack_run_batch "../pmake" nuxeo.pkgsrc.txt
 ../shib_it      # shibboleth-sp stack
 ../roll_test_certs
 ../cdl/get_java 
 ./monit_binary  # get new monit via binary distribution
-
-# install pkgsrc packages
-ACCEPTABLE_LICENSES=lame-license stack_run_batch "../pmake" nuxeo.pkgsrc.txt
 
 # install openoffice "by hand"
 
@@ -30,4 +29,6 @@ ACCEPTABLE_LICENSES=lame-license stack_run_batch "../pmake" nuxeo.pkgsrc.txt
 cd ../ansible
 ./init.sh
 . bin/activate
-ansible-playbook --connection=local -i local.localhost nuxeo-playbook.yml
+ansible-playbook -i host_inventory nuxeo-playbook.yml
+cd
+ln -f -s appstrap/bashrc/role-account .bashrc

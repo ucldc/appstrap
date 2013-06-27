@@ -1,0 +1,24 @@
+set daemon 30
+#set logfile syslog facility log_daemon
+set logfile {{ role_home_dir.stdout }}/appstrap/monit/log/monit.log
+
+set httpd port 28812
+    allow localhost
+    allow 127.0.0.1
+
+check process shibd
+    with pidfile "{{ role_home_dir.stdout }}/servers/shibboleth/var/run/shibd.pid"
+    start program "{{ role_home_dir.stdout }}/appstrap/envwrap /apps/nuxeo/servers/shibboleth/sbin/shibd -p /apps/nuxeo/servers/shibboleth/var/run/shibd.pid"
+    stop program "/bin/bash -c '/bin/kill `/bin/cat {{ role_home_dir.stdout }}/servers/shibboleth/var/run/shibd.pid`'"
+    if failed unixsocket
+        {{ role_home_dir.stdout }}/servers/shibboleth/var/run/shibboleth/shibd.sock
+    then 
+        restart
+
+check process http
+    with pidfile "{{ role_home_dir.stdout }}/servers/httpd/logs/httpd.pid"
+    start program "{{ role_home_dir.stdout }}/appstrap/envwrap {{ role_home_dir.stdout }}/servers/httpd/bin/apachectl start"
+    stop program "{{ role_home_dir.stdout }}/appstrap/envwrap {{ role_home_dir.stdout }}/servers/httpd/bin/apachectl stop"
+    if failed host {{ ansible_fqdn }} port 443 type TCPSSL SSLV3 protocol http
+    then 
+        restart

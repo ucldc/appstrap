@@ -1,3 +1,9 @@
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+    . /etc/bashrc
+fi
+
 if [ -e $HOME/appstrap/setenv.sh ]; then
   . $HOME/appstrap/setenv.sh
 fi

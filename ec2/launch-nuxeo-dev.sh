@@ -1,5 +1,6 @@
 #!/bin/env bash
-AMI_EBS="ami-1624987f"
+# check http://aws.amazon.com/amazon-linux-ami/ for current AMI
+AMI_EBS="ami-05355a6c"
 EC2_SIZE="t1.micro"
 ZONE=us-east-1b
 

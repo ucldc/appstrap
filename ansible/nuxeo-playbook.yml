@@ -38,3 +38,9 @@
       action: copy src=~/pkg/etc/httpd/mime.types dest=~/servers/httpd/conf/mime.types
     - name: generate shibboleth2.xml
       action: template src=templates/shibboleth/shibboleth2.xml.j2  dest=~/servers/shibboleth/etc/shibboleth/shibboleth2.xml
+    - name: generate .monitrc
+      action: template src=templates/nuxeo-http/monitrc.j2  dest=~/.monitrc
+    - name: 700 for .monitrc
+      shell: chmod 700 ~/.monitrc
+    - name: yo, monit needs a log file
+      action: file path=~/appstrap/monit/log state=directory
