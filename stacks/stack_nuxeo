@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-
-if [[ -n "$DEBUG" ]]; then 
+export DEBUG=1
+if [[ -n ${DEBUG-} ]]; then 
   set -x
 fi
 
@@ -28,7 +28,9 @@ ACCEPTABLE_LICENSES=lame-license stack_run_batch "../pmake" nuxeo.pkgsrc.txt
 # okay, now we should have a good stack set up, let's install and configure the app!
 cd ../ansible
 ./init.sh
+set +u
 . bin/activate
+set -u
 ansible-playbook -i host_inventory nuxeo-playbook.yml
 cd
 ln -f -s appstrap/bashrc/role-account .bashrc
