@@ -1,16 +1,14 @@
-
-set +u
-if [[ -n "$DEBUG" ]]; then
+if [[ -n "${DEBUG-}" ]]; then
   set -x
 fi
-set -u
 
 for java_home in "${HOME}/pkg/java/sun-7" "${HOME}/java/java7" # last existing path wins
 do
-    if [[ -e "$java_home" ]]; then 
+    if [[ -e "${java_home}" ]]; then 
         export JAVA_HOME=$java_home
     fi
 done
+
 
 #export JAVA_HOME=${HOME}/pkg/java/sun-6
 
@@ -41,4 +39,3 @@ unset PYTHONSTARTUP
 
 export PATH=${HOME}/pkg/bin:${HOME}/pkg/sbin:${HOME}/pkg/lib/perl5/site_perl/bin:${JAVA_HOME}/bin:${PATH}
 export MANPATH=${HOME}/pkg/man:/usr/local/man:/usr/local/share/man:/usr/share/man
-
