@@ -50,7 +50,7 @@ git clone https://github.com/mredar/appstrap.git
 ./appstrap/setenv.sh
 ./appstrap/ansible/ansible-virtualenv/init.sh
 . ./appstrap/ansible/ansible-virtualenv/bin/activate
-ansible-playbook -i ./appstrap/ansible/host_inventory ./appstrap/ansible/playbooks/solr-playbook.yml
+ansible-playbook -i ./appstrap/ansible/host_inventory ./appstrap/ansible/solr-playbook.yml
 EOSETUP
 su - solr -c ~solr/init.sh
 rm ~solr/init.sh 
