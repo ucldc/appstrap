@@ -14,11 +14,20 @@ cd $DIR
 
 . stack_run.sh  # gives us `stack_run_batch`
 
-../shib_it
-../cdl/get_java
-./monit_binary
+../shib_it      # shibboleth-sp stack
+../roll_test_certs
+../cdl/get_java 
+./monit_binary  # get new monit via binary distribution
+
+# install pkgsrc packages
 ACCEPTABLE_LICENSES=lame-license stack_run_batch "../pmake" nuxeo.pkgsrc.txt
 
 # install openoffice "by hand"
 
 # install nuxeo; has some steps that really must actually be done by hand :(
+
+# okay, now we should have a good stack set up, let's install and configure the app!
+cd ../ansible
+./init.sh
+. bin/activate
+ansible-playbook --connection=local -i local.localhost nuxeo-playbook.yml
