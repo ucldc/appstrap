@@ -9,3 +9,4 @@ ansible/share/
 java/apache-maven-3.0.5/
 java/maven
 java/twincat/
+monit/logs
