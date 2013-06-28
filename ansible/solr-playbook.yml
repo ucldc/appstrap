@@ -1,0 +1,50 @@
+---
+-   hosts: localhost
+    connection: local
+    gather_facts: True         
+    tasks:
+    - name: check_appstrap
+      shell: . $HOME/appstrap/setenv.sh
+    - name: figure out the home directory
+      shell: "getent passwd solr | cut -d: -f6"
+      register: role_home_dir
+    - name: create servers tomcat bin directory
+      action: file path=~/servers/tomcat/bin state=directory
+    - name: create servers tomcat conf directory
+      action: file path=~/servers/tomcat/conf state=directory
+    - name: create servers tomcat logs directory
+      action: file path=~/servers/tomcat/logs state=directory
+    - name: create servers tomcat webapps directory
+      action: file path=~/servers/tomcat/webapps state=directory
+    - name: create servers tomcat work directory
+      action: file path=~/servers/tomcat/work state=directory
+    - name: create servers tomcat temp directory
+      action: file path=~/servers/tomcat/temp state=directory
+    - name: copy tomcat CATALINA_BASE directories and files
+      action: command cp -rp ~/java/tomcat/ ~/servers/tomcat
+    - name: create servers solr directory
+      action: file path=~/servers/solr state=directory
+    - name: create dc-collection solr core directory
+      action: file path=~/servers/solr/dc-collection state=directory
+    - name: copy solr.xml
+      action: copy src=./templates/solr/solr/solr.xml dest=~/servers/solr
+    - name: copy zoo.cfg
+      action: copy src=./templates/solr/solr/zoo.cfg dest=~/servers/solr
+    - name: copy example collection files to dc-collection
+      action: command cp -rp ~/java/solr/example/solr/collection1/ ~/servers/solr/dc-collection
+    - name: copy dc-collection schema.xml into webapp
+      action: copy src=./templates/solr/solr/dc-collection/conf/schema.xml dest=~/servers/solr/dc-collection/conf/
+    - name: install solr to tomcat
+      action: copy src=~/java/solr/dist/solr-4.3.1.war dest=~/servers/tomcat/webapps/ #restart tomcat now, to unpack solr. then change WEB-INF/web.xml
+    - name: stop tomcat
+      action: command ~/servers/tomcat/bin/shutdown.sh
+    - name: replace web.xml for solr webapp
+      action: copy src=./templates/solr/solr/web.xml dest=~/servers/tomcat/webapps/solr/WEB-INF/web.xml
+    - name: start tomcat
+      action: command ~/servers/tomcat/bin/startup.sh
+# to add  
+##    <env-entry>
+##       <env-entry-name>solr/home</env-entry-name>
+##       <env-entry-value>/home/ec2-user/servers/solr</env-entry-value>
+##       <env-entry-type>java.lang.String</env-entry-type>
+##    </env-entry>

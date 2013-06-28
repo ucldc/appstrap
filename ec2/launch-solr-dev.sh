@@ -11,7 +11,7 @@
 
 set -eu
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
-AMI_EBS="ami-1624987f"
+AMI_EBS="ami-05355a6c"
 EC2_SIZE="t1.micro"
 EC2_SIZE="m1.large"
 ZONE=us-east-1b
