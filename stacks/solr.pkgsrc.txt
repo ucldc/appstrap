@@ -6,7 +6,3 @@ devel/scmgit-docs
 devel/mercurial
 devel/gettext textproc/groff  # needed for perldoc to work
 textproc/p5-ack
-
-#servers
-# this will install sun java as a dependency
-www/apache-tomcat7

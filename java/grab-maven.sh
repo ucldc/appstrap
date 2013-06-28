@@ -1,7 +1,9 @@
 #!/bin/bash 
 #
-# grabs apache maven from a mirror and unpacks it
+# grabs apache maven from a mirror and unpacks it $HOME/java
 #
+# for cdl installs you should first run cdl/get_java to get the sun
+# java and create $HOME/java
 set -eu
 
 # will nedd to keep this up to date, server.xml template is for tomcat7
@@ -9,8 +11,9 @@ mavenVer=3.0.5
 maven=apache-maven-$mavenVer-bin
 md5=94c51f0dd139b4b8549204d0605a5859
 
-export DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
-cd $DIR
+export DIR_INSTALL="$HOME/java"
+export DIR_SCRIPT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
+cd $DIR_INSTALL
 if [ -e $maven.tar.gz ]; then
   echo "did you run me before? this should only be run once"
   exit 1
@@ -21,8 +24,8 @@ checksum() {	# http://stackoverflow.com/questions/1299833/bsd-md5-vs-gnu-md5sum-
 which wget	# abort now if commands I need are not installed
 # select a random mirror from mirrors.txt
 # http://www.hilarymason.com/blog/how-to-get-a-random-line-from-a-file-in-bash/
-mirror_length=`wc -l<twincat/mirrors.txt|tr -d ' '`
-mirror=`tail -$((RANDOM/(32767/$mirror_length))) twincat/mirrors.txt|head -1|tr -d "\n"`
+mirror_length=`wc -l<$DIR_SCRIPT/mirrors.txt|tr -d ' '`
+mirror=`tail -$((RANDOM/(32767/$mirror_length))) $DIR_SCRIPT/mirrors.txt|head -1|tr -d "\n"`
 
 # http://apac          e.mirrors.pair.com/maven/maven-3/3.0.5/binaries/apache-maven-3.0.5-bin.tar.gz
 # http://www.bizdirusa.com/mirrors/apache/maven/maven-3/3.0.5/binaries/apache-maven-3.0.5-bin.tar.gz
