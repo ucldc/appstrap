@@ -8,20 +8,12 @@
     - name: figure out the home directory
       shell: "getent passwd solr | cut -d: -f6"
       register: role_home_dir
-    - name: create servers tomcat bin directory
-      action: file path=~/servers/tomcat/bin state=directory
-    - name: create servers tomcat conf directory
-      action: file path=~/servers/tomcat/conf state=directory
-    - name: create servers tomcat logs directory
-      action: file path=~/servers/tomcat/logs state=directory
-    - name: create servers tomcat webapps directory
-      action: file path=~/servers/tomcat/webapps state=directory
-    - name: create servers tomcat work directory
-      action: file path=~/servers/tomcat/work state=directory
-    - name: create servers tomcat temp directory
-      action: file path=~/servers/tomcat/temp state=directory
+    - name: put bashrc in place
+      copy: src=./templates/solr/bashrc dest=~/.bashrc
+    - name: create servers tomcat directory
+      action: file path=~/servers/tomcat state=directory
     - name: copy tomcat CATALINA_BASE directories and files
-      action: command cp -rp ~/java/tomcat/ ~/servers/tomcat
+      action: shell cp -rp ~/java/tomcat/* ~/servers/tomcat
     - name: create servers solr directory
       action: file path=~/servers/solr state=directory
     - name: create dc-collection solr core directory
@@ -31,17 +23,20 @@
     - name: copy zoo.cfg
       action: copy src=./templates/solr/solr/zoo.cfg dest=~/servers/solr
     - name: copy example collection files to dc-collection
-      action: command cp -rp ~/java/solr/example/solr/collection1/ ~/servers/solr/dc-collection
+      action: shell cp -rp ~/java/solr/example/solr/collection1/* ~/servers/solr/dc-collection
     - name: copy dc-collection schema.xml into webapp
       action: copy src=./templates/solr/solr/dc-collection/conf/schema.xml dest=~/servers/solr/dc-collection/conf/
     - name: install solr to tomcat
-      action: copy src=~/java/solr/dist/solr-4.3.1.war dest=~/servers/tomcat/webapps/ #restart tomcat now, to unpack solr. then change WEB-INF/web.xml
+      action: copy src=~/java/solr/dist/solr-4.3.1.war dest=~/servers/tomcat/webapps/solr.war #restart tomcat now, to unpack solr. then change WEB-INF/web.xml
+#TODO: set CATALINA_BASE AND CATALINA_HOME
+    - name: start tomcat to install solr war
+      action: shell ~/java/tomcat/bin/startup.sh
     - name: stop tomcat
-      action: command ~/servers/tomcat/bin/shutdown.sh
+      action: shell ~/java/tomcat/bin/shutdown.sh
     - name: replace web.xml for solr webapp
       action: copy src=./templates/solr/solr/web.xml dest=~/servers/tomcat/webapps/solr/WEB-INF/web.xml
     - name: start tomcat
-      action: command ~/servers/tomcat/bin/startup.sh
+      action: shell ~/java/tomcat/bin/startup.sh
 # to add  
 ##    <env-entry>
 ##       <env-entry-name>solr/home</env-entry-name>
