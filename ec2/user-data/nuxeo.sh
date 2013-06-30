@@ -20,7 +20,7 @@ yum -y install freetype-devel
 yum -y install libtiff-devel
 yum -y install lcms-devel
 
-su - ec2-user -c 'curl https://raw.github.com/tingletech/appstrap/master/cdl/ucldc-operator-keys.txt >> ~/.ssh/authorized_keys'
+su - ec2-user -c 'curl -L https://raw.github.com/ucldc/appstrap/master/cdl/ucldc-operator-keys.txt >> ~/.ssh/authorized_keys'
 
 useradd nuxeo
 touch ~nuxeo/init.sh
@@ -30,7 +30,7 @@ chmod 700 ~nuxeo/init.sh
 cat > ~nuxeo/init.sh <<EOSETUP
 #!/usr/bin/env bash
 cd
-git clone https://github.com/tingletech/appstrap.git
+git clone https://github.com/ucldc/appstrap.git
 ./appstrap/cronic/atnow ./appstrap/stacks/stack_nuxeo
 EOSETUP
 su - nuxeo -c ~nuxeo/init.sh
