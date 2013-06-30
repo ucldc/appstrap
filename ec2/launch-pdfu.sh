@@ -1,5 +1,6 @@
 #!/bin/env bash
-AMI_EBS="ami-23d9a94a" # Ubuntu 12.04.2 LTS (Precise Pangolin) http://cloud-images.ubuntu.com/releases/precise/release/
+# check http://aws.amazon.com/amazon-linux-ami/ for current AMI
+AMI_EBS="ami-05355a6c"
 EC2_SIZE="m1.large"
 EC2_REGION="us-east-1"
 ZONE=us-east-1b

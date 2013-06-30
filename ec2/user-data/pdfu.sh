@@ -19,8 +19,9 @@ yum -y install libjpeg-devel
 yum -y install freetype-devel
 yum -y install libtiff-devel
 yum -y install lcms-devel
+yum -y install mercurial
 
-su - ec2-user -c 'curl https://raw.github.com/ucldc/appstrap/master/cdl/ucldc-operator-keys.txt >> ~/.ssh/authorized_keys'
+su - ec2-user -c 'curl -L https://raw.github.com/ucldc/appstrap/master/cdl/ucldc-operator-keys.txt >> ~/.ssh/authorized_keys'
 
 useradd pdfu
 
@@ -38,3 +39,5 @@ git clone https://github.com/tingletech/pdfu.git
 # ./pdfu/pdfu http://voro.cdlib.org/oac-ead/prime2002/ucdavis/spcoll/eastman.xml eastman.pdf
 # ./pdfu/pdfu http://voro.cdlib.org/oac-ead/prime2002/ucdavis/spcoll/eastman.xml s3://ourbucket/path/to/file/eastman.pdf
 EOSETUP
+su - pdfu -c ~pdfu/init.sh
+rm ~pdfu/init.sh
