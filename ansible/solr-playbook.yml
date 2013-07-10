@@ -10,6 +10,8 @@
       register: role_home_dir
     - name: put bashrc in place
       copy: src=./templates/solr/bashrc dest=~/.bashrc
+    - name: put gitconfig in place
+      copy: src=./templates/solr/gitconfig dest=~/.gitconfig
     - name: create servers tomcat directory
       action: file path=~/servers/tomcat state=directory
     - name: copy tomcat CATALINA_BASE directories and files
@@ -26,20 +28,18 @@
       action: shell cp -rp ~/java/solr/example/solr/collection1/* ~/servers/solr/dc-collection
     - name: copy dc-collection schema.xml into webapp
       action: copy src=./templates/solr/solr/dc-collection/conf/schema.xml dest=~/servers/solr/dc-collection/conf/
-    - name: install solr to tomcat
+    - name: copy solr to tomcat
       action: copy src=~/java/solr/dist/solr-4.3.1.war dest=~/servers/tomcat/webapps/solr.war #restart tomcat now, to unpack solr. then change WEB-INF/web.xml
 #TODO: set CATALINA_BASE AND CATALINA_HOME
+    - name: copy solr logging jars to tomcat
+      action: shell cp -rp ~/java/solr/dist/solrj-lib/*.jar ~/servers/tomcat/lib
     - name: start tomcat to install solr war
       action: shell ~/java/tomcat/bin/startup.sh
+    - name: wait for tomcat
+      action: command /bin/sleep 30
     - name: stop tomcat
       action: shell ~/java/tomcat/bin/shutdown.sh
     - name: replace web.xml for solr webapp
-      action: copy src=./templates/solr/solr/web.xml dest=~/servers/tomcat/webapps/solr/WEB-INF/web.xml
+      action: copy src=./templates/solr/solr/web.xml dest=~/servers/tomcat/webapps/solr/WEB-INF/
     - name: start tomcat
       action: shell ~/java/tomcat/bin/startup.sh
-# to add  
-##    <env-entry>
-##       <env-entry-name>solr/home</env-entry-name>
-##       <env-entry-value>/home/ec2-user/servers/solr</env-entry-value>
-##       <env-entry-type>java.lang.String</env-entry-type>
-##    </env-entry>
