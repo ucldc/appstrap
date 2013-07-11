@@ -14,7 +14,6 @@ cd $DIR
 
 . stack_run.sh  # gives us `stack_run_batch`
 
-./monit_binary
 ../cdl/get_java
 ../java/grab-cat.sh
 ../java/grab-solr.sh
@@ -23,3 +22,4 @@ export PKG_JVM_DEFAULT=sun-jdk7
 #export PKG_OPTIONS.sun-jre7=sun-jre-jce
 echo "================================PMAKE solr.pkgsrc.txt"
 ACCEPTABLE_LICENSES=oracle-binary-code-license stack_run_batch "../pmake" solr.pkgsrc.txt
+./monit_binary
