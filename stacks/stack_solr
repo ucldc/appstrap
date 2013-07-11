@@ -15,7 +15,6 @@ cd $DIR
 . stack_run.sh  # gives us `stack_run_batch`
 
 ./monit_binary
-exit
 ../cdl/get_java
 ../java/grab-cat.sh
 ../java/grab-solr.sh
