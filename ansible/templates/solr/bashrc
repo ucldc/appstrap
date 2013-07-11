@@ -10,7 +10,6 @@ if [ -f ~/appstrap/setenv.sh ]; then
 	. ~/appstrap/setenv.sh
 fi
 
-export CATALINA_HOME=${HOME}/java/tomcat
-export CATALINA_BASE=${HOME}/servers/tomcat
-export JAVA_OPTS="${JAVA_OPTS-} -Dsolr.solr.home=${HOME}/servers/solr"
-#export JAVA_OPTS="${JAVA_OPTS-} -Djava.library.path=${HOME}/java/
+if [ -f ~/.tomcat-env.bash ]; then
+	. ~/.tomcat-env.bash
+fi

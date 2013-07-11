@@ -8,6 +8,8 @@
     - name: figure out the home directory
       shell: "getent passwd solr | cut -d: -f6"
       register: role_home_dir
+    - name: put tomcat envvars in place
+      action: copy src=./templates/solr/tomcat-setenv.bash dest=~/.tomcat-setenv.bash
     - name: put bashrc in place
       copy: src=./templates/solr/bashrc dest=~/.bashrc
     - name: put gitconfig in place
@@ -18,6 +20,16 @@
       action: shell cp -rp ~/java/tomcat/* ~/servers/tomcat
     - name: create servers solr directory
       action: file path=~/servers/solr state=directory
+    - name: install .monitrc
+      action: template src=./templates/solr/monitrc.j2 dest=~/.monitrc mode=0700
+    - name: create servers/monit directory
+      action: file path=~/servers/monit state=directory
+    - name: create servers/monit/log directory
+      action: file path=~/servers/monit/log state=directory
+    - name: create servers/monit/bin directory
+      action: file path=~/servers/monit/bin state=directory
+    - name: copy monit-wrapper
+      action: copy src=./templates/solr/monit-wrapper.bash dest=~/servers/monit/bin/monit-wrapper.bash mode=0755
     - name: create dc-collection solr core directory
       action: file path=~/servers/solr/dc-collection state=directory
     - name: copy solr.xml
@@ -36,9 +48,11 @@
     - name: start tomcat to install solr war
       action: shell ~/java/tomcat/bin/startup.sh
     - name: wait for tomcat
-      action: command /bin/sleep 30
+      action: command /bin/sleep 120
     - name: stop tomcat
       action: shell ~/java/tomcat/bin/shutdown.sh
+    - name: wait for tomcat
+      action: command /bin/sleep 20
     - name: replace web.xml for solr webapp
       action: copy src=./templates/solr/solr/web.xml dest=~/servers/tomcat/webapps/solr/WEB-INF/
     - name: start tomcat
