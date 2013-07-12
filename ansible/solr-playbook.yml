@@ -16,8 +16,22 @@
       copy: src=./templates/solr/gitconfig dest=~/.gitconfig
     - name: create servers tomcat directory
       action: file path=~/servers/tomcat state=directory
-    - name: copy tomcat CATALINA_BASE directories and files
-      action: shell cp -rp ~/java/tomcat/* ~/servers/tomcat
+    - name: create tomcat bin dir
+      action: file path=~/servers/tomcat/bin state=directory
+    - name: create tomcat conf dir
+      action: file path=~/servers/tomcat/conf state=directory
+    - name: create tomcat logs dir
+      action: file path=~/servers/tomcat/logs state=directory
+    - name: create tomcat webapps dir
+      action: file path=~/servers/tomcat/webapps state=directory
+    - name: create tomcat work dir
+      action: file path=~/servers/tomcat/work state=directory
+    - name: create tomcat temp dir
+      action: file path=~/servers/tomcat/temp state=directory
+    - name: add juli jar
+      action: copy src=~/java/tomcat/bin/tomcat-juli.jar dest=~/servers/tomcat/bin/tomcat-juli.jar
+    - name: copy conf files to CATALINA_BASE/conf
+      action: shell cp -rp ~/java/tomcat/conf/* ~/servers/tomcat/conf
     - name: create servers solr directory
       action: file path=~/servers/solr state=directory
     - name: install .monitrc
@@ -44,16 +58,16 @@
       action: copy src=~/java/solr/dist/solr-4.3.1.war dest=~/servers/tomcat/webapps/solr.war #restart tomcat now, to unpack solr. then change WEB-INF/web.xml
 #TODO: set CATALINA_BASE AND CATALINA_HOME
     - name: copy solr logging jars to tomcat
-      action: shell cp -rp ~/java/solr/dist/solrj-lib/*.jar ~/servers/tomcat/lib
+      action: shell cp -rp ~/java/solr/dist/solrj-lib/*.jar ~/java/tomcat/lib
     - name: start tomcat to install solr war
-      action: shell ~/java/tomcat/bin/startup.sh
+      action: shell ~/servers/monit/bin/monit-wrapper.bash ~/java/tomcat/bin/startup.sh
     - name: wait for tomcat
-      action: command /bin/sleep 120
+      action: command /bin/sleep 30 #actually want to wait for dir webapps/solr
     - name: stop tomcat
-      action: shell ~/java/tomcat/bin/shutdown.sh
+      action: shell ~/servers/monit/bin/monit-wrapper.bash ~/java/tomcat/bin/shutdown.sh
     - name: wait for tomcat
-      action: command /bin/sleep 20
+      action: command /bin/sleep 30
     - name: replace web.xml for solr webapp
       action: copy src=./templates/solr/solr/web.xml dest=~/servers/tomcat/webapps/solr/WEB-INF/
     - name: start tomcat
-      action: shell ~/java/tomcat/bin/startup.sh
+      action: shell ~/servers/monit/bin/monit-wrapper.bash ~/java/tomcat/bin/startup.sh

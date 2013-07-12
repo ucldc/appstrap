@@ -10,6 +10,6 @@ if [ -f ~/appstrap/setenv.sh ]; then
 	. ~/appstrap/setenv.sh
 fi
 
-if [ -f ~/.tomcat-env.bash ]; then
-	. ~/.tomcat-env.bash
+if [ -f ~/.tomcat-setenv.bash ]; then
+	. ~/.tomcat-setenv.bash
 fi
