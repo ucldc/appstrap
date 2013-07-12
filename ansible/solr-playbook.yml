@@ -43,7 +43,7 @@
     - name: create servers/monit/bin directory
       action: file path=~/servers/monit/bin state=directory
     - name: copy monit-wrapper
-      action: copy src=./templates/solr/monit-wrapper.bash dest=~/servers/monit/bin/monit-wrapper.bash mode=0755
+      action: template src=./templates/solr/monit-wrapper.bash.j2 dest=~/servers/monit/bin/monit-wrapper.bash mode=0755
     - name: create dc-collection solr core directory
       action: file path=~/servers/solr/dc-collection state=directory
     - name: copy solr.xml
@@ -60,14 +60,14 @@
     - name: copy solr logging jars to tomcat
       action: shell cp -rp ~/java/solr/dist/solrj-lib/*.jar ~/java/tomcat/lib
     - name: start tomcat to install solr war
-      action: shell ~/servers/monit/bin/monit-wrapper.bash ~/java/tomcat/bin/startup.sh
+      action: shell monit start tomcat
     - name: wait for tomcat
       action: command /bin/sleep 30 #actually want to wait for dir webapps/solr
     - name: stop tomcat
-      action: shell ~/servers/monit/bin/monit-wrapper.bash ~/java/tomcat/bin/shutdown.sh
+      action: shell monit stop tomcat
     - name: wait for tomcat
       action: command /bin/sleep 30
     - name: replace web.xml for solr webapp
       action: copy src=./templates/solr/solr/web.xml dest=~/servers/tomcat/webapps/solr/WEB-INF/
     - name: start tomcat
-      action: shell ~/servers/monit/bin/monit-wrapper.bash ~/java/tomcat/bin/startup.sh
+      action: shell monit validate
