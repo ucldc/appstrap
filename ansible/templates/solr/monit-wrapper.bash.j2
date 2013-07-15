@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -u
+export HOME={{ role_home_dir.stdout }}
+. ${HOME}/appstrap/setenv.sh
+. ${HOME}/.tomcat-setenv.bash
+# http://stackoverflow.com/questions/3356476/debugging-monit
+$@

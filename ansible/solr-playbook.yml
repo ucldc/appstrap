@@ -8,14 +8,42 @@
     - name: figure out the home directory
       shell: "getent passwd solr | cut -d: -f6"
       register: role_home_dir
+    - name: put tomcat envvars in place
+      action: copy src=./templates/solr/tomcat-setenv.bash dest=~/.tomcat-setenv.bash
     - name: put bashrc in place
       copy: src=./templates/solr/bashrc dest=~/.bashrc
+    - name: put gitconfig in place
+      copy: src=./templates/solr/gitconfig dest=~/.gitconfig
     - name: create servers tomcat directory
       action: file path=~/servers/tomcat state=directory
-    - name: copy tomcat CATALINA_BASE directories and files
-      action: shell cp -rp ~/java/tomcat/* ~/servers/tomcat
+    - name: create tomcat bin dir
+      action: file path=~/servers/tomcat/bin state=directory
+    - name: create tomcat conf dir
+      action: file path=~/servers/tomcat/conf state=directory
+    - name: create tomcat logs dir
+      action: file path=~/servers/tomcat/logs state=directory
+    - name: create tomcat webapps dir
+      action: file path=~/servers/tomcat/webapps state=directory
+    - name: create tomcat work dir
+      action: file path=~/servers/tomcat/work state=directory
+    - name: create tomcat temp dir
+      action: file path=~/servers/tomcat/temp state=directory
+    - name: add juli jar
+      action: copy src=~/java/tomcat/bin/tomcat-juli.jar dest=~/servers/tomcat/bin/tomcat-juli.jar
+    - name: copy conf files to CATALINA_BASE/conf
+      action: shell cp -rp ~/java/tomcat/conf/* ~/servers/tomcat/conf
     - name: create servers solr directory
       action: file path=~/servers/solr state=directory
+    - name: install .monitrc
+      action: template src=./templates/solr/monitrc.j2 dest=~/.monitrc mode=0700
+    - name: create servers/monit directory
+      action: file path=~/servers/monit state=directory
+    - name: create servers/monit/log directory
+      action: file path=~/servers/monit/log state=directory
+    - name: create servers/monit/bin directory
+      action: file path=~/servers/monit/bin state=directory
+    - name: copy monit-wrapper
+      action: template src=./templates/solr/monit-wrapper.bash.j2 dest=~/servers/monit/bin/monit-wrapper.bash mode=0755
     - name: create dc-collection solr core directory
       action: file path=~/servers/solr/dc-collection state=directory
     - name: copy solr.xml
@@ -26,20 +54,20 @@
       action: shell cp -rp ~/java/solr/example/solr/collection1/* ~/servers/solr/dc-collection
     - name: copy dc-collection schema.xml into webapp
       action: copy src=./templates/solr/solr/dc-collection/conf/schema.xml dest=~/servers/solr/dc-collection/conf/
-    - name: install solr to tomcat
+    - name: copy solr to tomcat
       action: copy src=~/java/solr/dist/solr-4.3.1.war dest=~/servers/tomcat/webapps/solr.war #restart tomcat now, to unpack solr. then change WEB-INF/web.xml
 #TODO: set CATALINA_BASE AND CATALINA_HOME
+    - name: copy solr logging jars to tomcat
+      action: shell cp -rp ~/java/solr/dist/solrj-lib/*.jar ~/java/tomcat/lib
     - name: start tomcat to install solr war
-      action: shell ~/java/tomcat/bin/startup.sh
+      action: shell monit start tomcat
+    - name: wait for tomcat
+      action: command /bin/sleep 30 #actually want to wait for dir webapps/solr
     - name: stop tomcat
-      action: shell ~/java/tomcat/bin/shutdown.sh
+      action: shell monit stop tomcat
+    - name: wait for tomcat
+      action: command /bin/sleep 30
     - name: replace web.xml for solr webapp
-      action: copy src=./templates/solr/solr/web.xml dest=~/servers/tomcat/webapps/solr/WEB-INF/web.xml
+      action: copy src=./templates/solr/solr/web.xml dest=~/servers/tomcat/webapps/solr/WEB-INF/
     - name: start tomcat
-      action: shell ~/java/tomcat/bin/startup.sh
-# to add  
-##    <env-entry>
-##       <env-entry-name>solr/home</env-entry-name>
-##       <env-entry-value>/home/ec2-user/servers/solr</env-entry-value>
-##       <env-entry-type>java.lang.String</env-entry-type>
-##    </env-entry>
+      action: shell monit validate
