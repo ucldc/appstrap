@@ -54,3 +54,6 @@ ansible-playbook -i ./appstrap/ansible/host_inventory ./appstrap/ansible/solr-pl
 EOSETUP
 su - solr -c ~solr/init.sh
 rm ~solr/init.sh 
+cp ~solr/init.d-monit /etc/init.d/monit
+chmod 0755 /etc/init.d/monit
+chkconfig --add monit

@@ -71,3 +71,5 @@
       action: copy src=./templates/solr/solr/web.xml dest=~/servers/tomcat/webapps/solr/WEB-INF/
     - name: start tomcat
       action: shell monit validate
+    - name: create init.d-monit
+      action: template src=./templates/solr/init.d-monit.j2 dest=~/init.d-monit
