@@ -59,6 +59,8 @@
 #TODO: set CATALINA_BASE AND CATALINA_HOME
     - name: copy solr logging jars to tomcat
       action: shell cp -rp ~/java/solr/dist/solrj-lib/*.jar ~/java/tomcat/lib
+    - name: copy log4j.properties to tomcat lib
+      action: copy src=~/java/solr/example/resources/log4j.properties dest=~/java/tomcat/lib/
     - name: start tomcat to install solr war
       action: shell monit start tomcat
     - name: wait for tomcat
