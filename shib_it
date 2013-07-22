@@ -1,73 +1,203 @@
-#!/usr/bin/env bash
+#!/usr/bin/env python
+# -*- coding: utf8 -*-
 
-# `shib_it`
-# pkgsrc can compile www/shibboleth-sp; but the version it compiles is configured to run
-# as root -- so pkgsrc is used to get all the dependencies; and then it is recompiled
-# again setting a prefix
+from lxml.html import parse
+import sys, os
+import argparse
+from pprint import pprint as pp
+from urllib2 import urlopen
+import tempfile
+import urllib2
+import urllib
+import hashlib
+from functools import partial
+import gnupg
+import subprocess
+import shutil
 
-if [[ -n "$DEBUG" ]]; then
-  set -x
-fi
+def main(argv=None):
 
-set -eu
+    parser = argparse.ArgumentParser( )
+    parser.add_argument('-p', '--prefix', required=True)
+    parser.add_argument('-t', '--tempdir', required=False)
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
-. "$DIR/setenv.sh"
+    if argv is None:
+        argv = parser.parse_args()
 
-cd $DIR
+    keys = [ 
+        'https://www.apache.org/dist/santuario/KEYS', 
+        'https://www.apache.org/dist/xerces/c/KEYS', 
+    ]
 
-if [ ! -e "$HOME/pkgsrc/distfiles/shibboleth-sp-2.4.3.tar.gz" ]; then
-  ./pmake www/shibboleth-sp
-  pkg_delete shibboleth-sp-2.4.3nb2
-  shibdir="$HOME/servers/shibboleth"
-  mkdir -p $shibdir
-  cd $shibdir
-  
-  tar zxf "$HOME/pkgsrc/distfiles/shibboleth-sp-2.4.3.tar.gz"
-  cd shibboleth-2.4.3
-  ./configure --prefix=$shibdir --with-xmltooling=$HOME/pkg --with-apxs22=$HOME/pkg/sbin/apxs
-  make install
+    gpg = gnupg.GPG()
 
-  echo "before you run apache; set these
-  export SHIBSP_PREFIX=$HOME/servers/shibboleth
-  export LD_LIBRARY_PATH=$HOME/servers/shibboleth/lib
-  UseCanonicalName On
-  ServerName app.example.org:443
-  also Include a copy of $HOME/servers/shibboleth/etc/shibboleth/apache22.config 
-  "
-else 
-  echo "looks like shibboleth might have been installed already; this is for a new machine"
-fi
+    # TODO: install the pgp/gpg keys
 
-if [ ! -e "$HOME/pkgsrc/distfiles/shibboleth-sp-2.4.3.tar.gz" ]; then
-  echo "must have upgraded pkgsrc..., now this scripts needs updating"
-  exit 1
-fi
+    # https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPLinuxSourceBuild
 
+    # log4shib: ./configure --disable-static --disable-doxygen --prefix=/opt/shibboleth-sp
+    # Xerces-C: ./configure --prefix=/opt/shibboleth-sp --disable-netaccessor-libcurl
+    # XML-Security-C: ./configure --without-xalan --disable-static --prefix=/opt/shibboleth-sp
+    # XMLTooling-C: ./configure --with-log4shib=/opt/shibboleth-sp --prefix=/opt/shibboleth-sp -C
+    # OpenSAML-C: ./configure --with-log4shib=/opt/shibboleth-sp --prefix=/opt/shibboleth-sp -C
+    # Shibboleth: ./configure --with-log4shib=/opt/shibboleth-sp --enable-apache-20 --with-apxs2=/usr/local/apache2/bin/apxs --prefix=/opt/shibboleth-sp
 
-# Copyright © 2013, Regents of the University of California
-# All rights reserved.
-# 
-# Redistribution and use in source and binary forms, with or without 
-# modification, are permitted provided that the following conditions are met:
-# 
-# - Redistributions of source code must retain the above copyright notice, 
-#   this list of conditions and the following disclaimer.
-# - Redistributions in binary form must reproduce the above copyright notice, 
-#   this list of conditions and the following disclaimer in the documentation 
-#   and/or other materials provided with the distribution.
-# - Neither the name of the University of California nor the names of its
-#   contributors may be used to endorse or promote products derived from this 
-#   software without specific prior written permission.
-#
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
-# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
-# ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE 
-# LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
-# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
-# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
-# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
-# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
-# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
-# POSSIBILITY OF SUCH DAMAGE.
+    packages = [
+        ( 'https://shibboleth.net/downloads/log4shib/latest/', 
+          'log4shib', 
+          './configure --disable-static --disable-doxygen --prefix={0}',
+        ),
+        ( 'https://xerces.apache.org/xerces-c/download.cgi', 
+          'xerces-c',
+          './configure --prefix={0} --disable-netaccessor-curl --disable-transcoder-gnuiconv',
+        ),
+        ( 'https://santuario.apache.org/download.html', 
+          'xml-security-c',
+          './configure --without-xalan --disable-static --prefix={0} --with-xerces={0} --with-openssl=/usr',
+        ),
+        ( 'https://shibboleth.net/downloads/c++-opensaml/latest/', 
+          'xmltooling',
+          './configure --with-log4shib={0} --prefix={0} -C --with-boost={1}'
+        ),
+        ( 'https://shibboleth.net/downloads/c++-opensaml/latest/', 
+          'opensaml',
+          './configure --with-log4shib={0} --prefix={0} -C --with-boost={1}/include'
+        ),
+        ( 'https://shibboleth.net/downloads/service-provider/latest/', 
+          'shibboleth-sp',
+          './configure --with-log4shib={0} --enable-apache-22 --with-apxs2={1}/sbin/apxs --prefix={0} --with-openssl=/usr --with-boost={1}/include'
+        ),
+    ]
+    if argv.tempdir:
+        tempfile.tempdir = argv.tempdir
+
+    tmp = tempfile.mkdtemp(prefix="shib_builder")
+    os.chdir(tmp)
+    pp(tmp)
+
+    os.environ['CFLAGS'] = os.environ['CPPFLAGS'] = "-I {0}/include".format(argv.prefix)
+    os.environ['LDFLAGS'] = "-L{0}/lib".format(argv.prefix)
+    resetldpath(argv.prefix)
+
+    for (url, package, configure) in packages:
+        archive = scraper(url, package, tmp, gpg)
+        os.chdir(tmp)
+        print subprocess.check_output(['tar', 'zxf', archive])
+        src_dir = archive[:-7] # strip off '.tar.gz'
+        print src_dir
+        os.chdir(src_dir)
+        # --with-boost=/registry/pkg/include
+        config_command = configure.format(argv.prefix, "/registry/pkg")
+        print config_command
+        subprocess.check_output(config_command.split())
+        subprocess.check_output(['make'])
+        subprocess.check_output(['make', 'install'])
+
+    shutil.rmtree(tmp)
+
+def scraper(url, package, tmp, gpg):
+    """grab links to the latest versions"""
+    # print "%s %s" % ( url, package )
+    doc = parse(urlopen(url)).getroot()
+    doc.make_links_absolute(url)
+    links = doc.xpath("//a[contains(@href,'%s')]/@href" % package, )
+    download_url = [i for i in links if i.endswith('.tar.gz')][0]
+    # sometimes the download link does not let you download
+    if download_url.startswith('http://www.apache.org/dyn/closer.cgi'):
+        doc2 = parse(urlopen(download_url)).getroot()
+        download_url = doc2.xpath("//a[contains(@href,'%s')][1]/@href" % package, )[0]
+    # pp(download_url)
+    archive = downloadChunks( download_url , tmp)
+    md5_file = downloadChunks( [i for i in links if i.endswith('tar.gz.md5')][0], tmp)
+    checksum = md5sum(archive)
+    # make sure the checksum is correct
+    print checksum
+    assert(checksum in open(md5_file).read())
+    pgp_file = downloadChunks( [i for i in links if i.endswith('tar.gz.asc')][0], tmp)
+    # verfied = gpg.verify_file(pgp_file, open(archvie,"rb")) # can't get this to work, creates command with args out of order
+    stdout = subprocess.check_call(["gpg", "--verify", pgp_file, archive ])
+    return archive
+
+def md5sum(filename):
+    # http://stackoverflow.com/a/7829658/1763984
+    with open(filename, mode='rb') as f:
+        d = hashlib.md5()
+        for buf in iter(partial(f.read, 128), b''):
+            d.update(buf)
+    return d.hexdigest()
+
+def resetldpath(addition):
+    ldd_path = ""
+    path = []
+    if os.environ.get('LD_LIBRARY_PATH'):
+        ldd_path = os.environ['LD_LIBRARY_PATH']
+        path = ldd_path.split(':')
+    
+    path.insert(0, "{0}/lib".format(addition))
+    
+    if len(path) > 1:
+        ldd_path = ":".join(path)
+    else:
+        ldd_path = path[0]
+
+    os.environ['LD_LIBRARY_PATH'] = ldd_path
+
+def downloadChunks(url, temp_path):
+    """Helper to download large files https://gist.github.com/gourneau/1430932"""
+ 
+    try:
+         
+        req = urllib.urlopen(url)  # urllib works with normal file paths
+        # total_size = int(req.info().getheader('Content-Length').strip())
+        baseFile = os.path.basename(req.url)
+        file = os.path.join(temp_path,baseFile)
+        downloaded = 0
+        CHUNK = 256 * 10240
+        with open(file, 'wb') as fp:
+            while True:
+                chunk = req.read(CHUNK)
+                downloaded += len(chunk)
+                # print math.floor( (downloaded / total_size) * 100 )
+                if not chunk: break
+                fp.write(chunk)
+    except urllib2.HTTPError, e:
+        print "HTTP Error:",e.code , url
+        return False
+    except urllib2.URLError, e:
+        print "URL Error:",e.reason , url
+        return False
+ 
+    return file
+
+# main() idiom for importing into REPL for debugging 
+if __name__ == "__main__":
+    sys.exit(main())
+
+"""
+Copyright © 2013, Regents of the University of California
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:
+
+- Redistributions of source code must retain the above copyright notice, 
+  this list of conditions and the following disclaimer.
+- Redistributions in binary form must reproduce the above copyright notice, 
+  this list of conditions and the following disclaimer in the documentation 
+  and/or other materials provided with the distribution.
+- Neither the name of the University of California nor the names of its
+  contributors may be used to endorse or promote products derived from this 
+  software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE 
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN 
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
+POSSIBILITY OF SUCH DAMAGE.
+"""
