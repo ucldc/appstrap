@@ -197,18 +197,14 @@
    <field name="source" type="text_general" indexed="true" stored="true" multiValued="true"/>
    <field name="subject" type="text_general" indexed="true" stored="true" multiValued="true"/>
    <field name="type" type="text_general" indexed="true" stored="true" multiValued="true"/>
-   <!-- non-tokenized version of manufacturer to make it easier to sort or group
-        results by manufacturer.  copied from "manu" via copyField -->
-<!--
-   <field name="manu_exact" type="string" indexed="true" stored="false"/>
-   -->
+   <!-- will point to extracted thumbnail eventually -->
+   <field name="url_thumbnail" type="text_general" indexed="true" stored="true"/>
+
+   <field name="date_facet" type="date" indexed="true" stored="true" multiValued="true"/>
 
    <field name="payloads" type="payloads" indexed="true" stored="true"/>
 
    <field name="_version_" type="long" indexed="true" stored="true"/>
-
-   <!-- will point to extracted thumbnail eventually -->
-   <field name="url_thumbnail" type="text_general" indexed="true" stored="true"/>
 
    <!--
      Some fields such as popularity and manu_exact could be modified to
