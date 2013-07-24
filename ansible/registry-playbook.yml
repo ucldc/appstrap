@@ -27,11 +27,11 @@
     - name: make sure DocumentRoot exists or apache will cry
       action: file path=~/webroot/https-registry state=directory
     - name: generate apachectl
-      action: template src=templates/registry-http/apachectl.j2 dest=~/servers/httpd/bin/apachectl
+      action: template src=templates/shib-http/apachectl.j2 dest=~/servers/httpd/bin/apachectl
     - name: make apachectl a+x
       shell: chmod a+x ~/servers/httpd/bin/apachectl
     - name: generate httpd conf
-      action: template src=templates/registry-http/httpd.conf.j2 dest=~/servers/httpd/conf/httpd.conf
+      action: template src=templates/shib-http/httpd.conf.j2 dest=~/servers/httpd/conf/httpd.conf
     - name: httpd conf magic its the magic number
       action: copy src=~/pkg/etc/httpd/magic dest=~/servers/httpd/conf/magic
     - name: httpd config mime.types who does not like MIME?
@@ -39,7 +39,7 @@
     - name: generate shibboleth2.xml
       action: template src=templates/shibboleth/shibboleth2.xml.j2  dest=~/servers/shibboleth/etc/shibboleth/shibboleth2.xml
     - name: generate .monitrc
-      action: template src=templates/registry-http/monitrc.j2  dest=~/.monitrc
+      action: template src=templates/shib-http/monitrc.j2  dest=~/.monitrc
     - name: 700 for .monitrc
       shell: chmod 700 ~/.monitrc
     - name: yo, monit needs a log file
