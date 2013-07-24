@@ -1,0 +1,30 @@
+#
+### BEGIN INIT INFO
+# Provides: monit
+# Required-Start: $network $syslog
+# Required-Stop:
+# Default-Start: 2 3 5
+# Default-Stop: 0 1 2 6
+# Description: Start and stop monit and monitored services
+### END INIT INFO
+#
+case "$1" in
+start)
+echo
+echo ">>> Loading monit..."
+echo
+/bin/su solr -c "{{ role_home_dir.stdout }}/pkg/bin/monit"
+sleep 30
+/bin/su solr -c "{{ role_home_dir.stdout }}/pkg/bin/monit start all"
+#
+#
+;;
+stop)
+echo
+echo ">>> Stopping monit..."
+echo
+/bin/su solr -c "{{ role_home_dir.stdout }}/pkg/bin/monit stop all"
+/bin/su solr -c "{{ role_home_dir.stdout }}/pkg/bin/monit quit"
+;;
+esac
+exit 0

@@ -152,6 +152,7 @@
         NOTE: This field is not indexed by default, since it is also copied to "text"
         using copyField below. This is to save space. Use this field for returning and
         highlighting document content. Use the "text" field to search the content. -->
+   <!-- For oai harvest, this is empty -->
    <field name="content" type="text_general" indexed="false" stored="true" multiValued="true"/>
    
 
@@ -161,21 +162,21 @@
 
    <!-- catchall text field that indexes tokens both normally and in reverse for efficient
         leading wildcard queries. -->
+<!-- TODO: DO i need to do something here?-->
    <field name="text_rev" type="text_general_rev" indexed="true" stored="false" multiValued="true"/>
 
+<!-- timestamp on Solr document -->
+<field name="timestamp" type="date" indexed="true" stored="true" default="NOW" />
+
    <!-- non-tokenized versions of terms to for sorting and/or facets -->
-   <field name="title_exact" type="string" indexed="true" stored="false"/>
-   <field name="subject_facet" type="string" indexed="true" stored="false" multiValued="true"/>
    <field name="campus" type="string" indexed="true" stored="false" required="true" multiValued="true"/>
    <field name="collection_name" type="string" indexed="true" stored="false" required="true"/>
 
      <!-- treat dates as string or date ? -->
-   <field name="label" type="string" indexed="true" stored="false"/> 
+   <!-- TODO: get these from OAI -->
    <field name="created" type="date" indexed="true" stored="true"/> 
    <field name="last_modified" type="date" indexed="true" stored="true" /> 
-   <field name="owner" type="string" indexed="true" stored="true" multiValued="true"/> 
-   <field name="state" type="string" indexed="true" stored="false"/> 
-   <field name="dsids" type="string" indexed="true" stored="true" multiValued="true"/> 
+
    <!-- explicitly define string-variants of date fields for wildcard searching -->
    <field name="created_s" type="string" indexed="true" stored="true"/> 
    <field name="last_modified_s" type="string" indexed="true" stored="false" /> 
@@ -196,11 +197,10 @@
    <field name="source" type="text_general" indexed="true" stored="true" multiValued="true"/>
    <field name="subject" type="text_general" indexed="true" stored="true" multiValued="true"/>
    <field name="type" type="text_general" indexed="true" stored="true" multiValued="true"/>
-   <!-- non-tokenized version of manufacturer to make it easier to sort or group
-        results by manufacturer.  copied from "manu" via copyField -->
-<!--
-   <field name="manu_exact" type="string" indexed="true" stored="false"/>
-   -->
+   <!-- will point to extracted thumbnail eventually -->
+   <field name="url_thumbnail" type="text_general" indexed="true" stored="true"/>
+
+   <field name="date_facet" type="date" indexed="true" stored="true" multiValued="true"/>
 
    <field name="payloads" type="payloads" indexed="true" stored="true"/>
 
@@ -294,17 +294,10 @@
         is added to the index.  It's used either to index the same field differently,
         or to add multiple fields to the same field for easier/faster searching.  -->
 
-   <!--
-   <copyField source="title" dest="title_exact"/>
-   -->
-   <!-- copy text fields into string fields for faceting -->
-   <copyField source="subject" dest="subject_facet"/> 
 
    <!-- fields that should be included in the default search -->
-   <!--    top-level object properties: label, pid, owner -->
+   <!--    top-level object properties -->
    <copyField source="id" dest="text"/>
-   <copyField source="label" dest="text"/>
-   <copyField source="owner" dest="text"/>
    <!-- copy datetime fields to string variants for wildcard searching -->
    <copyField source="created" dest="created_s"/>
    <copyField source="last_modified" dest="last_modified_s"/>
@@ -325,31 +318,12 @@
    <copyField source="subject" dest="text"/>
    <copyField source="type" dest="text"/>
 
-<!--
-   <copyField source="name" dest="text"/>
-   <copyField source="manu" dest="text"/>
-   <copyField source="features" dest="text"/>
-   <copyField source="includes" dest="text"/>
-   <copyField source="manu" dest="manu_exact"/>
--->
-
    <!-- Copy the price into a currency enabled field (default USD) -->
    <!--
    <copyField source="price" dest="price_c"/>
    -->
 
-   <!-- Text fields from SolrCell to search by default in our catch-all field -->
-<!--
-   <copyField source="title" dest="text"/>
-   <copyField source="author" dest="text"/>
-   <copyField source="description" dest="text"/>
-   <copyField source="keywords" dest="text"/>
-   <copyField source="content" dest="text"/>
-   <copyField source="content_type" dest="text"/>
-   <copyField source="resourcename" dest="text"/>
-   <copyField source="url" dest="text"/>
--->
-
+   <!-- copy text fields into string fields for faceting -->
    <!-- Create a string version dc fields for faceting -->
    <copyField source="title" dest="title_ss"/> 
    <copyField source="contributor" dest="contributor_ss"/> 

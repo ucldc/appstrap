@@ -13,3 +13,7 @@ fi
 if [ -f ~/.tomcat-setenv.bash ]; then
 	. ~/.tomcat-setenv.bash
 fi
+
+if [ -f ~/.bash-aliases ]; then
+	. ~/.bash-aliases
+fi
