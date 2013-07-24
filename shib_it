@@ -21,9 +21,14 @@ def main(argv=None):
     parser.add_argument('-p', '--prefix', required=True)
     parser.add_argument('-o', '--other-prefix', required=True)
     parser.add_argument('-t', '--tempdir', required=False)
+    parser.add_argument('-f', '--force', action='store_true', required=False)
 
     if argv is None:
         argv = parser.parse_args()
+
+    if os.path.isfile(os.path.join(argv.prefix,'sbin','shibd')) and not argv.force:
+        print "been done? use -f/--force to force rebuild"
+        exit(0)
 
     keys = [ 
         'https://www.apache.org/dist/santuario/KEYS', 
