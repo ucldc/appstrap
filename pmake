@@ -25,7 +25,9 @@ if [ ! -e "$HOME/pkgsrc" ]; then
     echo "installing pkgsrc"
     cd
     git clone git://github.com/jsonn/pkgsrc.git
-    cd pkgsrc/bootstrap
+    cd pkgsrc
+    git checkout origin/pkgsrc_2013Q2
+    cd bootstrap
     tag=`git rev-parse --short --verify HEAD`  # http://stackoverflow.com/a/949391/1763984
     ./bootstrap --prefix "$HOME/pkgbld/$tag" --pkgdbdir "$HOME/pkgbld/$tag/var/db/pkg" --unprivileged
     cd

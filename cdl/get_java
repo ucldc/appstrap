@@ -24,6 +24,7 @@ fi
 
 if [[ -e "$HOME/java" ]]; then
     echo "$HOME/java exists, been done?"
+    exit 0
 fi
 
 mkdir -p $HOME/java

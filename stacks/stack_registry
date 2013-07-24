@@ -14,7 +14,14 @@ cd $DIR
 
 . stack_run.sh  # gives us `stack_run_batch`
 
-../shib_it
+export LD_LIBRARY_PATH="${HOME}/pkg/lib:${HOME}/servers/shibboleth/lib"
+
+stack_run_batch "../pmake" registry.pkgsrc.txt
+pip install lxml
+if [[! -e ${HOME}/pkg/bin/pyhton ]]; then
+    ln -s ${HOME}/pkg/bin/python2.7 ${HOME}/pkg/bin/python
+fi
 ../cdl/get_java
 ./monit_binary
-stack_run_batch "../pmake" registry.pkgsrc.txt
+mkdir -p ${HOME}/tmp
+../shib_it -p ${HOME}/servers/shibboleth -o ${HOME}/pkg -t ${HOME}/tmp

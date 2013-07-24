@@ -11,7 +11,7 @@ import urllib2
 import urllib
 import hashlib
 from functools import partial
-import gnupg
+# import gnupg
 import subprocess
 import shutil
 
@@ -19,6 +19,7 @@ def main(argv=None):
 
     parser = argparse.ArgumentParser( )
     parser.add_argument('-p', '--prefix', required=True)
+    parser.add_argument('-o', '--other-prefix', required=True)
     parser.add_argument('-t', '--tempdir', required=False)
 
     if argv is None:
@@ -29,7 +30,8 @@ def main(argv=None):
         'https://www.apache.org/dist/xerces/c/KEYS', 
     ]
 
-    gpg = gnupg.GPG()
+    #gpg = gnupg.GPG()
+    gpg = ""
 
     # TODO: install the pgp/gpg keys
 
@@ -78,6 +80,7 @@ def main(argv=None):
     os.environ['CFLAGS'] = os.environ['CPPFLAGS'] = "-I {0}/include".format(argv.prefix)
     os.environ['LDFLAGS'] = "-L{0}/lib".format(argv.prefix)
     resetldpath(argv.prefix)
+    #resetldpath(argv.prefix, argv.other_prefix)
 
     for (url, package, configure) in packages:
         archive = scraper(url, package, tmp, gpg)
@@ -87,7 +90,7 @@ def main(argv=None):
         print src_dir
         os.chdir(src_dir)
         # --with-boost=/registry/pkg/include
-        config_command = configure.format(argv.prefix, "/registry/pkg")
+        config_command = configure.format(argv.prefix, argv.other_prefix)
         print config_command
         subprocess.check_output(config_command.split())
         subprocess.check_output(['make'])
