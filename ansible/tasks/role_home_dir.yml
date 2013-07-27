@@ -1,0 +1,4 @@
+---
+- name: figure out the home directory
+  shell: "getent passwd registry | cut -d: -f6"
+  register: role_home_dir
