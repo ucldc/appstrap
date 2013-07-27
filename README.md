@@ -5,13 +5,20 @@ utilities to bootstrap your app stack
 
 Consistent, reproducible computing environments.  In a unix shell account of an unprivileged user.
 
-"role" account as per standard operating procedure is a unix shell account.
+Currently a hybrid of [pkgsrc](http://www.pkgsrc.org) and
+[ansible](http://www.ansibleworks.com/docs/) with
+[bash](http://www.tldp.org/LDP/abs/html/) and
+[python](http://docs.python.org/2/)
+
+this project is under active development but is not yet used in production, and this checkout may not be stable
+
+"role" account as per CDL standard operating procedure is a unix shell account.
 
 To set up an application stack in a new or "distclean" role account, first checkout this repository:
 
 ```bash
 cd
-git clone https://github.com/tingletech/appstrap.git
+git clone https://github.com/ucldc/appstrap.git
 ```
 
 Then; run one of scripts to set up your application stack:
@@ -21,7 +28,7 @@ Then; run one of scripts to set up your application stack:
   * `~/appstack/stack_registry`
   * `~/appstack/stack_solr`
 
-See also https://github.com/tingletech/appstrap/wiki
+See also https://github.com/ucldc/appstrap/wiki
 
 [pkgsrc](http://www.pkgsrc.org) where have you been all my life?
 So glad to finally find this from NetBSD -- it works on Linux too!
