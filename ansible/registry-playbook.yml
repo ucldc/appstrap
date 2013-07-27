@@ -40,6 +40,8 @@
       action: file path=~/pkg/var/run state=directory
     - name: generate shibboleth2.xml
       action: template src=templates/shibboleth/shibboleth2.xml.j2  dest=~/servers/shibboleth/etc/shibboleth/shibboleth2.xml
+    - name: get incommons public key
+      command: curl https://wayf.incommonfederation.org/bridge/certs/incommon.pem > ~/servers/shibboleth/etc/shibboleth/incommon.pem creates=~/servers/shibboleth/etc/shibboleth/incommon.pem
     - name: generate .monitrc
       action: template src=templates/shib-http/monitrc.j2  dest=~/.monitrc
     - name: 700 for .monitrc
