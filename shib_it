@@ -104,7 +104,11 @@ def main(argv=None):
     shutil.rmtree(tmp)
 
 def scraper(url, package, tmp, gpg):
-    """grab links to the latest versions"""
+    """find and validate source tar.gz with md5 and pgp signatures
+    searches for links to the 'package' on the 'url', downloads the .tar.gz, .tar.gz.md5, and .tar.gz.asc
+    uses the .tar.gz.md5 and the .tar.gz.asc to validate the .tar.gz
+    returns the path to the .tar.gz file inside of 'tmp'
+    """
     # print "%s %s" % ( url, package )
     doc = parse(urlopen(url)).getroot()
     doc.make_links_absolute(url)
