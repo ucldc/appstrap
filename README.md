@@ -119,8 +119,6 @@ build them once per each of -dev, -stg, and prod.
 
 It has stable branches that are tagged every quarter of the year, and the current (2013-05-30) release is their 50th.
 
-## TODO scripts that set up httpd and tomcat servers from templates
-
 ## role_test_certs
 Create test certificates for use with ssl/https
 
