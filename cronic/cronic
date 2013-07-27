@@ -1,8 +1,9 @@
 #!/bin/bash
 
-# based on Cronic v2 - cron job report wrapper
+# based on Cronic v2 - cron job report wrapper downloaded from http://habilis.net/cronic/cronic
 # Copyright 2007 Chuck Houpt
-# modified by BCT 2008 to use voro logging scheme
+# Public Domain CC0: http://creativecommons.org/publicdomain/zero/1.0/
+# modified by BCT 2008 to use voro logging scheme, tweaked in 2013 for appstrap
 
 if [[ -n "$DEBUG" ]]; then 
   set -x
