@@ -19,7 +19,7 @@ Ususally, you won't run this directly, but from a cron/at job.
 ```
 
 ### `~/appstrap/cronic/spinner` command
-Prints a spinning pattern on the screen to keep a terminal connection from timing out.
+Prints a spinning pattern on the screen to keep a terminal connection from timing out. Based on a question in this [bash FAQ](http://mywiki.wooledge.org/BashFAQ/034)
 
 ### `~/appstrap/cronic/log` directory
 STDOUT and STDERR from commands run with `atnow`/`cronic`
