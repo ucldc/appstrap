@@ -1,1 +1,30 @@
 {% extends "httpd.conf.j2" %}
+
+{% block appstrap %}
+LoadModule wsgi_module lib/httpd/mod_wsgi.so
+<Location "/{{ ansible_user_id }}">
+  AuthType shibboleth
+  ShibRequestSetting requireSession 1
+  ShibUseHeaders On
+  require valid-user
+</Location>
+
+Alias /ds/ {{ role_home_dir.stdout }}/code/js-embedded-discovery/target/
+AliasMatch ^/([^/]*\.css) {{ role_home_dir.stdout }}/webroot/styles/$1
+
+<Directory {{ role_home_dir.stdout }}/webroot>
+Order deny,allow
+Allow from all
+</Directory>
+
+<Directory {{ role_home_dir.stdout }}/code/js-embedded-discovery/target>
+Order deny,allow
+Allow from all
+</Directory>
+
+WSGIDaemonProcess registry processes=2 threads=15
+WSGIProcessGroup registry
+
+WSGIScriptAlias /registry {{ role_home_dir.stdout }}/code/avram/wsgi.py
+
+{% endblock %}

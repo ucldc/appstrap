@@ -89,7 +89,7 @@ ServerAdmin you@example.com
 
 #ServerName www.example.com:80
 
-DocumentRoot "{{ role_home_dir.stdout }}/webroot/https-{{ ansible_user_id }}"
+DocumentRoot "{{ role_home_dir.stdout }}/webroot
 
 #
 <Directory />
@@ -100,7 +100,7 @@ DocumentRoot "{{ role_home_dir.stdout }}/webroot/https-{{ ansible_user_id }}"
 </Directory>
 
 #
-<Directory "{{ role_home_dir.stdout }}/webroot/https-{{ ansible_user_id }}">
+<Directory "{{ role_home_dir.stdout }}/webroot">
     Options Indexes FollowSymLinks
     AllowOverride None
     Order allow,deny
@@ -123,6 +123,9 @@ LogLevel warn
 <IfModule log_config_module>
     LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combined
     LogFormat "%h %l %u %t \"%r\" %>s %b" common
+    LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %T" combinedplus
+    LogFormat "%h %v %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" \"%{Cookie}i\"" combinedcookie
+    LogFormat "%D  \"%r\" %>s %B %t" responsetime
     <IfModule logio_module>
       # You need to enable mod_logio.c to use %I and %O
       LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %I %O" combinedio
@@ -250,6 +253,7 @@ LoadModule mod_shib {{ role_home_dir.stdout }}/servers/shibboleth/lib/shibboleth
 # enable Shibboleth but not specify any session/access requirements
 # use "require shibboleth".
 #
+{% block appstrap %}
 <Location /secure>
   AuthType shibboleth
   ShibRequestSetting requireSession 1
@@ -263,13 +267,16 @@ ProxyPass /{{ ansible_user_id }} ajp://{{ ansible_default_ipv4.address }}:8009/{
         ShibUseHeaders On
         require valid-user
 </Location>
+{% endblock %}
 
 #   General setup for the virtual host
-DocumentRoot "{{ role_home_dir.stdout }}/webroot/https-{{ ansible_user_id }}"
+DocumentRoot "{{ role_home_dir.stdout }}/webroot"
 ServerName {{ ansible_fqdn }}:443
 ServerAdmin oacops@cdlib.org
-ErrorLog "{{ role_home_dir.stdout }}/servers/httpd/logs/ssl_error_log"
-TransferLog "{{ role_home_dir.stdout }}/servers/httpd/logs/ssl_access_log"
+TransferLog "|exec {{ role_home_dir.stdout }}/pkg/sbin/cronolog --symlink {{ role_home_dir.stdout }}/servers/httpd/logs/ssl_access_log {{ role_home_dir.stdout }}/servers/httpd/logs/ssl_access_log.%Y.%m.%d"
+ErrorLog  "|exec {{ role_home_dir.stdout }}/pkg/sbin/cronolog --symlink {{ role_home_dir.stdout }}/servers/httpd/logs/error {{ role_home_dir.stdout }}/servers/httpd/logs/error.%Y.%m.%d"
+CustomLog "|exec {{ role_home_dir.stdout }}/pkg/sbin/cronolog --symlink {{ role_home_dir.stdout }}/servers/httpd/logs/access {{ role_home_dir.stdout }}/servers/httpd/logs/access.%Y.%m.%d" combinedcookie
+CustomLog "|exec {{ role_home_dir.stdout }}/pkg/sbin/cronolog --symlink {{ role_home_dir.stdout }}/servers/httpd/logs/response-time {{ role_home_dir.stdout }}/servers/httpd/logs/response-time.%Y.%m.%d" responsetime
 
 #   SSL Engine Switch:
 #   Enable/Disable SSL for this virtual host.
@@ -305,14 +312,14 @@ SSLCipherSuite HIGH:MEDIUM:!aNULL:!MD5
 #   in mind that if you have both an RSA and a DSA certificate you
 #   can configure both in parallel (to also allow the use of DSA
 #   ciphers, etc.)
-SSLCertificateFile "{{ role_home_dir.stdout }}/certs/test.crt"
+SSLCertificateFile "{{ role_home_dir.stdout }}/certs/this.crt"
 
 #   Server Private Key:
 #   If the key is not combined with the certificate, use this
 #   directive to point at the key file.  Keep in mind that if
 #   you've both a RSA and a DSA private key you can configure
 #   both in parallel (to also allow the use of DSA ciphers, etc.)
-SSLCertificateKeyFile "{{ role_home_dir.stdout }}/certs/test.key"
+SSLCertificateKeyFile "{{ role_home_dir.stdout }}/certs/this.key"
 
 #   Server Certificate Chain:
 #   Point SSLCertificateChainFile at a file containing the

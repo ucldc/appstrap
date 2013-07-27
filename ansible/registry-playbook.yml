@@ -1,6 +1,6 @@
 ---
 # ^^^ YAML documents must begin with the document separator "---"
-# ansible playbook for initial nuxeo configuration
+# ansible playbook for initial configuration
 # Notice the minus on the line below -- this starts the playbook's record
 # in the YAML document. Only one playbook is allowed per YAML file.
   - hosts: localhost
@@ -36,6 +36,8 @@
       action: copy src=~/pkg/etc/httpd/magic dest=~/servers/httpd/conf/magic
     - name: httpd config mime.types who does not like MIME?
       action: copy src=~/pkg/etc/httpd/mime.types dest=~/servers/httpd/conf/mime.types
+    - name: var/run for wsgi sockets
+      action: file path=~/pkg/var/run state=directory
     - name: generate shibboleth2.xml
       action: template src=templates/shibboleth/shibboleth2.xml.j2  dest=~/servers/shibboleth/etc/shibboleth/shibboleth2.xml
     - name: generate .monitrc
@@ -44,3 +46,9 @@
       shell: chmod 700 ~/.monitrc
     - name: yo, monit needs a log file
       action: file path=~/appstrap/monit/log state=directory
+    - name: clone registry source code
+      action: git repo=https://github.com/ucldc/avram dest=~/code/avram
+    - name: clone embedded discovery service
+      action: git repo=https://github.com/ucldc/js-embedded-discovery.git dest=~/code/js-embedded-discovery
+    - name: bulid shibboleth EDS
+      command: ./build.sh creates=~/code/js-embedded-discovery/target chdir=~/code/js-embedded-discovery/build 
