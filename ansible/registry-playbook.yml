@@ -43,9 +43,7 @@
     - name: get incommons public key
       command: curl https://wayf.incommonfederation.org/bridge/certs/incommon.pem > ~/servers/shibboleth/etc/shibboleth/incommon.pem creates=~/servers/shibboleth/etc/shibboleth/incommon.pem
     - name: generate .monitrc
-      action: template src=templates/shib-http/monitrc.j2  dest=~/.monitrc
-    - name: 700 for .monitrc
-      shell: chmod 700 ~/.monitrc
+      template: src=templates/shib-http/monitrc.j2  dest=~/.monitrc mode=700
     - name: yo, monit needs a log file
       action: file path=~/appstrap/monit/log state=directory
     - name: clone registry source code
