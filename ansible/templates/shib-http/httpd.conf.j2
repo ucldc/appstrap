@@ -254,19 +254,6 @@ LoadModule mod_shib {{ role_home_dir.stdout }}/servers/shibboleth/lib/shibboleth
 # use "require shibboleth".
 #
 {% block appstrap %}
-<Location /secure>
-  AuthType shibboleth
-  ShibRequestSetting requireSession 1
-  require valid-user
-</Location>
-
-ProxyPass /{{ ansible_user_id }} ajp://{{ ansible_default_ipv4.address }}:8009/{{ ansible_user_id }}
-<Location "/{{ ansible_user_id }}">
-        AuthType shibboleth
-        ShibRequestSetting requireSession 1
-        ShibUseHeaders On
-        require valid-user
-</Location>
 {% endblock %}
 
 #   General setup for the virtual host

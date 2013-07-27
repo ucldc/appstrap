@@ -31,7 +31,7 @@
     - name: make apachectl a+x
       shell: chmod a+x ~/servers/httpd/bin/apachectl
     - name: generate httpd conf
-      action: template src=templates/shib-http/httpd.conf.j2 dest=~/servers/httpd/conf/httpd.conf
+      action: template src=templates/shib-http/nuxeo-httpd.conf.j2 dest=~/servers/httpd/conf/httpd.conf
     - name: httpd conf magic its the magic number
       action: copy src=~/pkg/etc/httpd/magic dest=~/servers/httpd/conf/magic
     - name: httpd config mime.types who does not like MIME?
