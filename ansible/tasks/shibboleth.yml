@@ -27,6 +27,10 @@
 - name: get incommons public key
   command: curl https://wayf.incommonfederation.org/bridge/certs/incommon.pem > ~/servers/shibboleth/etc/shibboleth/incommon.pem creates=~/servers/shibboleth/etc/shibboleth/incommon.pem
 - name: clone embedded discovery service
-  git: repo=https://github.com/ucldc/js-embedded-discovery.git dest=~/code/js-embedded-discovery
+  git: repo=https://github.com/ucldc/js-embedded-discovery.git dest=~/code/js-embedded-discovery version=ucldc-eds
 - name: bulid shibboleth EDS
   command: ./build.sh creates=~/code/js-embedded-discovery/target chdir=~/code/js-embedded-discovery/build 
+- name: create directory for uc shibboleth logo
+  file: path=~/webroot/Logos state=directory
+- name: get logo for use with the EDS
+  get_url: url=http://dsc-aws1.cdlib.org/Logos/uc_wordmark_stacked_gray_90_64.png dest=~/webroot/Logos/uc_wordmark_stacked_gray_90_64.png 
