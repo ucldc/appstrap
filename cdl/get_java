@@ -22,8 +22,8 @@ else
   onAws='1'
 fi 
 
-if [[ -e "$HOME/java" ]]; then
-    echo "$HOME/java exists, been done?"
+if [[ -e "$HOME/java/jdk-7u25-linux-x64.tar.gz" ]]; then
+    echo "$HOME/java/jdk-7u25-linux-x64.tar.gz exists, been done?"
     exit 0
 fi
 
@@ -31,14 +31,21 @@ mkdir -p $HOME/java
 
 # do we even really need sun java?  (except for XTF)
 
-if [[ ! -e $HOME/jdk-7u21-linux-x64.tar.gz ]] && [[ ! -e java7 ]]; then
+java_version="jdk-7u25"
+java_dir="jdk1.7.0_25"
+
+if [[ ! -e $HOME/${java_version}-linux-x64.tar.gz ]] && [[ ! -e java7 ]]; then
   if [[ $onAws ]]; then 
-    aws s3 get-object --bucket dsc-internal-java --key java7/jdk-7u21-linux-x64.tar.gz $HOME/java/jdk-7u21-linux-x64.tar.gz
+    aws s3 get-object --bucket dsc-internal-java --key java7/${java_version}-linux-x64.tar.gz $HOME/java/${java_version}-linux-x64.tar.gz
   else
-    curl http://mvn.cdlib.org/content/repositories/thirdparty/java/jdk/7u21-linux-x64/jdk-7u21-linux-x64.tar.gz \
-      > $HOME/java/jdk-7u21-linux-x64.tar.gz
+    curl http://dsc-aws1.cdlib.org/Java/${java_version}-linux-x64.tar.gz \
+      > $HOME/java/${java_version}-linux-x64.tar.gz
   fi
   cd $HOME/java
-  tar zxf jdk-7u21-linux-x64.tar.gz
-  ln -s jdk1.7.0_21 java7
+  tar zxf ${java_version}-linux-x64.tar.gz
+  # -h it test for symbolic link http://tldp.org/LDP/abs/html/fto.html
+  if [[ -h java7 ]]; then
+    rm java7
+  fi
+  ln -s ${java_dir} java7
 fi
