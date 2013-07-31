@@ -2,11 +2,15 @@
 
 {% block appstrap %}
 LoadModule wsgi_module lib/httpd/mod_wsgi.so
-<Location "/registry/admin">
+<Location "/admin">
   AuthType shibboleth
   ShibRequestSetting requireSession 1
   require valid-user
 </Location>
+
+<Location /Shibboleth.sso> 
+  SetHandler default-handler 
+</Location> 
 
 RedirectMatch /ds$ /ds/
 RedirectMatch /ds/DiscoFeed$ /Shibboleth.sso/DiscoFeed
@@ -14,10 +18,10 @@ Alias /ds/ {{ role_home_dir.stdout }}/code/js-embedded-discovery/target/
 AliasMatch ^/([^/]*\.css) {{ role_home_dir.stdout }}/webroot/styles/$1
 
 Alias /static/ {{ role_home_dir.stdout }}/code/avram/admin_bootstrap/static/
+Alias /Logos/ {{ role_home_dir.stdout }}/webroot/Logos/
 
-RedirectMatch ^/$ /registry/api/v1/
-RedirectMatch ^/registry/api$ /registry/api/v1/
-RedirectMatch ^/registry/api/$ /registry/api/v1/
+RedirectMatch ^/api$ /api/v1/
+RedirectMatch ^/api/$ /api/v1/
 
 <Directory {{ role_home_dir.stdout }}/webroot>
   Order deny,allow
@@ -29,7 +33,7 @@ RedirectMatch ^/registry/api/$ /registry/api/v1/
   Allow from all
 </Directory>
 
-<Directory /apps/registry/code/avram/admin_bootstrap/static>
+<Directory {{ role_home_dir.stdout }}/code/avram/admin_bootstrap/static>
   Order deny,allow
   Allow from all
 </Directory>
@@ -37,7 +41,7 @@ RedirectMatch ^/registry/api/$ /registry/api/v1/
 WSGIDaemonProcess registry processes=2 threads=15 python-path=/apps/registry/code/avram/lib/python2.7/site-packages
 WSGIProcessGroup registry
 
-WSGIScriptAlias /registry {{ role_home_dir.stdout }}/code/avram/collection_registry/wsgi.py
+WSGIScriptAlias / {{ role_home_dir.stdout }}/code/avram/collection_registry/wsgi.py
 
 <Directory /apps/registry/code/avram/collection_registry>
   Order allow,deny
