@@ -9,6 +9,12 @@ import hashlib
 from functools import partial
 # import gnupg
 import subprocess
+import tempfile
+
+def key_import(urls, tmp):
+    for url in urls:
+        keys = downloadChunks(url , tmp)
+        subprocess.check_call(["gpg", "--import", keys])
 
 def scraper(url, package, tmp):
     """find and validate source tar.gz with md5 and pgp signatures
