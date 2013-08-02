@@ -170,7 +170,8 @@
 
    <!-- non-tokenized versions of terms to for sorting and/or facets -->
    <field name="campus" type="string" indexed="true" stored="false" required="true" multiValued="true"/>
-   <field name="collection_name" type="string" indexed="true" stored="false" required="true"/>
+   <field name="collection_name" type="string" indexed="true" stored="true" required="true"/>
+   <field name="repository" type="string" indexed="true" stored="false" required="true" multiValued="true"/>
 
      <!-- treat dates as string or date ? -->
    <!-- TODO: get these from OAI -->
