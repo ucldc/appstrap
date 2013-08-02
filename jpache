@@ -11,6 +11,17 @@ import shutil
 from staller.staller import scraper, key_import
 
 def main(argv=None):
+    packages = [
+        ( 'http://ant.apache.org/bindownload.cgi', 
+          'apache-ant', 
+        ),
+        ( 'http://maven.apache.org/download.cgi', 
+          'apache-maven',
+        ),
+        ( 'http://tomcat.apache.org/download-70.cgi', 
+          'apache-tomcat',
+        ),
+    ]
 
     parser = argparse.ArgumentParser( )
     parser.add_argument('-p', '--prefix', required=True)
@@ -30,17 +41,6 @@ def main(argv=None):
         'https://www.apache.org/dist/tomcat/tomcat-connectors/KEYS'
     ]
 
-    packages = [
-        ( 'http://ant.apache.org/bindownload.cgi', 
-          'apache-ant', 
-        ),
-        ( 'http://maven.apache.org/download.cgi', 
-          'apache-maven',
-        ),
-        ( 'http://tomcat.apache.org/download-70.cgi', 
-          'apache-tomcat',
-        ),
-    ]
     if argv.tempdir:
         tempfile.tempdir = argv.tempdir
 
