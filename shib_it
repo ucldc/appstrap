@@ -1,19 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
 
-from lxml.html import parse
 import sys, os
 import argparse
 from pprint import pprint as pp
-from urllib2 import urlopen
 import tempfile
 import urllib2
 import urllib
-import hashlib
-from functools import partial
 # import gnupg
 import subprocess
 import shutil
+from staller.staller import scraper
 
 def main(argv=None):
 
@@ -88,7 +85,7 @@ def main(argv=None):
     #resetldpath(argv.prefix, argv.other_prefix)
 
     for (url, package, configure) in packages:
-        archive = scraper(url, package, tmp, gpg)
+        archive = scraper(url, package, tmp)
         os.chdir(tmp)
         print subprocess.check_output(['tar', 'zxf', archive])
         src_dir = archive[:-7] # strip off '.tar.gz'
@@ -102,41 +99,6 @@ def main(argv=None):
         subprocess.check_output(['make', 'install'])
 
     shutil.rmtree(tmp)
-
-def scraper(url, package, tmp, gpg):
-    """find and validate source tar.gz with md5 and pgp signatures
-    searches for links to the 'package' on the 'url', downloads the .tar.gz, .tar.gz.md5, and .tar.gz.asc
-    uses the .tar.gz.md5 and the .tar.gz.asc to validate the .tar.gz
-    returns the path to the .tar.gz file inside of 'tmp'
-    """
-    # print "%s %s" % ( url, package )
-    doc = parse(urlopen(url)).getroot()
-    doc.make_links_absolute(url)
-    links = doc.xpath("//a[contains(@href,'%s')]/@href" % package, )
-    download_url = [i for i in links if i.endswith('.tar.gz')][0]
-    # sometimes the download link does not let you download
-    if download_url.startswith('http://www.apache.org/dyn/closer.cgi'):
-        doc2 = parse(urlopen(download_url)).getroot()
-        download_url = doc2.xpath("//a[contains(@href,'%s')][1]/@href" % package, )[0]
-    # pp(download_url)
-    archive = downloadChunks( download_url , tmp)
-    md5_file = downloadChunks( [i for i in links if i.endswith('tar.gz.md5')][0], tmp)
-    checksum = md5sum(archive)
-    # make sure the checksum is correct
-    print checksum
-    assert(checksum in open(md5_file).read())
-    pgp_file = downloadChunks( [i for i in links if i.endswith('tar.gz.asc')][0], tmp)
-    # verfied = gpg.verify_file(pgp_file, open(archvie,"rb")) # can't get this to work, creates command with args out of order
-    stdout = subprocess.check_call(["gpg", "--verify", pgp_file, archive ])
-    return archive
-
-def md5sum(filename):
-    # http://stackoverflow.com/a/7829658/1763984
-    with open(filename, mode='rb') as f:
-        d = hashlib.md5()
-        for buf in iter(partial(f.read, 128), b''):
-            d.update(buf)
-    return d.hexdigest()
 
 def resetldpath(addition):
     ldd_path = ""
