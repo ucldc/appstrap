@@ -169,8 +169,10 @@
 <field name="timestamp" type="date" indexed="true" stored="true" default="NOW" />
 
    <!-- non-tokenized versions of terms to for sorting and/or facets -->
-   <field name="campus" type="string" indexed="true" stored="false" required="true" multiValued="true"/>
-   <field name="collection_name" type="string" indexed="true" stored="false" required="true"/>
+   <!--TODO: Storing during development for debug help -->
+   <field name="campus" type="string" indexed="true" stored="true" required="true" multiValued="true"/>
+   <field name="collection_name" type="string" indexed="true" stored="true" required="true"/>
+   <field name="repository" type="string" indexed="true" stored="true" required="true" multiValued="true"/>
 
      <!-- treat dates as string or date ? -->
    <!-- TODO: get these from OAI -->
