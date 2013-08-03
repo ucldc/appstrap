@@ -5,6 +5,7 @@ ansible/include/
 ansible/lib/
 ansible/lib64
 ansible/share/
+ansible/logs
 *.gz
 java/apache-maven-3.0.5/
 java/maven
