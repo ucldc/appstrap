@@ -71,6 +71,8 @@
       copy: src=~/java/solr/dist/solr-velocity-${solr_version}.jar dest=~/servers/solr/dist/solr-velocity-${solr_version}.jar
     - name: copy example collection files to dc-collection
       shell: cp -rp ~/java/solr/example/solr/collection1/* ~/servers/solr/dc-collection
+    - name: Write solrconfig to dc-collection/conf
+      template: src=./templates/solr/solr/dc-collection/conf/solrconfig.xml dest=~/servers/solr/dc-collection/conf/solrconfig.xml
     - name: copy dc-collection schema.xml into webapp
       copy: src=./templates/solr/solr/dc-collection/conf/schema.xml dest=~/servers/solr/dc-collection/conf/
     - name: copy solr to tomcat
