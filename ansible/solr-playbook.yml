@@ -7,85 +7,16 @@
     tasks:
     - name: check_appstrap
       shell: . $HOME/appstrap/setenv.sh
-    - name: figure out the home directory
-      shell: "getent passwd solr | cut -d: -f6"
-      register: role_home_dir
+    - include: tasks/role_home_dir.yml  # sets {{ role_home_dir.stdout }}
     - name: put tomcat envvars in place
       copy: src=./templates/solr/tomcat-setenv.bash dest=~/.tomcat-setenv.bash
     - name: put bashrc in place
       copy: src=./templates/solr/bashrc dest=~/.bashrc
     - name: put gitconfig in place
       copy: src=./templates/solr/gitconfig dest=~/.gitconfig
-    - name: create servers tomcat directory
-      file: path=~/servers/tomcat state=directory
-    - name: create tomcat bin dir
-      file: path=~/servers/tomcat/bin state=directory
-    - name: create tomcat conf dir
-      file: path=~/servers/tomcat/conf state=directory
-    - name: create tomcat logs dir
-      file: path=~/servers/tomcat/logs state=directory
-    - name: create tomcat webapps dir
-      file: path=~/servers/tomcat/webapps state=directory
-    - name: create tomcat work dir
-      file: path=~/servers/tomcat/work state=directory
-    - name: create tomcat temp dir
-      file: path=~/servers/tomcat/temp state=directory
-    - name: add juli jar
-      copy: src=~/java/tomcat/bin/tomcat-juli.jar dest=~/servers/tomcat/bin/tomcat-juli.jar
-    - name: copy conf files to CATALINA_BASE/conf
-      shell: cp -rp ~/java/tomcat/conf/* ~/servers/tomcat/conf
-    - name: create servers solr directory
-      file: path=~/servers/solr state=directory
-    - name: install .monitrc
-      template: src=./templates/solr/monitrc.j2 dest=~/.monitrc mode=0700
-    - name: create servers/monit directory
-      file: path=~/servers/monit state=directory
-    - name: create servers/monit/log directory
-      file: path=~/servers/monit/log state=directory
-    - name: create servers/monit/bin directory
-      file: path=~/servers/monit/bin state=directory
-    - name: copy monit-wrapper
-      template: src=./templates/solr/monit-wrapper.bash.j2 dest=~/servers/monit/bin/monit-wrapper.bash mode=0755
-    - name: create dc-collection solr core directory
-      file: path=~/servers/solr/dc-collection state=directory
-    - name: create solr lib directory
-      file: path=~/servers/solr/lib state=directory
-    - name: get jython standalone jar
-      get_url: url=http://search.maven.org/remotecontent?filepath=org/python/jython-standalone/2.5.3/jython-standalone-2.5.3.jar dest=~/servers/solr/lib/jython-standalone-2.5.3.jar
-    - name: copy solr.xml
-      copy: src=./templates/solr/solr/solr.xml dest=~/servers/solr
-    - name: copy zoo.cfg
-      copy: src=./templates/solr/solr/zoo.cfg dest=~/servers/solr
-    - name: copy solr contrib libraries
-      shell: cp -rp ~/java/solr/contrib ~/servers/solr/contrib
-    - name: create solr dist directory
-      file: path=~/servers/solr/dist state=directory
-
-    - name: copy solr-cell jar
-      copy: src=~/java/solr/dist/solr-cell-${solr_version}.jar dest=~/servers/solr/dist/solr-cell-${solr_version}.jar
-    - name: copy solr-clustering jar
-      copy: src=~/java/solr/dist/solr-clustering-${solr_version}.jar dest=~/servers/solr/dist/solr-clustering-${solr_version}.jar
-    - name: copy solr-langid jar
-      copy: src=~/java/solr/dist/solr-langid-${solr_version}.jar dest=~/servers/solr/dist/solr-langid-${solr_version}.jar
-    - name: copy solr-velocity jar
-      copy: src=~/java/solr/dist/solr-velocity-${solr_version}.jar dest=~/servers/solr/dist/solr-velocity-${solr_version}.jar
-    - name: copy example collection files to dc-collection
-      shell: cp -rp ~/java/solr/example/solr/collection1/* ~/servers/solr/dc-collection
-    - name: Write solrconfig to dc-collection/conf
-      template: src=./templates/solr/solr/dc-collection/conf/solrconfig.xml dest=~/servers/solr/dc-collection/conf/solrconfig.xml
-    - name: Copy modified velocity files to dc-collection/conf/velocity
-      shell: cp -rp ./templates/solr/solr/dc-collection/conf/velocity/* ~/servers/solr/dc-collection/conf/velocity
-    - name: Template copy velocity.properties to dc-collection/conf/velocity
-      template: src=./templates/solr/solr/dc-collection/conf/velocity/velocity.properties dest=~/servers/solr/dc-collection/conf/velocity/
-    - name: copy dc-collection schema.xml into webapp
-      copy: src=./templates/solr/solr/dc-collection/conf/schema.xml dest=~/servers/solr/dc-collection/conf/
-    - name: copy solr to tomcat
-      copy: src=~/java/solr/dist/solr-${solr_version}.war dest=~/servers/tomcat/webapps/solr.war #restart tomcat now, to unpack solr. then change WEB-INF/web.xml
-#TODO: set CATALINA_BASE AND CATALINA_HOME
-    - name: copy solr logging jars to tomcat
-      shell: cp -rp ~/java/solr/dist/solrj-lib/*.jar ~/java/tomcat/lib
-    - name: copy log4j.properties to tomcat lib
-      copy: src=~/java/solr/example/resources/log4j.properties dest=~/java/tomcat/lib/
+    - include: tasks/solr/tomcat_dir_setup.yml #create dirs and copy static files
+    - include: tasks/solr/monit_setup.yml
+    - include: tasks/solr/solr_home_setup.yml
     - name: start tomcat to install solr war
       shell: monit start tomcat
     - name: wait for tomcat
