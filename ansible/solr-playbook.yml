@@ -73,7 +73,9 @@
       shell: cp -rp ~/java/solr/example/solr/collection1/* ~/servers/solr/dc-collection
     - name: Write solrconfig to dc-collection/conf
       template: src=./templates/solr/solr/dc-collection/conf/solrconfig.xml dest=~/servers/solr/dc-collection/conf/solrconfig.xml
-    - name: Copy velocity.properties to dc-collection/conf/velocity
+    - name: Copy modified velocity files to dc-collection/conf/velocity
+      shell: cp -rp ./templates/solr/solr/dc-collection/conf/velocity/* ~/servers/solr/dc-collection/conf/velocity
+    - name: Template copy velocity.properties to dc-collection/conf/velocity
       template: src=./templates/solr/solr/dc-collection/conf/velocity/velocity.properties dest=~/servers/solr/dc-collection/conf/velocity/
     - name: copy dc-collection schema.xml into webapp
       copy: src=./templates/solr/solr/dc-collection/conf/schema.xml dest=~/servers/solr/dc-collection/conf/
