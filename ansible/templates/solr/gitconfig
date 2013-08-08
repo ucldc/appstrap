@@ -8,3 +8,5 @@
 [user]
   name = Mark Redar
   email = mark.redar@ucop.edu
+[http]
+  sslCAInfo = /etc/ssl/certs/ca-bundle.crt
