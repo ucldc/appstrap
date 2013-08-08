@@ -21,7 +21,7 @@
 #elseif($doc.getFieldValue('resourcename'))
   #set($url = "file:///$doc.getFieldValue('resourcename')")
 #else
-  #set($url = "get?id=$doc.getFieldValue('id')")
+  #set($url = "#{url_root}/get?id=$doc.getFieldValue('id')")
 #end
 
 ## Sort out Mime-Type
