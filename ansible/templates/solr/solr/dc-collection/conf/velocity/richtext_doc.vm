@@ -69,6 +69,49 @@
 
 </div>
 
+#if($doc.getFieldValue('campus'))
+  <div>
+    Campus: #field('campus')
+  </div>
+#end
+
+#if($doc.getFieldValue('repository'))
+  <div>
+    Repository: #field('repository')
+  </div>
+#end
+
+#if($doc.getFieldValue('creator'))
+  <div>
+    Creator: #field('creator')
+  </div>
+#end
+
+#if($doc.getFieldValue('contributor'))
+  <div>
+    Contributed by: #field('contributor')
+  </div>
+#end
+
+#if($doc.getFieldValue('publisher'))
+  <div>
+    Published by: #field('publisher')
+  </div>
+#end
+
+## Main content of doc
+<div class="result-body">
+  #field('description')
+</div>
+
+## Last_Modified Date
+#if($doc.getFieldValue('last_modified'))
+  <div>
+    last-modified:
+    #field('last_modified')
+  </div>
+#end
+
 ## Row 2?: ID / URL
 <div>
   Id: #field('id')
@@ -84,26 +127,6 @@
   #if($ct)
     ($ct)
   #end
-</div>
-
-## Author
-#if($doc.getFieldValue('author'))
-  <div>
-    Author: #field('author')
-  </div>
-#end
-
-## Last_Modified Date
-#if($doc.getFieldValue('last_modified'))
-  <div>
-    last-modified:
-    #field('last_modified')
-  </div>
-#end
-
-## Main content of doc
-<div class="result-body">
-  #field('content')
 </div>
 
 ## Display Similar Documents / MLT = More Like This
@@ -132,10 +155,11 @@
             $mltHit.getFieldValue('title')
           </div>
           <div>
-            <span class="field-name">
-              Author:
+          <!--  <span class="field-name">
+              Creator:
             </span>
-            $mltHit.getFieldValue('author')
+            $mltHit.getFieldValue('creator')
+-->
             <span class="field-name">
               Description:
             </span>
