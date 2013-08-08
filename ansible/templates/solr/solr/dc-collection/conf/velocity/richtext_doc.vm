@@ -53,7 +53,7 @@
 <div class="result-title">
   ## Icon
   ## Small file type icons from http://www.splitbrain.org/projects/file_icons (public domain)
-  <img src="#{url_root}/img/filetypes/${filetype}.png" align="center">
+  <img src="https://s3.amazonaws.com/ucldc-images/$docId" height="60" width="60" align="center">
 
   ## Title, hyperlinked
   <a href="${url}" target="_blank">
