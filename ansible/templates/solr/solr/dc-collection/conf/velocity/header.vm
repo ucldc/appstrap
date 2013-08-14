@@ -3,5 +3,5 @@
  *#
 
 <div id="head">
-  <span ><a href="#url_for_home#if($request.params.get('debugQuery'))?debugQuery=true#end"><h1 id="logo">UCLDC API</h1></a></span>
+  <span ><a href="#url_for_home#if($request.params.get('debugQuery'))?debugQuery=true#end"><h1 id="logo">UCLDC UI</h1></a></span>
 </div>
