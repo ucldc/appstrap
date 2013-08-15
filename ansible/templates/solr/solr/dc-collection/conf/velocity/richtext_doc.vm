@@ -77,33 +77,44 @@
 
 #if($doc.getFieldValue('campus'))
   <div>
-    Campus: #field('campus')
+    <strong>Campus:</strong> #field('campus')
   </div>
 #end
 
 #if($doc.getFieldValue('repository'))
   <div>
-    Repository: #field('repository')
+    <strong>Repository:</strong> #field('campus'), #field('repository')
   </div>
 #end
 
 #if($doc.getFieldValue('creator'))
   <div>
-    Creator: #field('creator')
+    <strong>Creator:</strong> #field('creator')
   </div>
 #end
 
 #if($doc.getFieldValue('contributor'))
   <div>
-    Contributed by: #field('contributor')
+    <strong>Contributed by:</strong>  #field('contributor')
   </div>
 #end
 
 #if($doc.getFieldValue('publisher'))
   <div>
-    Published by: #field('publisher')
+    <strong>Published by:</strong> #field('publisher')
   </div>
 #end
+
+## Item Identifier (URL?)
+<div>
+   <strong>Item URL:</strong>
+#foreach( $identifier in  $doc.getFieldValue('identifier') )
+#if ( $identifier.matches('http(s|):.*'))
+<a href="$identifier" target="_blank">$identifier</a><br/>
+#else
+#end
+#end
+</div>
 
 ## Main content of doc
 <div class="result-body">
@@ -128,7 +139,7 @@
   #if($doc.getFieldValue('resourcename'))
     Resource name: $filename 
   #elseif($url)
-    URL: $url
+    Solr Doc URL: <a href="${url}" target="_blank">$url</a>
   #end
   #if($ct)
     ($ct)

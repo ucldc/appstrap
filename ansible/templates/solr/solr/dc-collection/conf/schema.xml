@@ -190,6 +190,8 @@
    <!-- will point to extracted thumbnail eventually -->
    <field name="url_thumbnail" type="string" indexed="false" stored="true"/>
    <field name="url_image" type="string" indexed="false" stored="true"/>
+   <!-- best guess at home url for the item. Filled in by akara? -->
+   <field name="url_item" type="string" indexed="false" stored="true"/>
 
    <field name="payloads" type="payloads" indexed="true" stored="true"/>
 
