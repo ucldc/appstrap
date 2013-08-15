@@ -185,10 +185,11 @@
    <field name="source" type="text_general" indexed="true" stored="true" multiValued="true"/>
    <field name="subject" type="text_general" indexed="true" stored="true" multiValued="true"/>
    <field name="type" type="text_general" indexed="true" stored="true" multiValued="true"/>
-   <!-- will point to extracted thumbnail eventually -->
-   <field name="url_thumbnail" type="text_general" indexed="true" stored="true"/>
-
    <field name="date_facet" type="date" indexed="true" stored="true" multiValued="true"/>
+
+   <!-- will point to extracted thumbnail eventually -->
+   <field name="url_thumbnail" type="string" indexed="false" stored="true"/>
+   <field name="url_image" type="string" indexed="false" stored="true"/>
 
    <field name="payloads" type="payloads" indexed="true" stored="true"/>
 
