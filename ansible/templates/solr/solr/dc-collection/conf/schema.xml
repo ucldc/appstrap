@@ -194,17 +194,6 @@
 
    <field name="_version_" type="long" indexed="true" stored="true"/>
 
-   <!--
-     Some fields such as popularity and manu_exact could be modified to
-     leverage doc values:
-     <field name="popularity" type="int" indexed="true" stored="true" docValues="true" default="0" />
-     <field name="manu_exact" type="string" indexed="false" stored="false" docValues="true" default="" />
-
-     Although it would make indexing slightly slower and the index bigger, it
-     would also make the index faster to load, more memory-efficient and more
-     NRT-friendly.
-     -->
-
    <!-- Dynamic field definitions allow using convention over configuration
        for fields via the specification of patterns to match field names. 
        EXAMPLE:  name="*_i" will match any field ending in _i (like myid_i, z_i)
@@ -306,11 +295,6 @@
    <copyField source="subject" dest="text"/>
    <copyField source="type" dest="text"/>
 
-   <!-- Copy the price into a currency enabled field (default USD) -->
-   <!--
-   <copyField source="price" dest="price_c"/>
-   -->
-
    <!-- copy text fields into string fields for faceting -->
    <!-- Create a string version dc fields for faceting -->
    <copyField source="title" dest="title_ss"/> 
@@ -336,9 +320,6 @@
 	   
    <!-- <copyField source="*_t" dest="text" maxChars="3000"/> -->
 
-   <!-- copy name to alphaNameSort, a field designed for sorting by name -->
-   <!-- <copyField source="name" dest="alphaNameSort"/> -->
- 
   <types>
     <!-- field type definitions. The "name" attribute is
        just a label to be used by field definitions.  The "class"
