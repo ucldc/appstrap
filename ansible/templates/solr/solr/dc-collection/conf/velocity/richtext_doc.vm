@@ -62,7 +62,11 @@
   <a href="$urlImage"><img src="$urlThumbnail" height="60" width="60" align="center"></a>
 
   ## Title, hyperlinked
+  #if ($doc.getFieldValue('url_item'))
+  <a href="$doc.getFieldValue('url_item')" target="_blank">
+  #else
   <a href="${url}" target="_blank">
+  #end
     <b>$title</b></a>
 
   ## Link for MLT / More Like This / Find Similar
