@@ -190,7 +190,6 @@
    <!-- will point to extracted thumbnail eventually -->
    <!-- TODO: indexed so I can search for items with it filled in -->
    <field name="url_thumbnail" type="string" indexed="true" stored="true"/>
-   <field name="url_image" type="string" indexed="true" stored="true"/>
    <!-- best guess at home url for the item. Filled in by akara? -->
    <!-- TODO: indexed so I can search for items with it filled in -->
    <field name="url_item" type="string" indexed="true" stored="true"/>
