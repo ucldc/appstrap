@@ -25,10 +25,18 @@
 #end
 
 ##  URL Thumbnail
-#set($urlThumbnail = "https://s3.amazonaws.com/ucldc-images/$docId")
+#if($doc.getFieldValue('url_thumbnail'))
+  #set($urlThumbnail = $doc.getFieldValue('url_thumbnail'))
+#else
+  #set($urlThumbnail = "https://s3.amazonaws.com/ucldc-images/$docId")
+#end
 
-##  URL Image
-#set($urlImage = "$urlThumbnail")
+## URL Item
+#if ($doc.getFieldValue('url_item'))
+  #set($urlItem = $doc.getFieldValue('url_item'))
+#else
+  #set($urlItem = $url)
+#end
 
 ## Sort out Mime-Type
 #set($ct = $list.get($doc.getFirstValue('content_type').split(";"),0))
@@ -59,14 +67,10 @@
 <div class="result-title">
   ## Icon
   ## Small file type icons from http://www.splitbrain.org/projects/file_icons (public domain)
-  <a href="$urlImage"><img src="$urlThumbnail" height="100" width="100" align="center"></a>
+  <a href="$urlItem"><img src="$urlThumbnail" height="100" width="100" align="center"></a>
 
   ## Title, hyperlinked
-  #if ($doc.getFieldValue('url_item'))
-  <a href="$doc.getFieldValue('url_item')" target="_blank">
-  #else
-  <a href="${url}" target="_blank">
-  #end
+  <a href="$urlItem" target="_blank">
     <b>$title</b></a>
 
   ## Link for MLT / More Like This / Find Similar
