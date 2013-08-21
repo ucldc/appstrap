@@ -930,6 +930,7 @@
        <str name="facet.field">campus</str>
        <str name="facet.field">repository</str>
        <str name="facet.field">collection_name</str>
+       <str name="facet.field">type_ss</str>
        <str name="facet.query">jpg</str>
        <str name="facet.query">subject</str>
        <str name="facet.mincount">1</str>
