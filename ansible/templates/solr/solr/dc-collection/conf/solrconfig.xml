@@ -885,6 +885,17 @@
      </lst>
   </requestHandler>
 
+  <requestHandler name="/view" class="solr.RealTimeGetHandler">
+     <lst name="defaults">
+       <!-- VelocityResponseWriter settings -->
+       <str name="wt">velocity</str>
+       <str name="v.template">view</str>
+       <str name="v.layout">layout-docview</str>
+       <str name="v.properties">velocity.properties</str>
+       <str name="title">Solritas</str>
+     </lst>
+  </requestHandler>
+
  
   <!-- A Robust Example 
        

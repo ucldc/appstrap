@@ -1,0 +1,19 @@
+#**
+ *  Main entry point into the /view templates
+ *#
+
+#set($searcher = $request.searcher)
+#set($params = $request.params)
+#set($clusters = $response.response.clusters)
+#set($mltResults = $response.response.get("moreLikeThis"))
+#set($annotate = $params.get("annotateBrowse"))
+#set($doc = $response.response.doc)
+
+## Show Error Message, if any
+<div class="error">
+  #parse("error.vm")
+</div>
+
+<div class="results">
+    #parse("doc_view.vm")
+</div>

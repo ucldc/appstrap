@@ -1,0 +1,66 @@
+#**
+ *  Called for each matching document but then
+ *  calls one of product_doc, join_doc or richtext_doc
+ *  depending on which fields the doc has
+ *#
+
+#set($docId = $doc.getFieldValue('id'))
+
+#parse('doc_shortcuts.vm')
+
+<div class="doc-thumb-box">
+  <a href="$urlItem"><img src="$urlThumbnail" height="100" width="100" align="center"></a>
+</div>
+<div class="doc-view">
+<div class="doc-title">
+  ## Title, hyperlinked
+  <a href="$urlItem" target="_blank">
+    <b>$title</b></a>
+</div>
+
+#if($doc.getFieldValue('campus'))
+  <h3>Campus:</h3>
+#foreach ( $campus in $doc.getFieldValue('campus') )
+$campus<br/>
+#end
+#end
+
+#if($doc.getFieldValue('repository'))
+  <h3>Repository:</h3>
+#foreach ( $repository in $doc.getFieldValue('repository') )
+$repository<br/>
+#end
+#end
+
+#if($doc.getFieldValue('collection_name'))
+  <h3>Collection:</h3>
+ #field('collection_name')
+#end
+
+#if($doc.getFieldValue('publisher'))
+  <h3>Published by:</h3>
+#foreach ( $publisher in $doc.getFieldValue('publisher') )
+$publisher<br/>
+#end
+#end
+
+#foreach( $fieldName in $doc.fieldNames )
+  #if($fieldName != 'campus' && $fieldName != 'repository' && $fieldName != 'publisher')
+  #if($fieldName != 'collection_name' && $fieldName != 'title')
+  #if($fieldName != 'id' && $fieldName != 'timestamp' && $fieldName != '_version_')
+  #if($fieldName != 'url_thumbnail')
+  <h3>$fieldName</h3>
+    #foreach( $value in $doc.getFieldValues($fieldName) )
+      $value<br/>
+    #end
+  #end
+  #end
+  #end
+  #end
+#end
+
+</div>
+
+<div class="mlt-box">
+MLT SECTION
+</div>

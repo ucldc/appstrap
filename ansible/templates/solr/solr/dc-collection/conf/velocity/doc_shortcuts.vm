@@ -1,0 +1,29 @@
+## Title
+#if($doc.getFieldValue('title'))
+  #set($title = $esc.html($doc.getFirstValue('title')))
+#else
+  #set($title = "["+$doc.getFieldValue('id')+"]")
+#end
+
+## URL
+#if($doc.getFieldValue('url'))
+  #set($url = $doc.getFieldValue('url'))
+#elseif($doc.getFieldValue('resourcename'))
+  #set($url = "file:///$doc.getFieldValue('resourcename')")
+#else
+  #set($url = "#{url_root}/get?id=$doc.getFieldValue('id')")
+#end
+
+##  URL Thumbnail
+#if($doc.getFieldValue('url_thumbnail'))
+  #set($urlThumbnail = $doc.getFieldValue('url_thumbnail'))
+#else
+  #set($urlThumbnail = "https://s3.amazonaws.com/ucldc-images/$docId")
+#end
+
+## URL Item
+#if ($doc.getFieldValue('url_item'))
+  #set($urlItem = $doc.getFieldValue('url_item'))
+#else
+  #set($urlItem = $url)
+#end

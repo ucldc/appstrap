@@ -196,6 +196,40 @@ a {
   background: #DBD5CD;
 }
 
+.doc-thumb-box{
+  float: left;
+  margin: 5px;
+  margin-top: 0px;
+  width: 185px;
+  padding: 5px;
+  position: relative;  
+}
+
+.doc-title{
+  font-weight: bold;
+  font-size: larger;
+}
+
+.doc-view{
+  float: left;
+  width: 60%;
+  border: 1px solid #7C7E7F;
+  padding: 5px;
+  margin: 5px;
+  margin-left: 210px;
+  margin-bottom: 15px;
+}
+
+.mlt-box{
+  float: right;
+  margin: 5px;
+  margin-top: 0px;
+  width: 185px;
+  padding: 5px;
+  top: -20px;
+  position: relative;  
+}
+
 .mlt{
   
 }

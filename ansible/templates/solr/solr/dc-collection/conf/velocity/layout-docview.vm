@@ -1,0 +1,22 @@
+#**
+ *  Overall HTML page layout
+ *#
+
+<html>
+<head>
+  <title>#param('title')</title>
+  <script type="text/javascript" src="#{url_root}/js/lib/jquery-1.7.2.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="#{url_for_solr}/admin/file?file=/velocity/main.css&contentType=text/css"/>
+</head>
+  <body>
+    <div id="admin"><a href="#url_root/#/#core_name">Solr Admin</a></div>
+    <div id="header">
+      #parse("header.vm")
+    </div>
+    <div id="content">
+      $content
+    </div>
+    <div id="footer">
+    </div>
+  </body>
+</html>

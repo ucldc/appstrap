@@ -8,35 +8,7 @@
 ## * supportedMimeTypes, AKA supportedtypes
 ## * mimeExtensionsMap, AKA extMap
 
-## Title
-#if($doc.getFieldValue('title'))
-  #set($title = $esc.html($doc.getFirstValue('title')))
-#else
-  #set($title = "["+$doc.getFieldValue('id')+"]")
-#end
-
-## URL
-#if($doc.getFieldValue('url'))
-  #set($url = $doc.getFieldValue('url'))
-#elseif($doc.getFieldValue('resourcename'))
-  #set($url = "file:///$doc.getFieldValue('resourcename')")
-#else
-  #set($url = "#{url_root}/get?id=$doc.getFieldValue('id')")
-#end
-
-##  URL Thumbnail
-#if($doc.getFieldValue('url_thumbnail'))
-  #set($urlThumbnail = $doc.getFieldValue('url_thumbnail'))
-#else
-  #set($urlThumbnail = "https://s3.amazonaws.com/ucldc-images/$docId")
-#end
-
-## URL Item
-#if ($doc.getFieldValue('url_item'))
-  #set($urlItem = $doc.getFieldValue('url_item'))
-#else
-  #set($urlItem = $url)
-#end
+#parse('doc_shortcuts.vm')
 
 ## Sort out Mime-Type
 #set($ct = $list.get($doc.getFirstValue('content_type').split(";"),0))
@@ -85,31 +57,57 @@
 
 #if($doc.getFieldValue('campus'))
   <div>
-    <strong>Campus:</strong> #field('campus')
+    <strong>Campus:</strong>
+#foreach ( $campus in $doc.getFieldValue('campus') )
+#if($velocityCount > 1) | #end
+$campus
+#end
   </div>
 #end
 
 #if($doc.getFieldValue('repository'))
   <div>
-    <strong>Repository:</strong> #field('campus'), #field('repository')
+    <strong>Repository:</strong>
+#foreach ( $repository in $doc.getFieldValue('repository') )
+#if($velocityCount > 1) | #end
+$repository
+#end
+  </div>
+#end
+
+#if($doc.getFieldValue('collection_name'))
+  <div>
+    <strong>Collection:</strong> #field('collection_name')
   </div>
 #end
 
 #if($doc.getFieldValue('creator'))
   <div>
-    <strong>Creator:</strong> #field('creator')
+    <strong>Creator:</strong>
+#foreach ( $creator in $doc.getFieldValue('creator') )
+#if($velocityCount > 1) | #end
+$creator
+#end
   </div>
 #end
 
 #if($doc.getFieldValue('contributor'))
   <div>
-    <strong>Contributed by:</strong>  #field('contributor')
+    <strong>Contributed by:</strong>
+#foreach ( $contributor in $doc.getFieldValue('contributor') )
+#if($velocityCount > 1) | #end
+$contributor
+#end
   </div>
 #end
 
 #if($doc.getFieldValue('publisher'))
   <div>
-    <strong>Published by:</strong> #field('publisher')
+    <strong>Published by:</strong>
+#foreach ( $publisher in $doc.getFieldValue('publisher') )
+#if($velocityCount > 1) | #end
+$publisher
+#end
   </div>
 #end
 
