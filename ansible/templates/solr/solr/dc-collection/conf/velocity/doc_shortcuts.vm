@@ -27,3 +27,6 @@
 #else
   #set($urlItem = $url)
 #end
+
+## URL to Solr UI view
+#set($urlView = "#{url_root}/view?id=$doc.getFieldValue('id')")
