@@ -1,3 +1,5 @@
+#set($docId = $doc.getFieldValue('id'))
+
 ## Title
 #if($doc.getFieldValue('title'))
   #set($title = $esc.html($doc.getFirstValue('title')))
@@ -29,4 +31,4 @@
 #end
 
 ## URL to Solr UI view
-#set($urlView = "#{url_root}/view?id=$doc.getFieldValue('id')")
+#set($urlView = '#{url_root}/view?q=id:"$docId"')

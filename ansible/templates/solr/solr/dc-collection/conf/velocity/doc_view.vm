@@ -2,8 +2,6 @@
  *  View of a single solr document
  *#
 
-#set($docId = $doc.getFieldValue('id'))
-
 #parse('doc_shortcuts.vm')
 
 <div class="doc-thumb-box">
