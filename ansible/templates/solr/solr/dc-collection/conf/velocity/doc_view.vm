@@ -1,7 +1,5 @@
 #**
- *  Called for each matching document but then
- *  calls one of product_doc, join_doc or richtext_doc
- *  depending on which fields the doc has
+ *  View of a single solr document
  *#
 
 #set($docId = $doc.getFieldValue('id'))
@@ -45,6 +43,8 @@ $publisher<br/>
 #end
 
 #foreach( $fieldName in $doc.fieldNames )
+  #set($rgxSS = ".*_ss$")
+  #if(!$fieldName.matches($rgxSS))
   #if($fieldName != 'campus' && $fieldName != 'repository' && $fieldName != 'publisher')
   #if($fieldName != 'collection_name' && $fieldName != 'title')
   #if($fieldName != 'id' && $fieldName != 'timestamp' && $fieldName != '_version_')
@@ -53,6 +53,7 @@ $publisher<br/>
     #foreach( $value in $doc.getFieldValues($fieldName) )
       $value<br/>
     #end
+  #end
   #end
   #end
   #end

@@ -885,7 +885,7 @@
      </lst>
   </requestHandler>
 
-  <requestHandler name="/view" class="solr.RealTimeGetHandler">
+  <requestHandler name="/view" class="solr.SearchHandler">
      <lst name="defaults">
        <!-- VelocityResponseWriter settings -->
        <str name="wt">velocity</str>
@@ -893,6 +893,25 @@
        <str name="v.layout">layout-docview</str>
        <str name="v.properties">velocity.properties</str>
        <str name="title">Solritas</str>
+
+       <!-- Query settings -->
+       <str name="defType">edismax</str>
+       <str name="qf">
+          text^0.5 campus^1.0 name^1.2 collection_name^1.5 id^10.0 subject^1.1
+          title^10.0 description^5.0 creator^2.0
+       </str>
+       <str name="df">text</str>
+       <str name="mm">100%</str>
+       <str name="q.alt">*:*</str>
+       <str name="rows">10</str>
+       <str name="fl">*,score</str>
+
+       <str name="mlt.qf">
+          text^0.5 campus^1.0 name^1.2 collection_name^1.5 id^10.0 subject^1.1
+          title^10.0 description^5.0 creator^2.0
+       </str>
+       <str name="mlt.fl">text,campus,name,collection_name,id,subject,title,description,creator</str>
+       <int name="mlt.count">3</int>
      </lst>
   </requestHandler>
 

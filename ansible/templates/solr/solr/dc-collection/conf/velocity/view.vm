@@ -7,7 +7,7 @@
 #set($clusters = $response.response.clusters)
 #set($mltResults = $response.response.get("moreLikeThis"))
 #set($annotate = $params.get("annotateBrowse"))
-#set($doc = $response.response.doc)
+#set($doc = $response.results[0])
 
 ## Show Error Message, if any
 <div class="error">
