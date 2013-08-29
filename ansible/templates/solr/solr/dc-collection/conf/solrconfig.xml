@@ -72,17 +72,17 @@
        The examples below can be used to load some solr-contribs along 
        with their external dependencies.
     -->
-  <lib dir="{{ role_home_dir.stdout }}/servers/solr/contrib/extraction/lib" regex=".*\.jar" />
-  <lib dir="{{ role_home_dir.stdout }}/servers/solr/dist/" regex="solr-cell-\d.*\.jar" />
+  <lib dir="/home/solr/servers/solr/contrib/extraction/lib" regex=".*\.jar" />
+  <lib dir="/home/solr/servers/solr/dist/" regex="solr-cell-\d.*\.jar" />
 
-  <lib dir="{{ role_home_dir.stdout }}/servers/solr/contrib/clustering/lib/" regex=".*\.jar" />
-  <lib dir="{{ role_home_dir.stdout }}/servers/solr/dist/" regex="solr-clustering-\d.*\.jar" />
+  <lib dir="/home/solr/servers/solr/contrib/clustering/lib/" regex=".*\.jar" />
+  <lib dir="/home/solr/servers/solr/dist/" regex="solr-clustering-\d.*\.jar" />
 
-  <lib dir="{{ role_home_dir.stdout }}/servers/solr/contrib/langid/lib/" regex=".*\.jar" />
-  <lib dir="{{ role_home_dir.stdout }}/servers/solr/dist/" regex="solr-langid-\d.*\.jar" />
+  <lib dir="/home/solr/servers/solr/contrib/langid/lib/" regex=".*\.jar" />
+  <lib dir="/home/solr/servers/solr/dist/" regex="solr-langid-\d.*\.jar" />
 
-  <lib dir="{{ role_home_dir.stdout }}/servers/solr/contrib/velocity/lib" regex=".*\.jar" />
-  <lib dir="{{ role_home_dir.stdout }}/servers/solr/dist/" regex="solr-velocity-\d.*\.jar" />
+  <lib dir="/home/solr/servers/solr/contrib/velocity/lib" regex=".*\.jar" />
+  <lib dir="/home/solr/servers/solr/dist/" regex="solr-velocity-\d.*\.jar" />
 
   <!-- an exact 'path' can be used instead of a 'dir' to specify a 
        specific jar file.  This will cause a serious error to be logged 
@@ -906,12 +906,13 @@
        <str name="rows">10</str>
        <str name="fl">*,score</str>
 
+       <bool name="mlt">true</bool>
        <str name="mlt.qf">
           text^0.5 campus^1.0 name^1.2 collection_name^1.5 id^10.0 subject^1.1
           title^10.0 description^5.0 creator^2.0
        </str>
        <str name="mlt.fl">text,campus,name,collection_name,id,subject,title,description,creator</str>
-       <int name="mlt.count">3</int>
+       <int name="mlt.count">5</int>
      </lst>
   </requestHandler>
 
