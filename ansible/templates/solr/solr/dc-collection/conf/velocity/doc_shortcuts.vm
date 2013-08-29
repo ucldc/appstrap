@@ -31,4 +31,4 @@
 #end
 
 ## URL to Solr UI view
-#set($urlView = '#{url_root}/view?q=id:"$docId"')
+#set($urlViewDoc = "#{url_for_view}?q=id:$docId")
