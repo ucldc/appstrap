@@ -912,7 +912,7 @@
           title^10.0 description^5.0 creator^2.0
        </str>
        <str name="mlt.fl">text,campus,name,collection_name,id,subject,title,description,creator</str>
-       <int name="mlt.count">5</int>
+       <int name="mlt.count">3</int>
      </lst>
   </requestHandler>
 
