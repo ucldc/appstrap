@@ -68,7 +68,7 @@ $publisher<br/>
         #set($mltId = $mltHit.getFieldValue('id'))
         <li>
           <div>
-            <a href="#urlView?q=id:$mltId">
+            <a href="#{url_for_view}?q=id:$mltId">
               $mltId</a>
           </div>
           <div>
