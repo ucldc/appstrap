@@ -16,7 +16,7 @@
       copy: src=./templates/solr/gitconfig dest=~/.gitconfig
     - include: tasks/solr/tomcat_dir_setup.yml #create dirs and copy static files
     - include: tasks/solr/monit_setup.yml
-    - include: tasks/solr/solr_home_setup.yml
+    - include: tasks/solr/config_solr_server.yml
     - name: start tomcat to install solr war
       shell: monit start tomcat
     - name: wait for tomcat
@@ -26,7 +26,7 @@
     - name: wait for tomcat
       command: /bin/sleep 30
     - name: replace web.xml for solr webapp
-      copy: src=./templates/solr/solr/web.xml dest=~/servers/tomcat/webapps/solr/WEB-INF/
+      copy: src={{ role_home_dir.stdout}}/src/ucldc_solr/web.xml dest=~/servers/tomcat/webapps/solr/WEB-INF/
     - name: start tomcat
       shell: monit validate
     - name: create init.d-monit

@@ -1,4 +1,6 @@
 ---
+    - name: get solr repository
+      git: repo=https://github.com/mredar/ucldc_solr.git dest=~/src/ucldc_solr
     - name: create servers solr directory
       file: path=~/servers/solr state=directory
     - name: create dc-collection solr core directory
@@ -8,9 +10,9 @@
     - name: get jython standalone jar
       get_url: url=http://search.maven.org/remotecontent?filepath=org/python/jython-standalone/2.5.3/jython-standalone-2.5.3.jar dest=~/servers/solr/lib/jython-standalone-2.5.3.jar
     - name: copy solr.xml
-      copy: src=./templates/solr/solr/solr.xml dest=~/servers/solr
+      copy: src=~/src/ucldc_solr/solr.xml dest=~/servers/solr
     - name: copy zoo.cfg
-      copy: src=./templates/solr/solr/zoo.cfg dest=~/servers/solr
+      copy: src=~/src/ucldc_solr/zoo.cfg dest=~/servers/solr
     - name: copy solr contrib libraries
       shell: cp -rp ~/java/solr/contrib ~/servers/solr/contrib
     - name: create solr dist directory
@@ -27,13 +29,13 @@
     - name: copy example collection files to dc-collection
       shell: cp -rp ~/java/solr/example/solr/collection1/* ~/servers/solr/dc-collection
     - name: Write solrconfig to dc-collection/conf
-      template: src=./templates/solr/solr/dc-collection/conf/solrconfig.xml dest=~/servers/solr/dc-collection/conf/solrconfig.xml
+      template: src=~/src/ucldc_solr/dc-collection/conf/solrconfig.xml.j2 dest=~/servers/solr/dc-collection/conf/solrconfig.xml
     - name: Copy modified velocity files to dc-collection/conf/velocity
-      shell: cp -rp ./templates/solr/solr/dc-collection/conf/velocity/* ~/servers/solr/dc-collection/conf/velocity
+      shell: cp -rp ~/src/ucldc_solr/dc-collection/conf/velocity/* ~/servers/solr/dc-collection/conf/velocity
     - name: Template copy velocity.properties to dc-collection/conf/velocity
-      template: src=./templates/solr/solr/dc-collection/conf/velocity/velocity.properties dest=~/servers/solr/dc-collection/conf/velocity/
+      template: src=~/src/ucldc_solr/dc-collection/conf/velocity/velocity.properties dest=~/servers/solr/dc-collection/conf/velocity/
     - name: copy dc-collection schema.xml into webapp
-      copy: src=./templates/solr/solr/dc-collection/conf/schema.xml dest=~/servers/solr/dc-collection/conf/
+      copy: src=~/src/ucldc_solr/dc-collection/conf/schema.xml dest=~/servers/solr/dc-collection/conf/
     - name: copy solr to tomcat
       copy: src=~/java/solr/dist/solr-${solr_version}.war dest=~/servers/tomcat/webapps/solr.war #restart tomcat now, to unpack solr. then change WEB-INF/web.xml
 #TODO: set CATALINA_BASE AND CATALINA_HOME
