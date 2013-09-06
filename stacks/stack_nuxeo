@@ -13,10 +13,16 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.c
 cd $DIR
 
 . stack_run.sh  # gives us `stack_run_batch`
+export LD_LIBRARY_PATH="${HOME}/pkg/lib:${HOME}/servers/shibboleth/lib"
+
 
 # install pkgsrc packages
 ACCEPTABLE_LICENSES=lame-license stack_run_batch "../pmake" nuxeo.pkgsrc.txt
-../shib_it      # shibboleth-sp stack
+pip install lxml
+if [[ ! -e ${HOME}/pkg/bin/python ]]; then
+    ln -s ${HOME}/pkg/bin/python2.7 ${HOME}/pkg/bin/python
+fi
+../shib_it -p ${HOME}/servers/shibboleth -o ${HOME}/pkg -t ${HOME}/tmp
 ../roll_test_certs
 ../cdl/get_java 
 ./monit_binary  # get new monit via binary distribution

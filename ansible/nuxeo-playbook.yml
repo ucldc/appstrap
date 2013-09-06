@@ -1,46 +1,7 @@
 ---
-# ^^^ YAML documents must begin with the document separator "---"
-# ansible playbook for initial nuxeo configuration
-# Notice the minus on the line below -- this starts the playbook's record
-# in the YAML document. Only one playbook is allowed per YAML file.
   - hosts: localhost
-#    "ansible_facts": {
-#        "ansible_default_ipv4": {
-#            "address": "192.35.209.164",
-#        },
-#        "ansible_fqdn": "nuxeo-dev.cdlib.org",
-#        "ansible_hostname": "nuxeo-dev",
-#        "ansible_user_id": "nuxeo",
     gather_facts: True         
     tasks: 
-    - name: figure out the home directory
-      shell: "getent passwd nuxeo | cut -d: -f6"
-      register: role_home_dir
-    - name: create http "run" directory
-      action: file path=~/servers/httpd/run state=directory
-    - name: make sure there is an httpd logs directory
-      action: file path=~/servers/httpd/logs state=directory
-    - name: tedious.. make _bin_ dir
-      action: file path=~/servers/httpd/bin state=directory
-    - name: and the _conf_ dir
-      action: file path=~/servers/httpd/conf state=directory
-    - name: make sure DocumentRoot exists or apache will cry
-      action: file path=~/webroot/https-nuxeo state=directory
-    - name: generate apachectl
-      action: template src=templates/shib-http/apachectl.j2 dest=~/servers/httpd/bin/apachectl
-    - name: make apachectl a+x
-      shell: chmod a+x ~/servers/httpd/bin/apachectl
-    - name: generate httpd conf
-      action: template src=templates/shib-http/nuxeo-httpd.conf.j2 dest=~/servers/httpd/conf/httpd.conf
-    - name: httpd conf magic its the magic number
-      action: copy src=~/pkg/etc/httpd/magic dest=~/servers/httpd/conf/magic
-    - name: httpd config mime.types who does not like MIME?
-      action: copy src=~/pkg/etc/httpd/mime.types dest=~/servers/httpd/conf/mime.types
-    - name: generate shibboleth2.xml
-      action: template src=templates/shibboleth/shibboleth2.xml.j2  dest=~/servers/shibboleth/etc/shibboleth/shibboleth2.xml
-    - name: generate .monitrc
-      action: template src=templates/shib-http/monitrc.j2  dest=~/.monitrc
-    - name: 700 for .monitrc
-      shell: chmod 700 ~/.monitrc
-    - name: yo, monit needs a log file
-      action: file path=~/appstrap/monit/log state=directory
+    - include: tasks/role_home_dir.yml  # sets {{ role_home_dir.stdout }}
+    - include: tasks/shibboleth.yml app=registry  
+    - include: tasks/monit.yml app=registry
