@@ -1,43 +1,45 @@
 ---
     - name: get solr repository
-      git: repo=https://github.com/mredar/ucldc_solr.git dest=~/src/ucldc_solr
+      git: repo=https://github.com/mredar/ucldc_solr.git dest={{ dir_code_src }}/ucldc_solr
+    - name: compile css, run compass to create css
+      shell: cd {{ dir_code_src }}/ucldc_solr/solritas_compass_project; compass compile
     - name: create servers solr directory
-      file: path=~/servers/solr state=directory
+      file: path={{ dir_servers }}/solr state=directory
     - name: create dc-collection solr core directory
-      file: path=~/servers/solr/dc-collection state=directory
+      file: path={{ dir_servers }}/solr/dc-collection state=directory
     - name: create solr lib directory
-      file: path=~/servers/solr/lib state=directory
+      file: path={{ dir_servers }}/solr/lib state=directory
     - name: get jython standalone jar
-      get_url: url=http://search.maven.org/remotecontent?filepath=org/python/jython-standalone/2.5.3/jython-standalone-2.5.3.jar dest=~/servers/solr/lib/jython-standalone-2.5.3.jar
+      get_url: url=http://search.maven.org/remotecontent?filepath=org/python/jython-standalone/2.5.3/jython-standalone-2.5.3.jar dest={{ dir_servers }}/solr/lib/jython-standalone-2.5.3.jar
     - name: copy solr.xml
-      copy: src=~/src/ucldc_solr/solr.xml dest=~/servers/solr
+      copy: src={{ dir_code_src }}/ucldc_solr/solr.xml dest={{ dir_servers }}/solr
     - name: copy zoo.cfg
-      copy: src=~/src/ucldc_solr/zoo.cfg dest=~/servers/solr
+      copy: src={{ dir_code_src }}/ucldc_solr/zoo.cfg dest={{ dir_servers }}/solr
     - name: copy solr contrib libraries
-      shell: cp -rp ~/java/solr/contrib ~/servers/solr/contrib
+      shell: cp -rp ~/java/solr/contrib {{ dir_servers }}/solr/contrib
     - name: create solr dist directory
-      file: path=~/servers/solr/dist state=directory
+      file: path={{ dir_servers }}/solr/dist state=directory
 
     - name: copy solr-cell jar
-      copy: src=~/java/solr/dist/solr-cell-${solr_version}.jar dest=~/servers/solr/dist/solr-cell-${solr_version}.jar
+      copy: src=~/java/solr/dist/solr-cell-${solr_version}.jar dest={{ dir_servers }}/solr/dist/solr-cell-${solr_version}.jar
     - name: copy solr-clustering jar
-      copy: src=~/java/solr/dist/solr-clustering-${solr_version}.jar dest=~/servers/solr/dist/solr-clustering-${solr_version}.jar
+      copy: src=~/java/solr/dist/solr-clustering-${solr_version}.jar dest={{ dir_servers }}/solr/dist/solr-clustering-${solr_version}.jar
     - name: copy solr-langid jar
-      copy: src=~/java/solr/dist/solr-langid-${solr_version}.jar dest=~/servers/solr/dist/solr-langid-${solr_version}.jar
+      copy: src=~/java/solr/dist/solr-langid-${solr_version}.jar dest={{ dir_servers }}/solr/dist/solr-langid-${solr_version}.jar
     - name: copy solr-velocity jar
-      copy: src=~/java/solr/dist/solr-velocity-${solr_version}.jar dest=~/servers/solr/dist/solr-velocity-${solr_version}.jar
+      copy: src=~/java/solr/dist/solr-velocity-${solr_version}.jar dest={{ dir_servers }}/solr/dist/solr-velocity-${solr_version}.jar
     - name: copy example collection files to dc-collection
-      shell: cp -rp ~/java/solr/example/solr/collection1/* ~/servers/solr/dc-collection
+      shell: cp -rp ~/java/solr/example/solr/collection1/* {{ dir_servers }}/solr/dc-collection
     - name: Write solrconfig to dc-collection/conf
-      template: src=~/src/ucldc_solr/dc-collection/conf/solrconfig.xml.j2 dest=~/servers/solr/dc-collection/conf/solrconfig.xml
+      template: src={{ dir_code_src }}/ucldc_solr/dc-collection/conf/solrconfig.xml.j2 dest={{ dir_servers }}/solr/dc-collection/conf/solrconfig.xml
     - name: Copy modified velocity files to dc-collection/conf/velocity
-      shell: cp -rp ~/src/ucldc_solr/dc-collection/conf/velocity/* ~/servers/solr/dc-collection/conf/velocity
+      shell: cp -rp {{ dir_code_src }}/ucldc_solr/dc-collection/conf/velocity/* {{ dir_servers }}/solr/dc-collection/conf/velocity
     - name: Template copy velocity.properties to dc-collection/conf/velocity
-      template: src=~/src/ucldc_solr/dc-collection/conf/velocity/velocity.properties dest=~/servers/solr/dc-collection/conf/velocity/
+      template: src={{ dir_code_src }}/ucldc_solr/dc-collection/conf/velocity/velocity.properties dest={{ dir_servers }}/solr/dc-collection/conf/velocity/
     - name: copy dc-collection schema.xml into webapp
-      copy: src=~/src/ucldc_solr/dc-collection/conf/schema.xml dest=~/servers/solr/dc-collection/conf/
+      copy: src={{ dir_code_src }}/ucldc_solr/dc-collection/conf/schema.xml dest={{ dir_servers }}/solr/dc-collection/conf/
     - name: copy solr to tomcat
-      copy: src=~/java/solr/dist/solr-${solr_version}.war dest=~/servers/tomcat/webapps/solr.war #restart tomcat now, to unpack solr. then change WEB-INF/web.xml
+      copy: src=~/java/solr/dist/solr-${solr_version}.war dest={{ dir_servers }}/tomcat/webapps/solr.war #restart tomcat now, to unpack solr. then change WEB-INF/web.xml
 #TODO: set CATALINA_BASE AND CATALINA_HOME
     - name: copy solr logging jars to tomcat
       shell: cp -rp ~/java/solr/dist/solrj-lib/*.jar ~/java/tomcat/lib

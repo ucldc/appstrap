@@ -4,6 +4,8 @@
     gather_facts: True         
     vars:
       solr_version: 4.4.0 #TODO: get from ls?
+      dir_code_src: '~/code/'
+      dir_servers: '~/servers/'
     tasks:
     - name: check_appstrap
       shell: . $HOME/appstrap/setenv.sh
@@ -27,8 +29,8 @@
     - name: wait for tomcat
       command: /bin/sleep 30
     - name: replace web.xml for solr webapp
-      copy: src={{ role_home_dir.stdout}}/src/ucldc_solr/web.xml dest=~/servers/tomcat/webapps/solr/WEB-INF/
-    - name: start tomcat
-      shell: monit validate
+      copy: src={{ dir_code_src }}/ucldc_solr/web.xml dest={{ dir_servers }}/tomcat/webapps/solr/WEB-INF/
     - name: create init.d-monit
       template: src=./templates/solr/init.d-monit.j2 dest=~/init.d-monit
+    - name: monit validate
+      shell: monit validate
