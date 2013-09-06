@@ -17,3 +17,11 @@ fi
 if [ -f ~/.bash-aliases ]; then
 	. ~/.bash-aliases
 fi
+
+if [ -f ~/.rvm/scripts/rvm ]; then
+	. ~/.rvm/scripts/rvm
+fi
+
+{% if ansible_os_family|lower == 'redhat' %}
+export CURL_CA_BUNDLE=/etc/ssl/certs/ca-bundle.crt
+{% endif %}
