@@ -16,10 +16,9 @@ cd $DIR
 
 export LD_LIBRARY_PATH="${HOME}/pkg/lib:${HOME}/servers/shibboleth/lib"
 
+. $DIR/../bashrc/role-account
 
 stack_run_batch "../pmake" registry.pkgsrc.txt
-which pip
-exit
 pip install lxml
 if [[ ! -e ${HOME}/pkg/bin/python ]]; then
     ln -s ${HOME}/pkg/bin/python2.7 ${HOME}/pkg/bin/python
