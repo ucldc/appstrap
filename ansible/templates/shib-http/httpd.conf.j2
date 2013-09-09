@@ -145,7 +145,7 @@ UseCanonicalName On
 
 NameVirtualHost *:18880
 <VirtualHost *:18880>
-    Redirect permanent / https://{{ ansible_user_id }}-dev.cdlib.org/
+    Redirect permanent / https://{{ hostname.stdout }}.cdlib.org/
 </VirtualHost>
 
 # Secure (SSL/TLS) connections

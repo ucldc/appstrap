@@ -2,7 +2,7 @@
   - hosts: localhost
     gather_facts: True         
     tasks: 
-    - include: tasks/role_home_dir.yml  # sets {{ role_home_dir.stdout }}
+    - include: tasks/setvars.yml  # sets {{ role_home_dir.stdout }} and hostname.stdout
     - include: tasks/shibboleth.yml app=registry  
     - include: tasks/monit.yml app=registry
     - name: clone registry source code
