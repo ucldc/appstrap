@@ -27,6 +27,7 @@ fi
 ./monit_binary
 mkdir -p ${HOME}/tmp
 ../shib_it -p ${HOME}/servers/shibboleth -o ${HOME}/pkg -t ${HOME}/tmp
+../roll_test_certs
 
 # okay, now we should have a good stack set up, let's install and configure the app!
 cd ../ansible
