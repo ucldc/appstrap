@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 if [[ -n "$DEBUG" ]]; then 
   set -x
 fi
@@ -11,6 +10,8 @@ set -o errexit   ## set -e : exit the script if any statement returns a non-true
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
 cd $DIR
+
+. ../bashrc/role-account
 
 virtualenv --no-site-packages .
 set +u

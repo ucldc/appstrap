@@ -16,15 +16,18 @@ cd $DIR
 
 export LD_LIBRARY_PATH="${HOME}/pkg/lib:${HOME}/servers/shibboleth/lib"
 
+. $DIR/../bashrc/role-account
+
 stack_run_batch "../pmake" registry.pkgsrc.txt
 pip install lxml
-if [ ! -f "${HOME}/pkg/bin/python" ]; then
+if [[ ! -f "${HOME}/pkg/bin/python" ]]; then
     ln -s ${HOME}/pkg/bin/python2.7 ${HOME}/pkg/bin/python
 fi
 ../cdl/get_java
 ./monit_binary
 mkdir -p ${HOME}/tmp
 ../shib_it -p ${HOME}/servers/shibboleth -o ${HOME}/pkg -t ${HOME}/tmp
+../roll_test_certs
 
 # okay, now we should have a good stack set up, let's install and configure the app!
 cd ../ansible

@@ -6,8 +6,8 @@ mkdir -p $HOME/certs
 
 # create a test certificate
 openssl req -new -x509 -nodes \
-        -out $HOME/certs/test.crt \
-        -keyout $HOME/certs/test.key \
+        -out $HOME/certs/this.crt \
+        -keyout $HOME/certs/this.key \
         -batch
 
 # Copyright © 2013, Regents of the University of California
