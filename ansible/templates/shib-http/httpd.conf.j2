@@ -315,7 +315,7 @@ SSLCertificateKeyFile "{{ role_home_dir.stdout }}/certs/this.key"
 #   the referenced file can be the same as SSLCertificateFile
 #   when the CA certificates are directly appended to the server
 #   certificate for convinience.
-# SSLCertificateChainFile "{{ role_home_dir.stdout }}/certs/Intermediate_x509.cer"
+SSLCertificateChainFile "{{ role_home_dir.stdout }}/certs/Intermediate_x509.cer"
 
 #   Certificate Authority (CA):
 #   Set the CA certificate verification path where to find CA

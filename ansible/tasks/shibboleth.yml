@@ -36,3 +36,5 @@
   file: path=~/webroot/Logos state=directory
 - name: get logo for use with the EDS
   get_url: url=http://dsc-aws1.cdlib.org/Logos/uc_wordmark_stacked_gray_90_64.png dest=~/webroot/Logos/uc_wordmark_stacked_gray_90_64.png 
+- name: InCommon Intermediate_x509.cer
+  copy: src=~/appstrap/cdl/Intermediate_x509.cer dest=~/certs/Intermediate_x509.cer
