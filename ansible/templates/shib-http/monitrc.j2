@@ -22,3 +22,6 @@ check process http
     if failed host {{ ansible_fqdn }} port 443 type TCPSSL SSLV3 protocol http
     then 
         restart
+
+{% block appstrap %}
+{% endblock %}

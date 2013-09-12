@@ -1,5 +1,5 @@
 ---
 - name: generate .monitrc
-  template: src=templates/shib-http/monitrc.j2  dest=~/.monitrc mode=700
+  template: src=templates/shib-http/{{ app }}-monitrc.j2  dest=~/.monitrc mode=700
 - name: yo, monit needs a log file
   file: path=~/appstrap/monit/log state=directory
