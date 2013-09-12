@@ -12,11 +12,6 @@ LoadModule wsgi_module lib/httpd/mod_wsgi.so
   SetHandler default-handler 
 </Location> 
 
-RedirectMatch /ds$ /ds/
-RedirectMatch /ds/DiscoFeed$ /Shibboleth.sso/DiscoFeed
-Alias /ds/ {{ role_home_dir.stdout }}/code/js-embedded-discovery/target/
-AliasMatch ^/([^/]*\.css) {{ role_home_dir.stdout }}/webroot/styles/$1
-
 Alias /static/ {{ role_home_dir.stdout }}/code/avram/admin_bootstrap/static/
 Alias /Logos/ {{ role_home_dir.stdout }}/webroot/Logos/
 
@@ -24,11 +19,6 @@ RedirectMatch ^/api$ /api/v1/
 RedirectMatch ^/api/$ /api/v1/
 
 <Directory {{ role_home_dir.stdout }}/webroot>
-  Order deny,allow
-  Allow from all
-</Directory>
-
-<Directory {{ role_home_dir.stdout }}/code/js-embedded-discovery/target>
   Order deny,allow
   Allow from all
 </Directory>
