@@ -15,6 +15,7 @@ cd $DIR
 . stack_run.sh  # gives us `stack_run_batch`
 export LD_LIBRARY_PATH="${HOME}/pkg/lib:${HOME}/servers/shibboleth/lib"
 
+. $DIR/../setenv.sh
 
 # install pkgsrc packages
 ACCEPTABLE_LICENSES=lame-license stack_run_batch "../pmake" nuxeo.pkgsrc.txt
@@ -31,9 +32,22 @@ fi
 
 # install nuxeo; has some steps that really must actually be done by hand :(
 
+# set up postgres
+
+if [[ ! -d "${HOME}/servers/postgres/data" ]];then
+  mkdir -p ${HOME}/servers/postgres/log
+  initdb -D ${HOME}/servers/postgres/data
+  pg_ctl -D ${HOME}/servers/postgres/data -l ${HOME}/servers/postgres/log/logfile start
+  sleep 2
+  createdb -E UTF8
+  pg_ctl -D ${HOME}/servers/postgres/data stop
+fi
+
 # okay, now we should have a good stack set up, let's install and configure the app!
 cd ../ansible
-./init.sh
+if [[ ! -d bin ]]; then
+  ./init.sh
+fi
 set +u
 . bin/activate
 set -u
