@@ -1,0 +1,12 @@
+---
+    - name: install .monitrc
+      template: src=./templates/solr/monitrc.j2 dest=~/.monitrc mode=0700
+    - name: create servers/monit directory
+      file: path=~/servers/monit state=directory
+    - name: create servers/monit/log directory
+      file: path=~/servers/monit/log state=directory
+    - name: create servers/monit/bin directory
+      file: path=~/servers/monit/bin state=directory
+    - name: copy monit-wrapper
+      template: src=./templates/solr/monit-wrapper.bash.j2 dest=~/servers/monit/bin/monit-wrapper.bash mode=0755
+

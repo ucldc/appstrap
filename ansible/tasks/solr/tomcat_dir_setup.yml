@@ -1,0 +1,20 @@
+---
+    - name: create servers tomcat directory
+      file: path=~/servers/tomcat state=directory
+    - name: create tomcat bin dir
+      file: path=~/servers/tomcat/bin state=directory
+    - name: create tomcat conf dir
+      file: path=~/servers/tomcat/conf state=directory
+    - name: create tomcat logs dir
+      file: path=~/servers/tomcat/logs state=directory
+    - name: create tomcat webapps dir
+      file: path=~/servers/tomcat/webapps state=directory
+    - name: create tomcat work dir
+      file: path=~/servers/tomcat/work state=directory
+    - name: create tomcat temp dir
+      file: path=~/servers/tomcat/temp state=directory
+    - name: add juli jar
+      copy: src=~/java/tomcat/bin/tomcat-juli.jar dest=~/servers/tomcat/bin/tomcat-juli.jar
+    - name: copy conf files to CATALINA_BASE/conf
+      shell: cp -rp ~/java/tomcat/conf/* ~/servers/tomcat/conf
+

@@ -34,6 +34,7 @@ yum -y install libjpeg-devel
 yum -y install freetype-devel
 yum -y install libtiff-devel
 yum -y install lcms-devel
+yum install -y readline-devel libyaml-devel libffi-devel #needed for rvm
 
 su - ec2-user -c 'curl https://raw.github.com/tingletech/appstrap/master/cdl/ucldc-operator-keys.txt >> ~/.ssh/authorized_keys'
 
