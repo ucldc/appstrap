@@ -16,7 +16,7 @@ cd $DIR
 
 export LD_LIBRARY_PATH="${HOME}/pkg/lib:${HOME}/servers/shibboleth/lib"
 
-. $DIR/../bashrc/role-account
+. $DIR/../setenv.sh
 
 stack_run_batch "../pmake" registry.pkgsrc.txt
 pip install lxml
