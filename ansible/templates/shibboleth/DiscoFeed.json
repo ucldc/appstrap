@@ -1,0 +1,109 @@
+[
+  {
+    "DisplayNames": [
+      {
+        "lang": "en",
+        "value": "UC Berkeley"
+      }
+    ],
+    "entityID": "urn:mace:incommon:berkeley.edu"
+  },
+  {
+    "Logos": [
+      {
+        "lang": "en",
+        "width": "396",
+        "height": "101",
+        "value": "https://shibboleth.ucdavis.edu/icons/ucd_logo.png"
+      }
+    ],
+    "DisplayNames": [
+      {
+        "lang": "en",
+        "value": "UC Davis"
+      }
+    ],
+    "entityID": "urn:mace:incommon:ucdavis.edu"
+  },
+  {
+    "DisplayNames": [
+      {
+        "lang": "en",
+        "value": "UC Irvine"
+      }
+    ],
+    "entityID": "urn:mace:incommon:uci.edu"
+  },
+  {
+    "DisplayNames": [
+      {
+        "lang": "en",
+        "value": "UCLA"
+      }
+    ],
+    "entityID": "urn:mace:incommon:ucla.edu"
+  },
+  {
+    "DisplayNames": [
+      {
+        "lang": "en",
+        "value": "UC Merced"
+      }
+    ],
+    "entityID": "urn:mace:incommon:ucmerced.edu"
+  },
+  {
+    "DisplayNames": [
+      {
+        "lang": "en",
+        "value": "UC Office of the President"
+      }
+    ],
+    "entityID": "urn:mace:incommon:ucop.edu"
+  },
+  {
+    "DisplayNames": [
+      {
+        "lang": "en",
+        "value": "UC Riverside"
+      }
+    ],
+    "entityID": "urn:mace:incommon:ucr.edu"
+  },
+  {
+    "DisplayNames": [
+      {
+        "lang": "en",
+        "value": "UC San Diego"
+      }
+    ],
+    "entityID": "urn:mace:incommon:ucsd.edu"
+  },
+  {
+    "DisplayNames": [
+      {
+        "lang": "en",
+        "value": "UC San Francisco"
+      }
+    ],
+    "entityID": "urn:mace:incommon:ucsf.edu"
+  },
+  {
+    "DisplayNames": [
+      {
+        "value": "UC Santa Barbara",
+        "lang": "en"
+      }
+    ],
+    "entityID": "urn:mace:incommon:ucsb.edu"
+  },
+  {
+    "DisplayNames": [
+      {
+        "lang": "en",
+        "value": "UC Santa Cruz"
+      }
+    ],
+    "entityID": "urn:mace:incommon:ucsc.edu"
+  }
+]
