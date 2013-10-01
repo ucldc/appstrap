@@ -12,9 +12,6 @@ LoadModule wsgi_module lib/httpd/mod_wsgi.so
   SetHandler default-handler 
 </Location> 
 
-Alias /static/ {{ role_home_dir.stdout }}/code/avram/admin_bootstrap/static/
-Alias /Logos/ {{ role_home_dir.stdout }}/webroot/Logos/
-
 RedirectMatch ^/api$ /api/v1/
 RedirectMatch ^/api/$ /api/v1/
 
