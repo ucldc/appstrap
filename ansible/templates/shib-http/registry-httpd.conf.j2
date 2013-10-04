@@ -8,6 +8,12 @@ LoadModule wsgi_module lib/httpd/mod_wsgi.so
   require valid-user
 </Location>
 
+<Location "/edit">
+  AuthType shibboleth
+  ShibRequestSetting requireSession 1
+  require valid-user
+</Location>
+
 <Location /Shibboleth.sso> 
   SetHandler default-handler 
 </Location> 
