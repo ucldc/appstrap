@@ -14,5 +14,5 @@ if [ -e $HOME/.bashrc-${user} ]; then
   . "$HOME/.bashrc-${user}"
 fi
 
-export NUXEO_CONF=$HOME/nuxeo/nuxeo_home/bin/nuxeo.conf
+export NUXEO_CONF=$HOME/nuxeo_home/bin/nuxeo.conf
 export NUXEO_HOME=$HOME/nuxeo/nuxeo
