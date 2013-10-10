@@ -1,4 +1,6 @@
 ---
+#### Add --extra-vars "solr_read_only=True" to the ansible-playbook call
+#### to create a read-only solr instance
 -   hosts: localhost
     connection: local
     gather_facts: True         
