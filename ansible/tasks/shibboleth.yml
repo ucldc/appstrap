@@ -27,7 +27,7 @@
 - name: copy attribute-map.xml into shibboleth
   copy: src=~/appstrap/ansible/templates/shibboleth/attribute-map.xml dest=~/servers/shibboleth/etc/shibboleth/attribute-map.xml
 - name: get incommons public key
-  command: curl https://wayf.incommonfederation.org/bridge/certs/incommon.pem > ~/servers/shibboleth/etc/shibboleth/incommon.pem creates=~/servers/shibboleth/etc/shibboleth/incommon.pem
+  get_url: url=https://wayf.incommonfederation.org/bridge/certs/incommon.pem dest=~/servers/shibboleth/etc/shibboleth/incommon.pem
 - name: clone embedded discovery service
   git: repo=https://github.com/ucldc/js-embedded-discovery.git dest=~/code/js-embedded-discovery version=ucldc-eds
 - name: bulid shibboleth EDS
@@ -36,3 +36,7 @@
   file: path=~/webroot/Logos state=directory
 - name: get logo for use with the EDS
   get_url: url=http://dsc-aws1.cdlib.org/Logos/uc_wordmark_stacked_gray_90_64.png dest=~/webroot/Logos/uc_wordmark_stacked_gray_90_64.png 
+- name: set up custom DiscoFeed.json
+  copy: src=templates/shibboleth/DiscoFeed.json dest=~/webroot/Logos/DiscoFeed.json
+- name: InCommon Intermediate_x509.cer
+  copy: src=~/appstrap/cdl/Intermediate_x509.cer dest=~/certs/Intermediate_x509.cer

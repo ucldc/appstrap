@@ -145,7 +145,7 @@ UseCanonicalName On
 
 NameVirtualHost *:18880
 <VirtualHost *:18880>
-    Redirect permanent / https://{{ ansible_user_id }}-dev.cdlib.org/
+    Redirect permanent / https://{{ hostname.stdout }}.cdlib.org/
 </VirtualHost>
 
 # Secure (SSL/TLS) connections
@@ -256,6 +256,19 @@ LoadModule mod_shib {{ role_home_dir.stdout }}/servers/shibboleth/lib/shibboleth
 {% block appstrap %}
 {% endblock %}
 
+RedirectMatch /ds$ /ds/
+RedirectMatch /ds/DiscoFeed$ /Logos/DiscoFeed.json
+Alias /ds/ {{ role_home_dir.stdout }}/code/js-embedded-discovery/target/
+AliasMatch ^/([^/]*\.css) {{ role_home_dir.stdout }}/webroot/styles/$1
+
+Alias /static/ {{ role_home_dir.stdout }}/code/avram/admin_bootstrap/static/
+Alias /Logos/ {{ role_home_dir.stdout }}/webroot/Logos/
+
+<Directory {{ role_home_dir.stdout }}/code/js-embedded-discovery/target>
+  Order deny,allow
+  Allow from all
+</Directory>
+
 #   General setup for the virtual host
 DocumentRoot "{{ role_home_dir.stdout }}/webroot"
 ServerName {{ ansible_fqdn }}:443
@@ -315,7 +328,7 @@ SSLCertificateKeyFile "{{ role_home_dir.stdout }}/certs/this.key"
 #   the referenced file can be the same as SSLCertificateFile
 #   when the CA certificates are directly appended to the server
 #   certificate for convinience.
-# SSLCertificateChainFile "{{ role_home_dir.stdout }}/certs/Intermediate_x509.cer"
+SSLCertificateChainFile "{{ role_home_dir.stdout }}/certs/Intermediate_x509.cer"
 
 #   Certificate Authority (CA):
 #   Set the CA certificate verification path where to find CA
