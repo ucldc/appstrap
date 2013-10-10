@@ -1,8 +1,6 @@
 ---
     - name: get solr repository
       git: repo=https://github.com/mredar/ucldc_solr.git dest={{ dir_code_src }}/ucldc_solr
-    - name: compile css, run compass to create css
-      shell: cd {{ dir_code_src }}/ucldc_solr/solritas_compass_project; compass compile
     - name: create servers solr directory
       file: path={{ dir_servers }}/solr state=directory
     - name: create dc-collection solr core directory
@@ -32,6 +30,8 @@
       shell: cp -rp ~/java/solr/example/solr/collection1/* {{ dir_servers }}/solr/dc-collection
     - name: Write solrconfig to dc-collection/conf
       template: src={{ dir_code_src }}/ucldc_solr/dc-collection/conf/solrconfig.xml.j2 dest={{ dir_servers }}/solr/dc-collection/conf/solrconfig.xml
+    - name: compile css, run compass to create css
+      shell: cd {{ dir_code_src }}/ucldc_solr/solritas_compass_project; compass compile
     - name: Copy modified velocity files to dc-collection/conf/velocity
       shell: cp -rp {{ dir_code_src }}/ucldc_solr/dc-collection/conf/velocity/* {{ dir_servers }}/solr/dc-collection/conf/velocity
     - name: Template copy velocity.properties to dc-collection/conf/velocity
