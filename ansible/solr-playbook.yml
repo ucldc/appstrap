@@ -11,7 +11,7 @@
     tasks:
     - name: check_appstrap
       shell: . $HOME/appstrap/setenv.sh
-    - include: tasks/role_home_dir.yml  # sets {{ role_home_dir.stdout }}
+    - include: tasks/setvars.yml  # sets {{ role_home_dir.stdout }}
     - name: put tomcat envvars in place
       copy: src=./templates/solr/tomcat-setenv.bash dest=~/.tomcat-setenv.bash
     - name: put bashrc in place, with fix for Amazon certs if necessary
