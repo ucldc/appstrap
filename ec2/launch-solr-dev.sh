@@ -4,10 +4,11 @@
 # this script runs on a machine where "Universal Command Line Interface for Amazon Web Services"
 # https://github.com/aws/aws-cli is installed and is authenticated to amazon web services
 # AWS_ACCESS_KEY and AWS_SECRET_ACCESS_KEY environment variables must be set
+# 
+# This script also requires installation of jq : http://stedolan.github.io/jq/
 
 # like a russia doll, this script 
 #    -   creates a script that runs as root on a brand new amazon linux ec2 
-#    -   creates a script that runs as the 'aspace' unix role account that installs archives space
 
 set -eu
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
@@ -46,13 +47,12 @@ command="aws ec2 run-instances
      --monitoring file://monitoring.json
      --placement file://placement.json
      --instance-type $EC2_SIZE                       
-     --min-count 1                                   
+     --count 1:1                                   
      --image-id $AMI_EBS                             
-     --max-count 1                                   
      --user-data file://ec2_solr_init.sh.gz
      --key-name UCLDC_keypair_0
      --security-groups Solr
-     --iam-instance-profile name=s3-readonly"
+     --iam-instance-profile Name=s3-readonly"
 
 echo "ec2 launch command $command"
 
@@ -61,7 +61,7 @@ instance=`$command | jq '.Instances[0] | .InstanceId' -r`
 
 echo "DONE WITH INSTANCE LAUNCH: $instance"
 
-name_cmd="aws ec2 create-tags --region $EC2_REGION --resources ${instance} --tags key=Name,value=UCLDC_Solr"
+name_cmd="aws ec2 create-tags --region $EC2_REGION --resources ${instance} --tags Key=Name,Value=UCLDC_Solr"
 tags=`$name_cmd`
 
 echo tags

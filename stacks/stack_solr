@@ -23,3 +23,13 @@ export PKG_JVM_DEFAULT=sun-jdk7
 echo "================================PMAKE solr.pkgsrc.txt"
 ACCEPTABLE_LICENSES=oracle-binary-code-license stack_run_batch "../pmake" solr.pkgsrc.txt
 ./monit_binary
+
+# okay, now we should have a good stack set up, let's install and configure the app!
+cd ../ansible
+if [[ ! -d bin ]]; then
+  ./init.sh
+fi
+set +u
+. bin/activate
+set -u
+ansible-playbook -i host_inventory solr-playbook.yml
