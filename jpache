@@ -38,7 +38,8 @@ def main(argv=None):
     keys = [ 
         'http://www.apache.org/dist/ant/KEYS', 
         'http://www.apache.org/dist/maven/KEYS', 
-        'https://www.apache.org/dist/tomcat/tomcat-connectors/KEYS'
+        'https://www.apache.org/dist/tomcat/tomcat-connectors/KEYS',
+	'https://www.apache.org/dist/tomcat/tomcat-7/KEYS'
     ]
 
     if argv.tempdir:
@@ -58,8 +59,11 @@ def main(argv=None):
         if src_dir.endswith('-bin'):
             src_dir = src_dir[:-4]
         print src_dir
-        os.symlink(src_dir, package)
-
+        try:
+            os.symlink(src_dir, package)
+        except OSError, e:
+            if e.errno != 17 and not argv.force: #symlink already exists OK
+                raise e
     shutil.rmtree(tmp)
 
 # main() idiom for importing into REPL for debugging 
