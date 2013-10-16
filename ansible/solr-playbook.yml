@@ -5,7 +5,7 @@
     connection: local
     gather_facts: True         
     vars:
-      solr_version: 4.4.0 #TODO: get from ls?
+      solr_version: 4.5.0 #TODO: get from ls?
       dir_code_src: '~/code/'
       dir_servers: '~/servers/'
     tasks:
@@ -17,7 +17,7 @@
     - name: put bashrc in place, with fix for Amazon certs if necessary
       template: src=./templates/solr/bashrc.j2 dest=~/.bashrc
     - name: put gitconfig in place
-      copy: src=./templates/solr/gitconfig dest=~/.gitconfig
+      template: src=./templates/solr/gitconfig.j2 dest=~/.gitconfig
     - include: tasks/solr/compass_setup.yml
     - include: tasks/solr/tomcat_dir_setup.yml #create dirs and copy static files
     - include: tasks/solr/monit_setup.yml
@@ -25,11 +25,11 @@
     - name: start tomcat to install solr war
       shell: monit start tomcat
     - name: wait for tomcat
-      command: /bin/sleep 30 #actually want to wait for dir webapps/solr
+      command: /bin/sleep 60 #actually want to wait for dir webapps/solr
     - name: stop tomcat
       shell: monit stop tomcat
     - name: wait for tomcat
-      command: /bin/sleep 30
+      command: /bin/sleep 60
     - name: replace web.xml for solr webapp
       copy: src={{ dir_code_src }}/ucldc_solr/web.xml dest={{ dir_servers }}/tomcat/webapps/solr/WEB-INF/
     - name: create init.d-monit

@@ -8,6 +8,19 @@ if [ -e $HOME/appstrap/setenv.sh ]; then
   . $HOME/appstrap/setenv.sh
 fi
 
+if [ -f $HOME/.tomcat-setenv.bash ]; then
+	. $HOME/.tomcat-setenv.bash
+fi
+
+if [ -f $HOME/.bash-aliases ]; then
+	. $HOME/.bash-aliases
+fi
+
+if [ -f $HOME/.rvm/scripts/rvm ]; then
+	. $HOME/.rvm/scripts/rvm
+        rvm use 2.0.0
+fi
+
 user=`who -m | awk '{ print $1 }'`
 
 if [ -e $HOME/.bashrc-${user} ]; then

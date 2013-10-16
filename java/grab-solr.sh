@@ -4,7 +4,7 @@
 #
 set -eu
 
-solrVer=4.4.0
+solrVer=4.5.0
 solr=solr-$solrVer
 md5="Can't find one for solr from it's download page"
 

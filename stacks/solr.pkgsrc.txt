@@ -9,3 +9,4 @@ textproc/p5-ack
 lang/python27
 devel/py-virtualenv
 devel/py-pip
+lang/ruby
