@@ -31,7 +31,7 @@
     - name: wait for tomcat
       command: /bin/sleep 60
     - name: replace web.xml for solr webapp
-      copy: src={{ dir_code_src }}/ucldc_solr/web.xml dest={{ dir_servers }}/tomcat/webapps/solr/WEB-INF/
+      template: src={{ dir_code_src }}/ucldc_solr/web.xml.j2 dest={{ dir_servers }}/tomcat/webapps/solr/WEB-INF/web.xml
     - name: create init.d-monit
       template: src=./templates/solr/init.d-monit.j2 dest=~/init.d-monit
     - name: monit validate
