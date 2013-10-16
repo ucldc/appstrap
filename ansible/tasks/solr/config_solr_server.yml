@@ -42,6 +42,6 @@
       copy: src=~/java/solr/dist/solr-${solr_version}.war dest={{ dir_servers }}/tomcat/webapps/solr.war #restart tomcat now, to unpack solr. then change WEB-INF/web.xml
 #TODO: set CATALINA_BASE AND CATALINA_HOME
     - name: copy solr logging jars to tomcat
-      shell: cp -rp ~/java/solr/dist/solrj-lib/*.jar ~/java/tomcat/lib
+      shell: cp -rp ~/java/solr/dist/solrj-lib/*.jar ~/java/apache-tomcat/lib
     - name: copy log4j.properties to tomcat lib
-      copy: src=~/java/solr/example/resources/log4j.properties dest=~/java/tomcat/lib/
+      copy: src=~/java/solr/example/resources/log4j.properties dest=~/java/apache-tomcat/lib/

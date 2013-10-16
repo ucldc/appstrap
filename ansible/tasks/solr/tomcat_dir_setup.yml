@@ -14,7 +14,7 @@
     - name: create tomcat temp dir
       file: path=~/servers/tomcat/temp state=directory
     - name: add juli jar
-      copy: src=~/java/tomcat/bin/tomcat-juli.jar dest=~/servers/tomcat/bin/tomcat-juli.jar
+      copy: src=~/java/apache-tomcat/bin/tomcat-juli.jar dest=~/servers/tomcat/bin/tomcat-juli.jar
     - name: copy conf files to CATALINA_BASE/conf
-      shell: cp -rp ~/java/tomcat/conf/* ~/servers/tomcat/conf
+      shell: cp -rp ~/java/apache-tomcat/conf/* ~/servers/tomcat/conf
 

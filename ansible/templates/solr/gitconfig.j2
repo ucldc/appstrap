@@ -8,5 +8,7 @@
 [user]
   name = Mark Redar
   email = mark.redar@ucop.edu
+{% if ansible_os_family|lower == 'redhat' %}
 [http]
   sslCAInfo = /etc/ssl/certs/ca-bundle.crt
+{% endif %}
