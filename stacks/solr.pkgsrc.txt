@@ -8,5 +8,6 @@ devel/gettext textproc/groff  # needed for perldoc to work
 textproc/p5-ack
 lang/python27
 devel/py-virtualenv
+devel/py-setuptools
 devel/py-pip
 lang/ruby

@@ -17,7 +17,6 @@ export LD_LIBRARY_PATH="${HOME}/pkg/lib"
 
 . $DIR/../setenv.sh
 
-
 ../cdl/get_java
 
 # install pkgsrc packages
@@ -33,17 +32,19 @@ which python
 echo "--------------------------------"
 
 pip install lxml
-../jpache --prefix=${HOME}/java
+../jpache --prefix=${HOME}/java -f
 ../java/grab-solr.sh
 
 . monit_binary
 
 # okay, now we should have a good stack set up, let's install and configure the app!
-cd ../ansible
+cd $DIR/../ansible
+pwd
 if [[ ! -d bin ]]; then
   ./init.sh
 fi
 set +u
 . bin/activate
+pip install -r requirements-solr.txt --use-mirrors
 set -u
 ansible-playbook -i host_inventory solr-playbook.yml
