@@ -1,10 +1,9 @@
 
 # Source global definitions
-set +u #the ec2 attempts to access PS1 which is unset for non-interactive
 if [ -f /etc/bashrc ]; then
+    set +u #the ec2 attempts to access PS1 which is unset for non-interactive
     . /etc/bashrc
 fi
-set -o nounset
 
 if [ -e $HOME/appstrap/setenv.sh ]; then
   . $HOME/appstrap/setenv.sh
