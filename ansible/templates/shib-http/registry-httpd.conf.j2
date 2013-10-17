@@ -18,6 +18,13 @@ LoadModule wsgi_module lib/httpd/mod_wsgi.so
   SetHandler default-handler 
 </Location> 
 
+<IfModule proxy_module>
+    ProxyRequests Off
+    ProxyVia On
+    ProxyPass /solr http://127.0.0.1:8080/solr
+    ProxyPassReverse /solr http://127.0.0.1:8080/solr
+</IfModule>
+
 RedirectMatch ^/api$ /api/v1/
 RedirectMatch ^/api/$ /api/v1/
 
