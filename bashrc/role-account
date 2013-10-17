@@ -1,11 +1,25 @@
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
+    set +u #the ec2 attempts to access PS1 which is unset for non-interactive
     . /etc/bashrc
 fi
 
 if [ -e $HOME/appstrap/setenv.sh ]; then
   . $HOME/appstrap/setenv.sh
+fi
+
+if [ -f $HOME/.tomcat-setenv.bash ]; then
+	. $HOME/.tomcat-setenv.bash
+fi
+
+if [ -f $HOME/.bash-aliases ]; then
+	. $HOME/.bash-aliases
+fi
+
+if [ -f $HOME/.rvm/scripts/rvm ]; then
+	. $HOME/.rvm/scripts/rvm
+        rvm use 2.0.0
 fi
 
 user=`who -m | awk '{ print $1 }'`

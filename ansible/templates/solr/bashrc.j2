@@ -2,7 +2,8 @@
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
-	. /etc/bashrc
+    set +u #the ec2 attempts to access PS1 which is unset for non-interactive
+    . /etc/bashrc
 fi
 
 # User specific aliases and functions
@@ -23,6 +24,13 @@ if [ -f ~/.rvm/scripts/rvm ]; then
         rvm use 2.0.0
 fi
 
+user=`who -m | awk '{ print $1 }'`
+
+if [ -e $HOME/.bashrc-${user} ]; then
+  . "$HOME/.bashrc-${user}"
+fi
+
 {% if ansible_os_family|lower == 'redhat' %}
+#fix for non-standard ca-bundle location on redhat
 export CURL_CA_BUNDLE=/etc/ssl/certs/ca-bundle.crt
 {% endif %}
