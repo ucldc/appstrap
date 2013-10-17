@@ -1,10 +1,4 @@
 ---
-  - name: Download rvm
-    shell: curl -L https://get.rvm.io | bash -s stable
-  - name: Install ruby 2.0.0 to rvm env
-    shell: rvm install 2.0.0 #NOTE: bashrc sources ~/.rvm/scripts/rvm
-  - name: Set rvm 2.0.0 to default ruby
-    shell: rvm use 2.0.0
   - name: Install zurb-foundation
     shell: gem install zurb-foundation
   - name: Install compass

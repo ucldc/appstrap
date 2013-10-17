@@ -36,7 +36,7 @@ java_dir="jdk1.7.0_25"
 
 if [[ ! -e $HOME/${java_version}-linux-x64.tar.gz ]] && [[ ! -e java7 ]]; then
   if [[ $onAws ]]; then 
-    aws s3 get-object --bucket dsc-internal-java --key java7/${java_version}-linux-x64.tar.gz $HOME/java/${java_version}-linux-x64.tar.gz
+    aws s3 --region us-east-1 cp s3://dsc-internal-java/java7/${java_version}-linux-x64.tar.gz $HOME/java/${java_version}-linux-x64.tar.gz
   else
     curl http://dsc-aws1.cdlib.org/Java/${java_version}-linux-x64.tar.gz \
       > $HOME/java/${java_version}-linux-x64.tar.gz

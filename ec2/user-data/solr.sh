@@ -47,11 +47,7 @@ cat > ~solr/init.sh <<EOSETUP
 #!/usr/bin/env bash
 cd
 git clone https://github.com/mredar/appstrap.git
-./appstrap/stacks/stack_solr
-. ./appstrap/setenv.sh
-./appstrap/ansible/init.sh
-. ./appstrap/ansible/bin/activate
-ansible-playbook -i ./appstrap/ansible/host_inventory ./appstrap/ansible/solr-playbook.yml
+./appstrap/stacks/stack_solr #want this to finish, so below works
 EOSETUP
 su - solr -c ~solr/init.sh
 rm ~solr/init.sh 
