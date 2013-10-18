@@ -13,6 +13,8 @@ cd $DIR
 
 . ../bashrc/role-account
 
+# okay, the idea here is that ./init.sh should only be run once, on initial setup
+
 virtualenv --no-site-packages .
 set +u
 source bin/activate

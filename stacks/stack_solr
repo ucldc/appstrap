@@ -45,6 +45,5 @@ if [[ ! -d bin ]]; then
 fi
 set +u
 . bin/activate
-pip install -r requirements-solr.txt --use-mirrors
 set -u
 ansible-playbook -i host_inventory solr-playbook.yml
