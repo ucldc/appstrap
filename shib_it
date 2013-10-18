@@ -72,6 +72,9 @@ def main(argv=None):
     #resetldpath(argv.prefix, argv.other_prefix)
 
     for (url, package, configure) in packages:
+        # scraper looks at the "latest download" web page, finds the newest .tar.gz, 
+        # verfies MD5 checksum and and the pgp signature
+        # downloads verified package to `tmp` and returns the path to the .tar.gz
         archive = scraper(url, package, tmp)
         os.chdir(tmp)
         print subprocess.check_output(['tar', 'zxf', archive])
@@ -85,6 +88,7 @@ def main(argv=None):
         subprocess.check_output(['make'])
         subprocess.check_output(['make', 'install'])
 
+    # save config.logs from source building tree before deleting?
     shutil.rmtree(tmp)
 
 def resetldpath(addition):
