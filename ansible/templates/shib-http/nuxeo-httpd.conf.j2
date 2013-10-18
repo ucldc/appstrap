@@ -4,7 +4,7 @@
 <Location /secure>
   AuthType shibboleth
   ShibRequestSetting requireSession 1
-  require valid-user
+  Include {{ role_home_dir.stdout }}/users/users.httpd.txt
 </Location>
 
 ProxyPass /{{ ansible_user_id }} ajp://{{ ansible_default_ipv4.address }}:8009/{{ ansible_user_id }}
@@ -14,5 +14,7 @@ ProxyPass /{{ ansible_user_id }} ajp://{{ ansible_default_ipv4.address }}:8009/{
         ShibUseHeaders On
         require valid-user
 </Location>
+
+Redirect / https://wiki.library.ucsf.edu/display/UCLDC/UCLDC+Implementation
 
 {% endblock %}
