@@ -34,7 +34,6 @@ cd ../ansible
 ./init.sh
 set +u
 . bin/activate
-pip install -r requirements-registry.txt --use-mirrors
 set -u
 ansible-playbook -i host_inventory registry-playbook.yml
 cd
