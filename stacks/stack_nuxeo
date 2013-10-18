@@ -34,6 +34,8 @@ fi
 
 # set up postgres
 
+# TODO abort if postgress is running...
+
 if [[ ! -d "${HOME}/servers/postgres/data" ]];then
   mkdir -p ${HOME}/servers/postgres/log
   initdb -D ${HOME}/servers/postgres/data
