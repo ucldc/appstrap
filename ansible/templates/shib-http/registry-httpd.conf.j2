@@ -22,9 +22,9 @@ LoadModule wsgi_module lib/httpd/mod_wsgi.so
     ProxyRequests Off
     ProxyVia On
     ProxyPass /solr/query http://127.0.0.1:8080/solr/query
-    ProxyPassReverse /solr/query http://127.0.0.1:8080/solr/query
     ProxyPass /solr/browse http://127.0.0.1:8080/solr/browse
-    ProxyPassReverse /solr/browse http://127.0.0.1:8080/solr/browse
+    ProxyPass /solr/dc-collection http://127.0.0.1:8080/solr/dc-collection
+    ProxyPass /solr/js http://127.0.0.1:8080/solr/js
 </IfModule>
 
 RedirectMatch ^/api$ /api/v1/
