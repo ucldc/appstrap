@@ -271,7 +271,7 @@ Alias /Logos/ {{ role_home_dir.stdout }}/webroot/Logos/
 
 #   General setup for the virtual host
 DocumentRoot "{{ role_home_dir.stdout }}/webroot"
-ServerName {{ ansible_fqdn }}:443
+ServerName {{ hostname.stdout }}:443
 ServerAdmin oacops@cdlib.org
 TransferLog "|exec {{ role_home_dir.stdout }}/pkg/sbin/cronolog --symlink {{ role_home_dir.stdout }}/servers/httpd/logs/ssl_access_log {{ role_home_dir.stdout }}/servers/httpd/logs/ssl_access_log.%Y.%m.%d"
 ErrorLog  "|exec {{ role_home_dir.stdout }}/pkg/sbin/cronolog --symlink {{ role_home_dir.stdout }}/servers/httpd/logs/error {{ role_home_dir.stdout }}/servers/httpd/logs/error.%Y.%m.%d"
