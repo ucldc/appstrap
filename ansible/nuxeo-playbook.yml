@@ -3,9 +3,15 @@
     gather_facts: True         
     tasks: 
     - include: tasks/setvars.yml  # sets {{ role_home_dir.stdout }} and hostname.stdout
-    - include: tasks/shibboleth.yml app=nuxeo
-    - include: tasks/monit.yml app=nuxeo
-    - name: create users directory
-      file: path=~/users state=directory
-    - name: placeholder user list so apache will start
-      command: touch {{ role_home_dir.stdout }}/users/users.httpd.txt creates=~/users/users.httpd.txt
+####    - include: tasks/shibboleth.yml app=nuxeo
+####    - include: tasks/monit.yml app=nuxeo
+####    - name: create users directory
+####      file: path=~/users state=directory
+####    - name: placeholder user list so apache will start
+####      command: touch {{ role_home_dir.stdout }}/users/users.httpd.txt creates=~/users/users.httpd.txt
+    - name: create dbdumps directory
+      file: path=~/dbdumps state=directory
+    - name: copy pg_dump wrapper script to dbdumps directory
+      template: src=templates/nuxeo_dbdump.bash.j2 dest=~/dbdumps/nuxeo_dbdump.bash mode=700
+    - name: setup db dump cron
+      cron: name="dump nuxeo db" hour="1" minute="7" job="~/dbdumps/nuxeo_dbdump.bash" backup=True
