@@ -1,6 +1,6 @@
 ---
-#### Add --extra-vars "solr_read_only=True" to the ansible-playbook call
-#### to create a read-only solr instance
+ Add --extra-vars "solr_read_only=True" to the ansible-playbook call
+ to create a read-only solr instance
 -   hosts: localhost
     connection: local
     gather_facts: True         
@@ -36,3 +36,5 @@
       template: src=./templates/solr/init.d-monit.j2 dest=~/init.d-monit
     - name: monit validate
       shell: monit validate
+    - name: verify install with twill
+      shell: twill-sh tasks/solr/check_solr.tw -u http://localhost:8080/solr/
