@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+hostname=$(hostname)
+case "$hostname" in
+  'registry-dev' )
+    myhostname='registry-dev.cdlib.org' ;;
+  'registry-stg' )
+    myhostname='registry-stg.cdlib.org' ;;
+  'cdl-registry-p01' )
+    myhostname='registry.cdlib.org' ;;
+  'nuxeo-dev' )
+    myhostname='nuxeo-dev.cdlib.org' ;;
+  'nuxeo-stg' )
+    myhostname='nuxeo-stg.cdlib.org' ;;
+  'cdl-nuxeo-p01' )
+    myhostname='nuxeo.cdlib.org' ;;
+  * )
+    myhostname="$hostname" ;;
+esac
+
+echo "$myhostname"

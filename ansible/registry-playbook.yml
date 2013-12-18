@@ -9,3 +9,5 @@
       git: repo=https://github.com/ucldc/avram dest=~/code/avram
     - name: build avram environment
       command: ~/code/avram/init.sh creates=~/code/avram/bin/activate
+    - name: setup db dump cron
+      cron: name="dump django db" hour="1" minute="7" job="~/code/avram/dbdump.sh" backup=True

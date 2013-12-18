@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 if [[ -n "$DEBUG" ]]; then 
   set -x
 fi
@@ -10,15 +11,6 @@ set -o errexit   ## set -e : exit the script if any statement returns a non-true
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
 cd $DIR
-
-. ../bashrc/role-account
-
-# okay, the idea here is that ./init.sh should only be run once, on initial setup
-
-virtualenv --no-site-packages .
-set +u
-source bin/activate
-set -u
-pip install -r requirements.txt --use-mirrors
-
-echo "don't forget to `. bin/activate` to activate virtualenv"
+DATETIME=`date +%Y%m%d:%HH:%MM`
+{{ role_home_dir.stdout }}/pkg/bin/pg_dump nuxeo > nuxeo_db_dump-$DATETIME.sql
+bzip2 nuxeo_db_dump-$DATETIME.sql

@@ -85,7 +85,7 @@ LoadModule userdir_module lib/httpd/mod_userdir.so
 LoadModule alias_module lib/httpd/mod_alias.so
 LoadModule rewrite_module lib/httpd/mod_rewrite.so
 
-ServerAdmin you@example.com
+ServerAdmin ucldc@ucop.edu
 
 #ServerName www.example.com:80
 
@@ -145,7 +145,7 @@ UseCanonicalName On
 
 NameVirtualHost *:18880
 <VirtualHost *:18880>
-    Redirect permanent / https://{{ hostname.stdout }}.cdlib.org/
+    Redirect permanent / https://{{ hostname.stdout }}/
 </VirtualHost>
 
 # Secure (SSL/TLS) connections
@@ -271,7 +271,7 @@ Alias /Logos/ {{ role_home_dir.stdout }}/webroot/Logos/
 
 #   General setup for the virtual host
 DocumentRoot "{{ role_home_dir.stdout }}/webroot"
-ServerName {{ ansible_fqdn }}:443
+ServerName {{ hostname.stdout }}:443
 ServerAdmin oacops@cdlib.org
 TransferLog "|exec {{ role_home_dir.stdout }}/pkg/sbin/cronolog --symlink {{ role_home_dir.stdout }}/servers/httpd/logs/ssl_access_log {{ role_home_dir.stdout }}/servers/httpd/logs/ssl_access_log.%Y.%m.%d"
 ErrorLog  "|exec {{ role_home_dir.stdout }}/pkg/sbin/cronolog --symlink {{ role_home_dir.stdout }}/servers/httpd/logs/error {{ role_home_dir.stdout }}/servers/httpd/logs/error.%Y.%m.%d"

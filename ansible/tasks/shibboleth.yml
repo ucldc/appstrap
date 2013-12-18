@@ -36,6 +36,8 @@
   file: path=~/webroot/Logos state=directory
 - name: get logo for use with the EDS
   get_url: url=http://dsc-aws1.cdlib.org/Logos/uc_wordmark_stacked_gray_90_64.png dest=~/webroot/Logos/uc_wordmark_stacked_gray_90_64.png 
+- name: set up robots.txt
+  copy: src=~/appstrap/ansible/templates/shib-http/robots-restrictive.txt dest=~/webroot/robots.txt
 - name: set up custom DiscoFeed.json
   copy: src=templates/shibboleth/DiscoFeed.json dest=~/webroot/Logos/DiscoFeed.json
 - name: InCommon Intermediate_x509.cer

@@ -34,6 +34,8 @@ fi
 
 # set up postgres
 
+# TODO abort if postgress is running...
+
 if [[ ! -d "${HOME}/servers/postgres/data" ]];then
   mkdir -p ${HOME}/servers/postgres/log
   initdb -D ${HOME}/servers/postgres/data
@@ -50,7 +52,6 @@ if [[ ! -d bin ]]; then
 fi
 set +u
 . bin/activate
-pip install -r requirements-solr.txt --use-mirrors
 set -u
 ansible-playbook -i host_inventory nuxeo-playbook.yml
 cd

@@ -2,6 +2,10 @@
 
 # minimum certs required to start https
 
+if [[ -d $HOME/certs ]]; then
+  exit 0
+fi
+
 mkdir -p $HOME/certs
 
 # create a test certificate
