@@ -6,3 +6,14 @@ code 200
 find collection_name
 find title
 find <schema
+
+go $root_url
+code 200
+go /solr/dc-collection/select?q=*%3A*&wt=json&indent=true
+code 200
+find responseHeader
+find  '"status\":0,'
+find '"params":{'
+find '"indent":"true",'
+find '"q":"\*:\*",'
+find '"wt":"json"}'
