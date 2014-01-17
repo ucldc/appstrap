@@ -22,8 +22,8 @@ else
   onAws='1'
 fi 
 
-if [[ -e "$HOME/java/jdk-7u25-linux-x64.tar.gz" ]]; then
-    echo "$HOME/java/jdk-7u25-linux-x64.tar.gz exists, been done?"
+if [[ -e "$HOME/java/jdk-7u51-linux-x64.tar.gz" ]]; then
+    echo "$HOME/java/jdk-7u51-linux-x64.tar.gz exists, been done?"
     exit 0
 fi
 
@@ -31,8 +31,8 @@ mkdir -p $HOME/java
 
 # do we even really need sun java?  (except for XTF)
 
-java_version="jdk-7u25"
-java_dir="jdk1.7.0_25"
+java_version="jdk-7u51"
+java_dir="jdk1.7.0_51"
 
 if [[ ! -e $HOME/${java_version}-linux-x64.tar.gz ]] && [[ ! -e java7 ]]; then
   if [[ $onAws ]]; then 
