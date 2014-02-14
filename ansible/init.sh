@@ -19,6 +19,7 @@ virtualenv --no-site-packages .
 set +u
 source bin/activate
 set -u
+easy_install-2.7 pip==1.2.1
 pip install -r requirements.txt --use-mirrors
 
 echo "don't forget to `. bin/activate` to activate virtualenv"
