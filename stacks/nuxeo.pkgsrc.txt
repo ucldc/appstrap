@@ -14,7 +14,7 @@ graphics/ImageMagick
 print/poppler-utils
 
 www/ap2-jk
-
+textproc/openjade
 # languages
 #devel/ruby-rake
 #misc/rubygems
