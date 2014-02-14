@@ -13,7 +13,7 @@
       <Handler type="DiscoveryFeed" Location="/DiscoFeed"/>
     </Sessions>
     <Errors supportContact="oacops@cdlib.org" logoLocation="/shibboleth-sp/logo.jpg" styleSheet="/shibboleth-sp/main.css"/>
-    <MetadataProvider type="XML" uri="http://wayf.incommonfederation.org/InCommon/InCommon-metadata.xml" backingFilePath="/apps/{{  ansible_user_id }}/servers/shibboleth/var/run/shibboleth/InCommon-metadata.xml" maxRefreshDelay="28800" legacyOrgNames="true">
+    <MetadataProvider type="XML" uri="http://md.incommon.org/InCommon/InCommon-metadata.xml" backingFilePath="/apps/{{  ansible_user_id }}/servers/shibboleth/var/run/shibboleth/InCommon-metadata.xml" maxRefreshDelay="28800" legacyOrgNames="true">
       <SignatureMetadataFilter certificate="incommon.pem"/>
       <!-- https://atyourserviceonline.ucop.edu/Shibboleth.sso/DiscoFeed -->
       <MetadataFilter type="Whitelist">
