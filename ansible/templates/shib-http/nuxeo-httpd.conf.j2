@@ -12,6 +12,6 @@ ProxyPass /{{ ansible_user_id }} ajp://{{ ansible_default_ipv4.address }}:8009/{
         Require user
 </Location>
 
-RedirectMatch ^/$ https://wiki.library.ucsf.edu/display/UCLDC/UCLDC+Implementation
+RedirectMatch ^/$ /nuxeo/
 
 {% endblock %}
