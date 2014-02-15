@@ -29,13 +29,9 @@
 - name: get incommons public key
   get_url: url=https://wayf.incommonfederation.org/bridge/certs/incommon.pem dest=~/servers/shibboleth/etc/shibboleth/incommon.pem
 - name: clone embedded discovery service
-  git: repo=https://github.com/ucldc/js-embedded-discovery.git dest=~/code/js-embedded-discovery version=ucldc-eds
+  git: repo=https://github.com/ucldc/ucds.git dest=~/code/ucds version=master
 - name: bulid shibboleth EDS
-  command: ./build.sh creates=~/code/js-embedded-discovery/target chdir=~/code/js-embedded-discovery/build 
-- name: create directory for uc shibboleth logo
-  file: path=~/webroot/Logos state=directory
-- name: get logo for use with the EDS
-  get_url: url=http://dsc-aws1.cdlib.org/Logos/uc_wordmark_stacked_gray_90_64.png dest=~/webroot/Logos/uc_wordmark_stacked_gray_90_64.png 
+  command: ./change_email ucldc@ucop.edu creates=~/code/ucds/build/index.html.orig chdir=~/code/ucds
 - name: set up robots.txt
   copy: src=~/appstrap/ansible/templates/shib-http/robots-restrictive.txt dest=~/webroot/robots.txt
 - name: set up custom DiscoFeed.json

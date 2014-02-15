@@ -89,7 +89,7 @@ ServerAdmin ucldc@ucop.edu
 
 #ServerName www.example.com:80
 
-DocumentRoot "{{ role_home_dir.stdout }}/webroot
+DocumentRoot "{{ role_home_dir.stdout }}/webroot"
 
 #
 <Directory />
@@ -258,13 +258,13 @@ LoadModule mod_shib {{ role_home_dir.stdout }}/servers/shibboleth/lib/shibboleth
 
 RedirectMatch /ds$ /ds/
 RedirectMatch /ds/DiscoFeed$ /Logos/DiscoFeed.json
-Alias /ds/ {{ role_home_dir.stdout }}/code/js-embedded-discovery/target/
+Alias /ds/ {{ role_home_dir.stdout }}/code/ucds/build/
 AliasMatch ^/([^/]*\.css) {{ role_home_dir.stdout }}/webroot/styles/$1
 
 Alias /static/ {{ role_home_dir.stdout }}/code/avram/admin_bootstrap/static/
 Alias /Logos/ {{ role_home_dir.stdout }}/webroot/Logos/
 
-<Directory {{ role_home_dir.stdout }}/code/js-embedded-discovery/target>
+<Directory {{ role_home_dir.stdout }}/code/ucds/build>
   Order deny,allow
   Allow from all
 </Directory>
