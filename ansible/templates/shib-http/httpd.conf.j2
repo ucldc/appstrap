@@ -257,7 +257,6 @@ LoadModule mod_shib {{ role_home_dir.stdout }}/servers/shibboleth/lib/shibboleth
 {% endblock %}
 
 RedirectMatch /ds$ /ds/
-RedirectMatch /ds/DiscoFeed$ /Logos/DiscoFeed.json
 Alias /ds/ {{ role_home_dir.stdout }}/code/ucds/build/
 AliasMatch ^/([^/]*\.css) {{ role_home_dir.stdout }}/webroot/styles/$1
 

@@ -34,7 +34,5 @@
   command: ./change_email ucldc@ucop.edu creates=~/code/ucds/build/index.html.orig chdir=~/code/ucds
 - name: set up robots.txt
   copy: src=~/appstrap/ansible/templates/shib-http/robots-restrictive.txt dest=~/webroot/robots.txt
-- name: set up custom DiscoFeed.json
-  copy: src=templates/shibboleth/DiscoFeed.json dest=~/webroot/Logos/DiscoFeed.json
 - name: InCommon Intermediate_x509.cer
   copy: src=~/appstrap/cdl/Intermediate_x509.cer dest=~/certs/Intermediate_x509.cer
