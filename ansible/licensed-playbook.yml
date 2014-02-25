@@ -1,0 +1,17 @@
+---
+  - hosts: localhost
+    gather_facts: True         
+    tasks: 
+    - include: tasks/setvars.yml  # sets {{ role_home_dir.stdout }} and hostname.stdout
+#   - include: tasks/shibboleth.yml app=registry  
+#   - include: tasks/monit.yml app=registry
+    - name: soruce appstrap environment
+      shell: . $HOME/appstrap/setenv.sh
+    - name: clone xtf for aetb
+      hg: repo=https://bitbucket.org/barbarahui/xtf_aetb dest=~/code/xtf_aetb revision=aetb executable=/apps/licensed/pkg/bin/hg
+    - name: clone xtf for crc netbooks
+      hg: repo=https://bitbucket.org/barbarahui/xtf_aetb dest=~/code/xtf_crc revision=aetb executable=/apps/licensed/pkg/bin/hg
+    - name: build xtf_aetb
+      command: /apps/licensed/java/apache-ant/bin/ant chdir=~/code/xtf_aetb/WEB-INF
+    - name: build xtf_crc
+      command: /apps/licensed/java/apache-ant/bin/ant chdir=~/code/xtf_crc/WEB-INF
