@@ -2,6 +2,10 @@
 
 {% block appstrap %}
 
+RewriteEngine On
+RewriteRule ^/{{ ansible_user_id }}/img/workspace_open.gif$ /{{ ansible_user_id }}/icons/workspace_open.gif [R]
+RewriteRule ^/{{ ansible_user_id }}/img/folder.gif$ /{{ ansible_user_id }}/icons/folder.gif [R]
+
 ProxyPass /{{ ansible_user_id }} ajp://{{ ansible_default_ipv4.address }}:8009/{{ ansible_user_id }}
 <Location "/{{ ansible_user_id }}">
         AuthType shibboleth
