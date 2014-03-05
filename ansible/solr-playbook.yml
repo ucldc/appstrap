@@ -1,6 +1,6 @@
 ---
- Add --extra-vars "solr_read_only=True" to the ansible-playbook call
- to create a read-only solr instance
+# Add --extra-vars "solr_read_only=True" to the ansible-playbook call
+#  to create a read-only solr instance
 -   hosts: localhost
     connection: local
     gather_facts: True         
@@ -13,27 +13,27 @@
       shell: . $HOME/appstrap/setenv.sh
     - include: tasks/setvars.yml  # sets {{ role_home_dir.stdout }}
     - name: put tomcat envvars in place
-      copy: src=./templates/solr/tomcat-setenv.bash dest=~/.tomcat-setenv.bash
+      copy: src=./templates/solr/tomcat-setenv.bash dest=~/.tomcat-setenv.bash backup=yes force=no
     - name: put bashrc in place, with fix for Amazon certs if necessary
-      template: src=./templates/solr/bashrc.j2 dest=~/.bashrc
+      template: src=./templates/solr/bashrc.j2 dest=~/.bashrc backup=yes force=no
     - name: put gitconfig in place
-      template: src=./templates/solr/gitconfig.j2 dest=~/.gitconfig
+      template: src=./templates/solr/gitconfig.j2 dest=~/.gitconfig backup=yes force=no
     - include: tasks/solr/compass_setup.yml
     - include: tasks/solr/tomcat_dir_setup.yml #create dirs and copy static files
     - include: tasks/solr/monit_setup.yml
     - include: tasks/solr/config_solr_server.yml
     - name: start tomcat to install solr war
-      shell: monit start tomcat
+      shell: monit start tomcat creates={{ role_home_dir.stdout}}/servers/tomcat/webapps/solr/
     - name: wait for tomcat
-      command: /bin/sleep 60 #actually want to wait for dir webapps/solr
+      command: /bin/sleep 60 creates={{ role_home_dir.stdout}}/servers/tomcat/webapps/solr #actually want to wait for dir webapps/solr
     - name: stop tomcat
-      shell: monit stop tomcat
+      shell: monit stop tomcat creates={{ role_home_dir.stdout}}/servers/tomcat/webapps/solr
     - name: wait for tomcat
-      command: /bin/sleep 60
+      command: /bin/sleep 60 creates={{ role_home_dir.stdout}}/servers/tomcat/webapps/solr
     - name: replace web.xml for solr webapp
       template: src={{ dir_code_src }}/ucldc_solr/web.xml.j2 dest={{ dir_servers }}/tomcat/webapps/solr/WEB-INF/web.xml
     - name: create init.d-monit
-      template: src=./templates/solr/init.d-monit.j2 dest=~/init.d-monit
+      template: src=./templates/solr/init.d-monit.j2 dest=~/init.d-monit backup=yes force=no
     - name: monit validate
       shell: monit validate
     - name: verify install with twill

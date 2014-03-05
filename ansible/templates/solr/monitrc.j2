@@ -2,15 +2,8 @@ set daemon 30
 #set logfile syslog facility log_daemon
 set logfile {{ role_home_dir.stdout }}/servers/monit/log/monit.log
 
+Include {{ role_home_dir.stdout }}/.monit/*
+
 set httpd port 28812
     allow localhost
     allow 127.0.0.1
-
-check process tomcat
-    with pidfile "{{ role_home_dir.stdout }}/servers/tomcat/tomcat.pid"
-    start program "{{ role_home_dir.stdout }}/servers/monit/bin/monit-wrapper.bash {{ role_home_dir.stdout }}/java/apache-tomcat/bin/startup.sh"
-    stop program "{{ role_home_dir.stdout }}/servers/monit/bin/monit-wrapper.bash {{ role_home_dir.stdout }}/java/apache-tomcat/bin/shutdown.sh"
-    #if failed host {{ ansible_fqdn }} port 8080 #fqdn changes on restart
-    if failed URL http://localhost:8080/solr
-    then 
-        restart
