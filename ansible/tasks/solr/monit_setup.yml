@@ -1,6 +1,15 @@
 ---
-    - name: install .monitrc
+    - name: create ~/.monit dir for app specific monitrc
+      file: path=~/.monit state=directory
+    - name: install solr monitoring file
+      template: src=./templates/solr/solr-monitrc.j2 dest=~/.monit/solr-monitrc mode=0700 force=no
+    - name: check if .monitrc exists
+      register: monitrc_exists
+      command: ls ~/.monitrc
+      ignore_errors: yes
+    - name: install .monitrc if there is not one yet
       template: src=./templates/solr/monitrc.j2 dest=~/.monitrc mode=0700 backup=yes force=no
+      when: monitrc_exists|failed 
     - name: create servers/monit directory
       file: path=~/servers/monit state=directory
     - name: create servers/monit/log directory
