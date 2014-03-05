@@ -2,6 +2,8 @@ set daemon 30
 #set logfile syslog facility log_daemon
 set logfile {{ role_home_dir.stdout }}/appstrap/monit/log/monit.log
 
+Include {{ role_home_dir.stdout }}/.monit/*
+
 set httpd port 28812
     allow localhost
     allow 127.0.0.1

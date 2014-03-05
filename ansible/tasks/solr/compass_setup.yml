@@ -1,5 +1,6 @@
 ---
   - name: Install zurb-foundation
-    shell: gem install zurb-foundation
+    shell: gem install zurb-foundation creates=~/pkg/lib/ruby/gems/1.9.3/gems/zurb-foundation-4.3.2
   - name: Install compass
-    shell: gem install compass
+    shell: gem install compass creates=~/pkg/lib/ruby/gems/1.9.3/gems/compass-0.12.3
+

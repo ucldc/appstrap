@@ -2,6 +2,10 @@
 
 {% block appstrap %}
 
+RewriteEngine On
+RewriteRule ^/{{ ansible_user_id }}/img/workspace_open.gif$ /{{ ansible_user_id }}/icons/workspace_open.gif [R]
+RewriteRule ^/{{ ansible_user_id }}/img/folder.gif$ /{{ ansible_user_id }}/icons/folder.gif [R]
+
 ProxyPass /{{ ansible_user_id }} ajp://{{ ansible_default_ipv4.address }}:8009/{{ ansible_user_id }}
 <Location "/{{ ansible_user_id }}">
         AuthType shibboleth
@@ -11,6 +15,9 @@ ProxyPass /{{ ansible_user_id }} ajp://{{ ansible_default_ipv4.address }}:8009/{
         # just in case users.httpd.txt is empty
         Require user
 </Location>
+
+# applicaiton level basic auth behind ssl
+ProxyPassReverse /Nuxeo/site/api/v1 ajp://{{ ansible_default_ipv4.address }}:8009/nuxeo/site/api/v1
 
 RedirectMatch ^/$ /nuxeo/
 
