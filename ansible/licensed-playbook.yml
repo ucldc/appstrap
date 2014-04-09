@@ -3,7 +3,8 @@
     gather_facts: True         
     tasks: 
     - include: tasks/setvars.yml  # sets {{ role_home_dir.stdout }} and hostname.stdout
-#   - include: tasks/shibboleth.yml app=registry  
+    - include: tasks/licensed/apache_setup.yml
+    - include: tasks/licensed/tomcat_setup.yml
 #   - include: tasks/monit.yml app=registry
     - name: soruce appstrap environment
       shell: . $HOME/appstrap/setenv.sh
