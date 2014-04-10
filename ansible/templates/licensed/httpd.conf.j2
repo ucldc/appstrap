@@ -37,7 +37,7 @@ ServerRoot "/apps/licensed/pkg"
 # prevent Apache from glomming onto all bound IP addresses.
 #
 #Listen 12.34.56.78:80
-Listen {{ ansible_default_ipv4.address }}:18880
+Listen {{ ipaddress.stdout }}:18880
 
 #
 # Dynamic Shared Object (DSO) Support
@@ -188,7 +188,7 @@ DocumentRoot "/apps/licensed/webroot"
 #
 # This should be changed to whatever you set DocumentRoot to.
 #
-<Directory "/apps/licensed/htdocs">
+<Directory "/apps/licensed/webroot">
     Options Indexes FollowSymLinks
     AllowOverride None
     Order allow,deny
