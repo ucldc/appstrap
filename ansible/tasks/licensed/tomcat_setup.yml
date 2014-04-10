@@ -18,9 +18,9 @@
     - name: server.xml from template
       template: src=templates/licensed/server.xml.j2 dest=~/servers/tomcat/conf/server.xml
     - name: copy tomcat files ...
-      copy: src=~/servers/tomcat/conf/logging.properties dest=~/servers/tomcat/conf/logging.properties
-      copy: src=~/servers/tomcat/conf/catalina.policy dest=~/servers/tomcat/conf/catalina.policy
-      copy: src=~/servers/tomcat/conf/tomcat-users.xml dest=~/servers/tomcat/conf/tomcat-users.xml
-      copy: src=~/servers/tomcat/conf/catalina.properties dest=~/servers/tomcat/conf/catalina.properties
-      copy: src=~/servers/tomcat/conf/context.xml dest=~/servers/tomcat/conf/context.xml
-      copy: src=~/servers/tomcat/conf/web.xml dest=~/servers/tomcat/conf/web.xml
+      copy: src=~/java/apache-tomcat/conf/logging.properties dest=~/servers/tomcat/conf/logging.properties
+      copy: src=~/java/apache-tomcat/conf/catalina.policy dest=~/servers/tomcat/conf/catalina.policy
+      copy: src=~/java/apache-tomcat/conf/tomcat-users.xml dest=~/servers/tomcat/conf/tomcat-users.xml
+      copy: src=~/java/apache-tomcat/conf/catalina.properties dest=~/servers/tomcat/conf/catalina.properties
+      copy: src=~/java/apache-tomcat/conf/context.xml dest=~/servers/tomcat/conf/context.xml
+      copy: src=~/java/apache-tomcat/conf/web.xml dest=~/servers/tomcat/conf/web.xml
