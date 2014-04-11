@@ -19,3 +19,7 @@
       command: /apps/licensed/java/apache-ant/bin/ant chdir=~/code/xtf_aetb/WEB-INF
     - name: build xtf_crc
       command: /apps/licensed/java/apache-ant/bin/ant chdir=~/code/xtf_crc/WEB-INF
+    - name: create symbolic link for aetb data
+      file: src=~/data/aetb path=~/code/xtf_aetb/data state=link
+    - name: create symbolic link for CRC data
+      file: src=~/data/crc path=~/code/xtf_crc/data state=link
