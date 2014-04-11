@@ -5,14 +5,14 @@ set -x
 cd
 mkdir -p src
 cd src
-if [[ -e monit-5.5.1-linux-x64.tar.gz ]];then 
+if [[ -e monit-5.8-linux-x64.tar.gz ]];then 
   echo "been done"
   exit 0
 fi
-file="monit-5.5.1-linux-x64.tar.gz"
-vers="5.5.1"
+file="monit-5.8-linux-x64.tar.gz"
+vers="5.8"
 binary="http://mmonit.com/monit/dist/binary/$vers/$file"
-sha256="2075423c8109eff9c92d8bde95edff6fb36cb73844b6e02dee5f6bf8dbaa595f"
+sha256="f579e0f04e7faa9851fe74c2cca5bf5b8b344e6a0465f9e642743e0f848ab20d"
 
 wget "$binary"
 check=$(sha256sum $file)

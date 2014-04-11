@@ -1,0 +1,26 @@
+---
+    - name: create servers tomcat directory
+      file: path=~/servers/tomcat state=directory
+    - name: create tomcat bin dir
+      file: path=~/servers/tomcat/bin state=directory
+    - name: create tomcat conf dir
+      file: path=~/servers/tomcat/conf state=directory
+    - name: create tomcat logs dir
+      file: path=~/servers/tomcat/logs state=directory
+    - name: create tomcat webapps dir
+      file: path=~/servers/tomcat/webapps state=directory
+    - name: create tomcat work dir
+      file: path=~/servers/tomcat/work state=directory
+    - name: create tomcat temp dir
+      file: path=~/servers/tomcat/temp state=directory
+    - name: add juli jar
+      copy: src=~/java/apache-tomcat/bin/tomcat-juli.jar dest=~/servers/tomcat/bin/tomcat-juli.jar force=no
+    - name: server.xml from template
+      template: src=templates/licensed/server.xml.j2 dest=~/servers/tomcat/conf/server.xml
+    - name: copy tomcat files ...
+      copy: src=~/java/apache-tomcat/conf/logging.properties dest=~/servers/tomcat/conf/logging.properties
+      copy: src=~/java/apache-tomcat/conf/catalina.policy dest=~/servers/tomcat/conf/catalina.policy
+      copy: src=~/java/apache-tomcat/conf/tomcat-users.xml dest=~/servers/tomcat/conf/tomcat-users.xml
+      copy: src=~/java/apache-tomcat/conf/catalina.properties dest=~/servers/tomcat/conf/catalina.properties
+      copy: src=~/java/apache-tomcat/conf/context.xml dest=~/servers/tomcat/conf/context.xml
+      copy: src=~/java/apache-tomcat/conf/web.xml dest=~/servers/tomcat/conf/web.xml

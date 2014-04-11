@@ -1,0 +1,40 @@
+# util
+editors/nano
+www/cronolog
+# databases/mysql55-client
+devel/scmgit-base
+devel/scmgit-docs
+devel/mercurial
+devel/gettext textproc/groff  # needed for perldoc to work
+textproc/p5-ack
+
+#
+#multimedia/ffmpeg   #!ACCEPTABLE_LICENSES=lame-license # need to be able to pass from here?
+#graphics/ImageMagick
+#print/poppler-utils
+
+www/ap2-jk
+www/apache24
+
+lang/python27
+devel/py-virtualenv
+devel/py-setuptools
+devel/py-pip
+
+# languages
+#devel/ruby-rake
+#misc/rubygems
+#graphics/py-imaging
+devel/py-virtualenv
+devel/py-pip
+#devel/p5-App-cpanminus
+databases/py-sqlite3
+#databases/postgresql92
+textproc/py-expat
+
+# servers
+# www/shibboleth-sp (use `shib_it`)
+# www/ap2-wsgi
+# www/ap2-perl
+#devel/boost-headers
+converters/libiconv
