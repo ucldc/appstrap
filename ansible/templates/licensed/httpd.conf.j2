@@ -196,7 +196,7 @@ DocumentRoot "/apps/licensed/webroot"
     #Include /apps/licensed/servers/httpd/conf/ipList.txt
 </Directory>
 
-<Directory "/apps/licensed/xtf_aetb/data">
+<Directory "/apps/licensed/data/aetb">
     Options Indexes FollowSymLinks
     AllowOverride None
     Order allow,deny
@@ -208,7 +208,7 @@ DocumentRoot "/apps/licensed/webroot"
     Include /apps/licensed/servers/httpd/conf/ipList.txt
 </Location>
 
-<Directory "/apps/licensed/xtf_crc/data">
+<Directory "/apps/licensed/data/crc">
     Options Indexes FollowSymLinks
     AllowOverride None
     Order allow,deny
@@ -310,7 +310,7 @@ LogLevel warn
     # Example:
     # Alias /webpath /full/filesystem/path
 
-    Alias /data /apps/licensed/xtf_aetb/data
+    Alias /data /apps/licensed/data
     #
     # If you include a trailing / on /webpath then the server will
     # require it to be present in the URL.  You will also likely
