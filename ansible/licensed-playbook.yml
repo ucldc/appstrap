@@ -29,3 +29,9 @@
       file: src=~/code/xtf_aetb path=~/servers/tomcat/webapps/xtf_aetb state=link
     - name: create symbolic link for CRC xtf
       file: src=~/code/xtf_crc path=~/servers/tomcat/webapps/xtf_crc state=link
+    - name: clone licensed-common
+      hg: repo=https://bitbucket.org/barbarahui/licensed-common dest=~/licensed-common revision=default executable=/apps/licensed/pkg/bin/hg
+    - name: remove webroot directory
+      file: path=~/webroot state=absent
+    - name: create symbolic link for webroot
+      file: src=~/licensed-common/webroot path=~/webroot state=link
