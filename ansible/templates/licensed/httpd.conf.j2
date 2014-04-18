@@ -193,31 +193,30 @@ DocumentRoot "/apps/licensed/webroot"
     AllowOverride None
     Order allow,deny
     Allow from all
-    #Include /apps/licensed/servers/httpd/conf/ipList.txt
 </Directory>
 
 <Directory "/apps/licensed/data/aetb">
     Options Indexes FollowSymLinks
     AllowOverride None
     Order allow,deny
-    Include /apps/licensed/servers/httpd/conf/ipList.txt
+    Include /apps/licensed/servers/httpd/conf/ipList_aetb.txt
 </Directory>
 
 <Location /xtf_aetb>
     Order allow,deny
-    Include /apps/licensed/servers/httpd/conf/ipList.txt
+    Include /apps/licensed/servers/httpd/conf/ipList_aetb.txt
 </Location>
 
 <Directory "/apps/licensed/data/crc">
     Options Indexes FollowSymLinks
     AllowOverride None
     Order allow,deny
-    Include /apps/licensed/servers/httpd/conf/ipList.txt
+    Include /apps/licensed/servers/httpd/conf/ipList_crc.txt
 </Directory>
 
 <Location /xtf_crc>
     Order allow,deny
-    Include /apps/licensed/servers/httpd/conf/ipList.txt
+    Include /apps/licensed/servers/httpd/conf/ipList_crc.txt
 </Location>
 
   ProxyRequests off
