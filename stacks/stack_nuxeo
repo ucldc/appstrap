@@ -19,12 +19,13 @@ export LD_LIBRARY_PATH="${HOME}/pkg/lib:${HOME}/servers/shibboleth/lib"
 
 # install pkgsrc packages
 ACCEPTABLE_LICENSES=lame-license stack_run_batch "../pmake" nuxeo.pkgsrc.txt
-easy_install-2.7 pip==1.2.1
+#easy_install-2.7 pip==1.2.1
 pip install lxml
+pip install staller
 if [[ ! -e ${HOME}/pkg/bin/python ]]; then
     ln -s ${HOME}/pkg/bin/python2.7 ${HOME}/pkg/bin/python
 fi
-../shib_it -p ${HOME}/servers/shibboleth -o ${HOME}/pkg -t ${HOME}/tmp
+shib_it -p ${HOME}/servers/shibboleth -o ${HOME}/pkg -t ${HOME}/tmp
 ../roll_test_certs
 ../cdl/get_java 
 ./monit_binary  # get new monit via binary distribution

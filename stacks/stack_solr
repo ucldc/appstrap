@@ -33,7 +33,7 @@ echo "--------------------------------"
 
 pip install lxml
 pip install twill
-../jpache --prefix=${HOME}/java -f
+jpache --prefix=${HOME}/java -f
 ../java/grab-solr.sh
 
 . monit_binary

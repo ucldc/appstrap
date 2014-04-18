@@ -20,6 +20,7 @@ export LD_LIBRARY_PATH="${HOME}/pkg/lib:${HOME}/servers/shibboleth/lib"
 
 stack_run_batch "../pmake" registry.pkgsrc.txt
 pip install lxml
+pip install staller
 if [[ ! -f "${HOME}/pkg/bin/python" ]]; then
     ln -s ${HOME}/pkg/bin/python2.7 ${HOME}/pkg/bin/python
 fi
