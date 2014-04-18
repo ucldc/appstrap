@@ -26,7 +26,7 @@ if [ ! -e "$HOME/pkgsrc" ]; then
     cd
     git clone git://github.com/jsonn/pkgsrc.git
     cd pkgsrc
-    git checkout origin/pkgsrc_2013Q2
+    git checkout origin/pkgsrc_2014Q1
     cd bootstrap
     tag=`git rev-parse --short --verify HEAD`  # http://stackoverflow.com/a/949391/1763984
     ./bootstrap --prefix "$HOME/pkgbld/$tag" --pkgdbdir "$HOME/pkgbld/$tag/var/db/pkg" --unprivileged
