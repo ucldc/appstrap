@@ -7,8 +7,6 @@
   file: path=~/servers/httpd/bin state=directory
 - name: and the _conf_ dir
   file: path=~/servers/httpd/conf state=directory
-- name: make sure DocumentRoot exists or apache will cry
-  file: path=~/webroot state=directory
 - name: generate apachectl
   template: src=templates/shib-http/apachectl.j2 dest=~/servers/httpd/bin/apachectl
 - name: make apachectl a+x

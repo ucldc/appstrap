@@ -30,7 +30,8 @@ fi
 easy_install-2.7 pip==1.2.1
 pip install lxml
 pip install twill
-jpache --prefix=${HOME}/java -f
+pip install netaddr
+../jpache --prefix=${HOME}/java -f
 
 # okay, now we should have a good stack set up, let's install and configure the app!
 cd ../ansible

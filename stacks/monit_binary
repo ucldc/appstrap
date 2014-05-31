@@ -12,12 +12,12 @@ fi
 file="monit-5.8-linux-x64.tar.gz"
 vers="5.8"
 binary="http://mmonit.com/monit/dist/binary/$vers/$file"
-sha256="f579e0f04e7faa9851fe74c2cca5bf5b8b344e6a0465f9e642743e0f848ab20d"
+sha256='a324d67a253f6ab6cf2de34d63cc8e0e7352287ae59e5c4afcb55d059230e388'
 
 wget "$binary"
 check=$(sha256sum $file)
 check=$(echo ${check/ */}) # strip off filename
-if ! [[ "$check" = "$sha256" ]]; then
+if ! [[ "$check" == "$sha256" ]]; then
   echo "checksum mismatch"
   exit 1
 fi
