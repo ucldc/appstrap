@@ -12,3 +12,4 @@ java/maven
 java/twincat/
 monit/logs
 *.pyc
+*.swp
