@@ -14,8 +14,6 @@
     - include: tasks/setvars.yml  # sets {{ role_home_dir.stdout }}
     - name: put tomcat envvars in place
       copy: src=./templates/solr/tomcat-setenv.bash dest=~/.tomcat-setenv.bash backup=yes force=no
-    - name: put log4j.properties into tomcat lib location
-      copy: src=./templates/solr/log4j.properties dest=~/java/apache-tomcat/lib/log4j.properties
     - name: put bashrc in place, with fix for Amazon certs if necessary
       template: src=./templates/solr/bashrc.j2 dest=~/.bashrc backup=yes force=no
     - name: put gitconfig in place
@@ -24,6 +22,7 @@
     - include: tasks/solr/tomcat_dir_setup.yml #create dirs and copy static files
     - include: tasks/solr/monit_setup.yml
     - include: tasks/solr/config_solr_server.yml
+    - include: tasks/solr/setup_log4j.yml
     - name: start tomcat to install solr war
       shell: monit start tomcat creates={{ role_home_dir.stdout}}/servers/tomcat/webapps/solr/
     - name: wait for tomcat
