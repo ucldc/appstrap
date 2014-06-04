@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+hostname=$(hostname)
+ipaddress=$(hostname -i)
+case "$hostname" in
+  'publishing-stg' )
+    myipaddress='192.35.209.14' ;;
+  'cdl-ucpec-p01' )
+    myipaddress='128.48.120.59' ;;
+  * )
+    myipaddress="$ipaddress" ;;
+esac
+
+echo "$myipaddress"

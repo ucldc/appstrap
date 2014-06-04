@@ -14,6 +14,10 @@ case "$hostname" in
     myhostname='nuxeo-stg.cdlib.org' ;;
   'cdl-nuxeo-p01' )
     myhostname='nuxeo.cdlib.org' ;;
+  'publishing-stg' )
+    myhostname='licensed-stg.cdlib.org' ;;
+  'cdl-ucpec-p01' )
+    myhostname='licensed.cdlib.org' ;;
   * )
     myhostname="$hostname" ;;
 esac

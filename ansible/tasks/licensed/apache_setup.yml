@@ -1,0 +1,21 @@
+---
+- name: create http "run" directory
+  file: path=~/servers/httpd/run state=directory
+- name: make sure there is an httpd logs directory
+  file: path=~/servers/httpd/logs state=directory
+- name: tedious.. make _bin_ dir
+  file: path=~/servers/httpd/bin state=directory
+- name: and the _conf_ dir
+  file: path=~/servers/httpd/conf state=directory
+- name: generate apachectl
+  template: src=templates/shib-http/apachectl.j2 dest=~/servers/httpd/bin/apachectl
+- name: make apachectl a+x
+  shell: chmod a+x ~/servers/httpd/bin/apachectl
+- name: generate httpd conf
+  template: src=templates/licensed/httpd.conf.j2 dest=~/servers/httpd/conf/httpd.conf
+- name: copy ip list for AETB restricitons
+  copy: src=templates/licensed/ipList.txt  dest=~/servers/httpd/conf/ipList.txt
+- name: httpd conf magic its the magic number
+  copy: src=~/pkg/etc/httpd/magic dest=~/servers/httpd/conf/magic
+- name: httpd config mime.types who does not like MIME?
+  copy: src=~/pkg/etc/httpd/mime.types dest=~/servers/httpd/conf/mime.types
