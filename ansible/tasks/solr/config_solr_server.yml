@@ -1,6 +1,6 @@
 ---
     - name: get solr repository
-      git: repo=https://github.com/mredar/ucldc_solr.git dest={{ dir_code_src }}/ucldc_solr
+      git: repo=https://github.com/mredar/ucldc_solr.git dest={{ dir_code_src }}/ucldc_solr update=no
     - name: create servers solr directory
       file: path={{ dir_servers }}/solr state=directory
     - name: create dc-collection solr core directory

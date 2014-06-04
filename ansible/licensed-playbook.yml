@@ -1,0 +1,42 @@
+---
+  - hosts: localhost
+    gather_facts: True         
+    tasks: 
+    - include: tasks/setvars.yml  # sets {{ role_home_dir.stdout }} and hostname.stdout
+    - name: figure out my ip address
+      shell: ~/appstrap/ansible/myipaddress
+      register: ipaddress   # {{ ipaddress.stdout }}
+    - include: tasks/licensed/apache_setup.yml
+    - include: tasks/licensed/monit_setup.yml
+    - include: tasks/licensed/tomcat_setup.yml
+    - name: put tomcat envvars in place
+      copy: src=./templates/licensed/tomcat-setenv.bash dest=~/.tomcat-setenv.bash backup=yes force=no
+    - name: soruce appstrap environment
+      shell: . $HOME/appstrap/setenv.sh
+    - name: clone xtf for aetb
+      hg: repo=https://bitbucket.org/barbarahui/xtf_aetb dest=~/code/xtf_aetb revision=aetb executable=/apps/licensed/pkg/bin/hg force=no
+    - name: clone xtf for crc netbooks
+      hg: repo=https://bitbucket.org/barbarahui/xtf_aetb dest=~/code/xtf_crc revision=crc executable=/apps/licensed/pkg/bin/hg force=no
+    - name: build xtf_aetb
+      command: /apps/licensed/java/apache-ant/bin/ant chdir=~/code/xtf_aetb/WEB-INF
+    - name: build xtf_crc
+      command: /apps/licensed/java/apache-ant/bin/ant chdir=~/code/xtf_crc/WEB-INF
+    - name: create symbolic link for aetb data
+      file: src=~/data/aetb path=~/code/xtf_aetb/data state=link
+    - name: create symbolic link for CRC data
+      file: src=~/data/crc path=~/code/xtf_crc/data state=link
+    - name: create symbolic link for aetb xtf
+      file: src=~/code/xtf_aetb path=~/servers/tomcat/webapps/xtf_aetb state=link
+    - name: create symbolic link for CRC xtf
+      file: src=~/code/xtf_crc path=~/servers/tomcat/webapps/xtf_crc state=link
+    - name: clone licensed-common
+      hg: repo=https://bitbucket.org/barbarahui/licensed-common dest=~/licensed-common revision=default executable=/apps/licensed/pkg/bin/hg force=no
+    #- name: remove webroot directory
+      #file: path=~/webroot state=absent
+    - name: create symbolic link for webroot
+      file: src=~/licensed-common/webroot path=~/webroot state=link
+    - name: create ipList for AETB for apache
+      #command: $HOME/pkg/bin/python 
+      command: /apps/licensed/licensed-common/utilities/scripts/run-ipAllow-aetb.sh chdir=~/licensed-common/utilities/scripts
+    - name: create ipList for CRC for apache
+      command: /apps/licensed/licensed-common/utilities/scripts/run-ipAllow-crc.sh chdir=~/licensed-common/utilities/scripts

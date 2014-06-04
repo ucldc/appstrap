@@ -122,25 +122,6 @@ It has stable branches that are tagged every quarter of the year, and the curren
 ## role_test_certs
 Create test certificates for use with ssl/https
 
-## shib_it
-Shibboleth needs to be compiled with --prefix to run w/o root.  Run this command to set up shibboleth.
-
-```
-./shib_it --prefix ${HOME}/servers/shibboleth --other-prefix {$HOME}/pkg --temp-dir ${HOME}/tmp
-```
-
-The --prefix is where stuff gets installed and --other-prefix is where the boost headers are installed.
-The --temp-dir is needed for machines with small root or tmp partitions because this downloads and compiles 
-a lot of code.
-
-## jpache
-
-Get ant, maven, and tomcat binary java packages from apache.
-
-```
-./jpache --prefix=${HOME}/java 
-```
-
 # License 
 
 Copyright © 2013, Regents of the University of California
