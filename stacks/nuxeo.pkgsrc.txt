@@ -32,6 +32,10 @@ multimedia/libvdpau
 multimedia/libvpx
 multimedia/x264-devel
 multimedia/xvidcore
+audio/opencore-amr
+audio/lame
+audio/faac
+audio/libvorbis
 print/ghostscript
 print/ghostscript-gpl
 print/libpaper
