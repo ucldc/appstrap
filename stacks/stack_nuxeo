@@ -44,7 +44,6 @@ shib_it -p ${HOME}/servers/shibboleth \
   --boost ${HOME}/pkg \
   --curl ${HOME}/pkg \
   --openssl ${HOME}/pkg \
-  --xerces ${HOME}/servers/shibboleth \
   --apxs ${HOME}/pkg \
   -t ${HOME}/tmp
 
