@@ -1,0 +1,7 @@
+---
+    vars:
+      solr_log_dir: {{ dir_servers }}/solr/log
+    - name: put log4j.properties into tomcat lib location
+      template: src=./templates/solr/log4j.properties.j2 dest=~/java/apache-tomcat/lib/log4j.properties
+    - name: make solr log dir
+      file: path={{ solr_log_dir }} state=directory
