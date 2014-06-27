@@ -32,6 +32,7 @@ RedirectMatch ^/api/$ /api/v1/
 RedirectMatch ^/solr$ /solr/query
 RedirectMatch ^/solr/$ /solr/query
 
+
 <Directory {{ role_home_dir.stdout }}/webroot>
   Order deny,allow
   Allow from all
@@ -51,5 +52,7 @@ WSGIScriptAlias / {{ role_home_dir.stdout }}/code/avram/collection_registry/wsgi
   Order allow,deny
   Allow from all
 </Directory>
+
+Alias /documentation/ {{ role_home_dir.stdout }}/webroot/documentation/
 
 {% endblock %}
