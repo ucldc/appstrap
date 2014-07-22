@@ -9,7 +9,9 @@ devel/gettext textproc/groff  # needed for perldoc to work
 textproc/p5-ack
 
 #
-multimedia/ffmpeg   #!ACCEPTABLE_LICENSES=lame-license # need to be able to pass from here?
+audio/faac
+audio/opencore-amr
+# multimedia/ffmpeg   #!ACCEPTABLE_LICENSES=lame-license # need to be able to pass from here?
 graphics/ImageMagick
 print/poppler-utils
 

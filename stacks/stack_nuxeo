@@ -18,7 +18,10 @@ export LD_LIBRARY_PATH="${HOME}/pkg/lib:${HOME}/servers/shibboleth/lib"
 . $DIR/../setenv.sh
 
 # install pkgsrc packages
-ACCEPTABLE_LICENSES=lame-license stack_run_batch "../pmake" nuxeo.pkgsrc.txt
+stack_run_batch "../pmake" nuxeo.pkgsrc.txt
+cd ~/pkgsrc/multimedia/ffmpeg
+ACCEPTABLE_LICENSES=lame-license bmake PKG_OPTIONS.ffmpeg="ass lame libvpx theora vaapi vdpau vorbis x264 xvid faac opencore-amr"
+cd $DIR
 easy_install-2.7 pip==1.2.1
 pip install lxml
 if [[ ! -e ${HOME}/pkg/bin/python ]]; then
