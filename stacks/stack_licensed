@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-
-if [[ -n "$DEBUG" ]]; then 
+export DEBUG=1
+if [[ -n ${DEBUG-} ]]; then 
   set -x
 fi
 
@@ -13,38 +13,34 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.c
 cd $DIR
 
 . stack_run.sh  # gives us `stack_run_batch`
-export LD_LIBRARY_PATH="${HOME}/pkg/lib"
+export LD_LIBRARY_PATH="${HOME}/pkg/lib:${HOME}/servers/shibboleth/lib"
 
 . $DIR/../setenv.sh
 
-../cdl/get_java
-
 # install pkgsrc packages
-export PKG_JVM_DEFAULT=sun-jdk7
-echo "================================PMAKE solr.pkgsrc.txt"
-ACCEPTABLE_LICENSES=oracle-binary-code-license stack_run_batch "../pmake" solr.pkgsrc.txt
+ACCEPTABLE_LICENSES=lame-license stack_run_batch "../pmake" licensed.pkgsrc.txt
+../roll_test_certs
+../cdl/get_java 
+./monit_binary  # get new monit via binary distribution
+
 if [[ ! -e ${HOME}/pkg/bin/python ]]; then
     ln -s ${HOME}/pkg/bin/python2.7 ${HOME}/pkg/bin/python
 fi
 
-echo "--------------------------------"
-which python
-echo "--------------------------------"
-
+easy_install-2.7 pip==1.2.1
 pip install lxml
 pip install twill
-jpache --prefix=${HOME}/java -f
-../java/grab-solr.sh
-
-. monit_binary
+pip install netaddr
+../jpache --prefix=${HOME}/java -f
 
 # okay, now we should have a good stack set up, let's install and configure the app!
-cd $DIR/../ansible
-pwd
+cd ../ansible
 if [[ ! -d bin ]]; then
   ./init.sh
 fi
 set +u
 . bin/activate
 set -u
-ansible-playbook -i host_inventory solr-playbook.yml
+ansible-playbook -i host_inventory licensed-playbook.yml
+cd
+ln -f -s appstrap/bashrc/role-account .bashrc

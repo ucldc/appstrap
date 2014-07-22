@@ -15,10 +15,12 @@
       file: path=~/servers/tomcat/temp state=directory
     - name: add juli jar
       copy: src=~/java/apache-tomcat/bin/tomcat-juli.jar dest=~/servers/tomcat/bin/tomcat-juli.jar force=no
-    - name: check for tomcat conf file in place
-      command: ls ~/servers/tomcat/conf/server.xml
-      register: tomcat_conf_exists
-      ignore_errors: yes
-    - name: copy conf files to CATALINA_BASE/conf
-      shell: cp -rp ~/java/apache-tomcat/conf/* ~/servers/tomcat/conf
-      when: tomcat_conf_exists|failed
+    - name: server.xml from template
+      template: src=templates/licensed/server.xml.j2 dest=~/servers/tomcat/conf/server.xml
+    - name: copy tomcat files ...
+      copy: src=~/java/apache-tomcat/conf/logging.properties dest=~/servers/tomcat/conf/logging.properties
+      copy: src=~/java/apache-tomcat/conf/catalina.policy dest=~/servers/tomcat/conf/catalina.policy
+      copy: src=~/java/apache-tomcat/conf/tomcat-users.xml dest=~/servers/tomcat/conf/tomcat-users.xml
+      copy: src=~/java/apache-tomcat/conf/catalina.properties dest=~/servers/tomcat/conf/catalina.properties
+      copy: src=~/java/apache-tomcat/conf/context.xml dest=~/servers/tomcat/conf/context.xml
+      copy: src=~/java/apache-tomcat/conf/web.xml dest=~/servers/tomcat/conf/web.xml
