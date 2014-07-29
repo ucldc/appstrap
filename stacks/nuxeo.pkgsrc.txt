@@ -1,17 +1,53 @@
 # util
 editors/nano
 www/cronolog
+www/curl
+security/openssl
+security/mozilla-rootcerts
 # databases/mysql55-client
-devel/scmgit-base
-devel/scmgit-docs
+devel/git
 devel/mercurial
 devel/gettext textproc/groff  # needed for perldoc to work
 textproc/p5-ack
 
 #
-multimedia/ffmpeg   #!ACCEPTABLE_LICENSES=lame-license # need to be able to pass from here?
+audio/faac
+audio/opencore-amr
+# multimedia/ffmpeg   #!ACCEPTABLE_LICENSES=lame-license # need to be able to pass from here?
+lang/python27
+
+graphics/freetype2
+graphics/ilmbase
 graphics/ImageMagick
+graphics/jasper
+graphics/jpeg
+graphics/lcms2
+graphics/libwebp
+graphics/MesaLib
+graphics/netpbm
+graphics/openexr
+graphics/png
+graphics/tiff
+multimedia/libass
+multimedia/libogg
+multimedia/libtheora
+multimedia/libva
+multimedia/libvdpau
+multimedia/libvpx
+multimedia/x264-devel
+multimedia/xvidcore
+audio/opencore-amr
+audio/lame
+audio/faac
+audio/libvorbis
+print/ghostscript
+print/ghostscript-gpl
+print/libpaper
+print/poppler
 print/poppler-utils
+print/psutils
+# multimedia/ffmpeg  # needs options
+
 
 www/ap2-jk
 textproc/openjade

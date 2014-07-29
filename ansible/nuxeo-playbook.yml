@@ -5,6 +5,7 @@
     - include: tasks/setvars.yml  # sets {{ role_home_dir.stdout }} and hostname.stdout
     - include: tasks/shibboleth.yml app=nuxeo
     - include: tasks/monit.yml app=nuxeo
+    - include: tasks/jq.yml
     - name: create users directory
       file: path=~/users state=directory
     - name: placeholder user list so apache will start
@@ -15,3 +16,9 @@
       template: src=templates/nuxeo_dbdump.bash.j2 dest=~/dbdumps/nuxeo_dbdump.bash mode=700
     - name: setup db dump cron
       cron: name="dump nuxeo db" hour="1" minute="7" job="~/dbdumps/nuxeo_dbdump.bash" backup=True
+    - name: create conf dir for fixity server
+      file: path=~/.local/share/fixity_checker state=directory
+    - name: create log dir for fixity server
+      file: path=~/.local/share/fixity_checker/logs state=directory
+    - name: install conf file for fixity server
+      copy: src=templates/nuxeo_checker.json dest=~/.local/share/fixity_checker/conf_fixity_checker.json
