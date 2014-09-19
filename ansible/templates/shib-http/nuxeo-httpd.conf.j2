@@ -18,6 +18,7 @@ ProxyPass /{{ ansible_user_id }} ajp://{{ ansible_default_ipv4.address }}:8009/{
 
 # applicaiton level basic auth behind ssl
 ProxyPassReverse /Nuxeo/site/api/v1 ajp://{{ ansible_default_ipv4.address }}:8009/nuxeo/site/api/v1
+ProxyPassReverse /Nuxeo/nxpicsfile ajp://{{ ansible_default_ipv4.address }}:8009/nuxeo/nxpicsfile
 
 RedirectMatch ^/$ /nuxeo/
 
