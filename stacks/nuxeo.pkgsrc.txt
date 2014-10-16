@@ -10,6 +10,10 @@ devel/mercurial
 devel/gettext textproc/groff  # needed for perldoc to work
 textproc/p5-ack
 
+#
+audio/faac
+audio/opencore-amr
+# multimedia/ffmpeg   #!ACCEPTABLE_LICENSES=lame-license # need to be able to pass from here?
 lang/python27
 
 graphics/freetype2

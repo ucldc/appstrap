@@ -1,0 +1,22 @@
+{
+    "__name__": "fixity_checker_0.2.0_conf",
+    "archive_paths": [
+        "/apps/content/raw_files",
+        "/apps/content/nxserver/data"
+    ],
+    "data_url": "file:///apps/nuxeo/.local/share/fixity_checker/fixity_data_raw/",
+    "hashlib": [
+        "sha512"
+    ],
+    "ignore_paths": [
+        "/apps/content/nxserver/data/packages/store/tingle-california-digita-0.0.0-SNAPSHOT/tingle-california-digita.jar",
+        "/apps/content/nxserver/data/packages/backup/*",
+        "/apps/content/nxserver/data/packages/.packages",
+        "/apps/content/nxserver/data/packages/registry.xml",
+        "/apps/content/nxserver/data/installAfterRestart.log.bak",
+        "/apps/content/nxserver/data/bundles.ids"
+    ],
+    "loglevel": "INFO",
+    "min_loop": 43200,
+    "sleepiness": 1
+}
