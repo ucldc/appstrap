@@ -26,10 +26,14 @@ RewriteEngine on
 # check for api key
 # Include RewriteCond %{HTTP:x-api-key} from external file not in revision control
 Include /apps/registry/users/api_key.conf
-RewriteRule ^/solr/(query|browse|dc\-collection|js)(.*) http://127.0.0.1:8080/solr/$1$2 [P]
-# otherwise; forbidden
-RewriteRule ^/solr/(query|browse|dc\-collection|js)(.*) http://127.0.0.1:8080/solr/$1$2 [F]
+RewriteRule ^/solr/(query|browse|js)(.*) http://127.0.0.1:8080/solr/$1$2 [P]
 
+# solrpy compatibility
+Include /apps/registry/users/api_key.conf
+RewriteRule ^/solr/(select)(.*) http://127.0.0.1:8080/solr/query$2 [P]
+
+# otherwise; forbidden
+RewriteRule ^/solr/(select|query|browse|js)(.*) http://127.0.0.1:8080/solr/$1$2 [F]
 
 RedirectMatch ^/api$ /api/v1/
 RedirectMatch ^/api/$ /api/v1/
