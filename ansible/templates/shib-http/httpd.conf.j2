@@ -128,8 +128,6 @@ LogLevel warn
     CustomLog "{{ role_home_dir.stdout }}/servers/httpd/logs/access_log" common
 </IfModule>
 
-DefaultType text/plain
-
 <IfModule mime_module>
     TypesConfig /etc/mime.types
     AddType application/x-compress .Z
@@ -138,7 +136,6 @@ DefaultType text/plain
 
 UseCanonicalName On
 
-NameVirtualHost *:80
 <VirtualHost *:80>
     Redirect permanent / https://{{ hostname.stdout }}/
 </VirtualHost>
