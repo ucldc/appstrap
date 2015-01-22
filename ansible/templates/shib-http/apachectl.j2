@@ -41,7 +41,7 @@ ARGV="$@"
 # --------------------                              --------------------
 # 
 # the path to your httpd binary, including options if necessary
-HTTPD='{{ role_home_dir.stdout }}/pkg/sbin/httpd -f {{ role_home_dir.stdout }}/servers/httpd/conf/httpd.conf'
+HTTPD='/usr/sbin/httpd -f {{ role_home_dir.stdout }}/servers/httpd/conf/httpd.conf'
 #
 # pick up any necessary environment variables
 if test -f {{ role_home_dir.stdout }}/pkg/sbin/envvars; then

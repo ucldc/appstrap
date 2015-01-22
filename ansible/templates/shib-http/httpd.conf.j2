@@ -2,88 +2,83 @@
 # what they do.  They're here only as hints or reminders.  If you are unsure
 # consult the online docs. You have been warned.  
 #
-ServerRoot "{{ role_home_dir.stdout }}/pkg"
+ServerRoot "/etc/httpd"
 
 PidFile "{{ role_home_dir.stdout }}/servers/httpd/logs/httpd.pid"
 
-Listen {{ ansible_default_ipv4.address }}:18880
+Listen 80
 
 # Example:
 # LoadModule foo_module modules/mod_foo.so
 #
-LoadModule authn_file_module lib/httpd/mod_authn_file.so
-LoadModule authn_dbm_module lib/httpd/mod_authn_dbm.so
-LoadModule authn_anon_module lib/httpd/mod_authn_anon.so
-LoadModule authn_dbd_module lib/httpd/mod_authn_dbd.so
-LoadModule authn_default_module lib/httpd/mod_authn_default.so
-LoadModule authn_alias_module lib/httpd/mod_authn_alias.so
-LoadModule authz_host_module lib/httpd/mod_authz_host.so
-LoadModule authz_groupfile_module lib/httpd/mod_authz_groupfile.so
-LoadModule authz_user_module lib/httpd/mod_authz_user.so
-LoadModule authz_dbm_module lib/httpd/mod_authz_dbm.so
-LoadModule authz_owner_module lib/httpd/mod_authz_owner.so
-LoadModule authz_default_module lib/httpd/mod_authz_default.so
-LoadModule auth_basic_module lib/httpd/mod_auth_basic.so
-LoadModule auth_digest_module lib/httpd/mod_auth_digest.so
-LoadModule isapi_module lib/httpd/mod_isapi.so
-LoadModule file_cache_module lib/httpd/mod_file_cache.so
-LoadModule cache_module lib/httpd/mod_cache.so
-LoadModule disk_cache_module lib/httpd/mod_disk_cache.so
-LoadModule mem_cache_module lib/httpd/mod_mem_cache.so
-LoadModule dbd_module lib/httpd/mod_dbd.so
-LoadModule bucketeer_module lib/httpd/mod_bucketeer.so
-LoadModule dumpio_module lib/httpd/mod_dumpio.so
-LoadModule echo_module lib/httpd/mod_echo.so
-LoadModule example_module lib/httpd/mod_example.so
-LoadModule case_filter_module lib/httpd/mod_case_filter.so
-LoadModule case_filter_in_module lib/httpd/mod_case_filter_in.so
-LoadModule reqtimeout_module lib/httpd/mod_reqtimeout.so
-LoadModule ext_filter_module lib/httpd/mod_ext_filter.so
-LoadModule include_module lib/httpd/mod_include.so
-LoadModule filter_module lib/httpd/mod_filter.so
-LoadModule substitute_module lib/httpd/mod_substitute.so
-LoadModule charset_lite_module lib/httpd/mod_charset_lite.so
-LoadModule deflate_module lib/httpd/mod_deflate.so
-LoadModule log_config_module lib/httpd/mod_log_config.so
-LoadModule log_forensic_module lib/httpd/mod_log_forensic.so
-LoadModule logio_module lib/httpd/mod_logio.so
-LoadModule env_module lib/httpd/mod_env.so
-LoadModule mime_magic_module lib/httpd/mod_mime_magic.so
-LoadModule cern_meta_module lib/httpd/mod_cern_meta.so
-LoadModule expires_module lib/httpd/mod_expires.so
-LoadModule headers_module lib/httpd/mod_headers.so
-LoadModule ident_module lib/httpd/mod_ident.so
-LoadModule usertrack_module lib/httpd/mod_usertrack.so
-LoadModule unique_id_module lib/httpd/mod_unique_id.so
-LoadModule setenvif_module lib/httpd/mod_setenvif.so
-LoadModule version_module lib/httpd/mod_version.so
-LoadModule proxy_module lib/httpd/mod_proxy.so
-LoadModule proxy_connect_module lib/httpd/mod_proxy_connect.so
-LoadModule proxy_ftp_module lib/httpd/mod_proxy_ftp.so
-LoadModule proxy_http_module lib/httpd/mod_proxy_http.so
-LoadModule proxy_scgi_module lib/httpd/mod_proxy_scgi.so
-LoadModule proxy_ajp_module lib/httpd/mod_proxy_ajp.so
-LoadModule proxy_balancer_module lib/httpd/mod_proxy_balancer.so
-LoadModule ssl_module lib/httpd/mod_ssl.so
-LoadModule mime_module lib/httpd/mod_mime.so
-LoadModule dav_module lib/httpd/mod_dav.so
-LoadModule status_module lib/httpd/mod_status.so
-LoadModule autoindex_module lib/httpd/mod_autoindex.so
-LoadModule asis_module lib/httpd/mod_asis.so
-LoadModule info_module lib/httpd/mod_info.so
-LoadModule cgi_module lib/httpd/mod_cgi.so
-LoadModule cgid_module lib/httpd/mod_cgid.so
-LoadModule dav_fs_module lib/httpd/mod_dav_fs.so
-LoadModule dav_lock_module lib/httpd/mod_dav_lock.so
-LoadModule vhost_alias_module lib/httpd/mod_vhost_alias.so
-LoadModule negotiation_module lib/httpd/mod_negotiation.so
-LoadModule dir_module lib/httpd/mod_dir.so
-LoadModule imagemap_module lib/httpd/mod_imagemap.so
-LoadModule actions_module lib/httpd/mod_actions.so
-LoadModule speling_module lib/httpd/mod_speling.so
-LoadModule userdir_module lib/httpd/mod_userdir.so
-LoadModule alias_module lib/httpd/mod_alias.so
-LoadModule rewrite_module lib/httpd/mod_rewrite.so
+
+LoadModule slotmem_shm_module modules/mod_slotmem_shm.so
+LoadModule unixd_module modules/mod_unixd.so
+LoadModule access_compat_module modules/mod_access_compat.so
+LoadModule authn_file_module modules/mod_authn_file.so
+LoadModule authn_dbm_module modules/mod_authn_dbm.so
+LoadModule authn_anon_module modules/mod_authn_anon.so
+LoadModule authn_dbd_module modules/mod_authn_dbd.so
+LoadModule authn_core_module modules/mod_authn_core.so
+LoadModule authz_core_module modules/mod_authz_core.so
+LoadModule authz_host_module modules/mod_authz_host.so
+LoadModule authz_groupfile_module modules/mod_authz_groupfile.so
+LoadModule authz_user_module modules/mod_authz_user.so
+LoadModule authz_dbm_module modules/mod_authz_dbm.so
+LoadModule authz_owner_module modules/mod_authz_owner.so
+LoadModule auth_basic_module modules/mod_auth_basic.so
+LoadModule auth_digest_module modules/mod_auth_digest.so
+LoadModule file_cache_module modules/mod_file_cache.so
+LoadModule cache_module modules/mod_cache.so
+LoadModule dbd_module modules/mod_dbd.so
+LoadModule dumpio_module modules/mod_dumpio.so
+LoadModule echo_module modules/mod_echo.so
+LoadModule reqtimeout_module modules/mod_reqtimeout.so
+LoadModule ext_filter_module modules/mod_ext_filter.so
+LoadModule include_module modules/mod_include.so
+LoadModule filter_module modules/mod_filter.so
+LoadModule substitute_module modules/mod_substitute.so
+LoadModule charset_lite_module modules/mod_charset_lite.so
+LoadModule deflate_module modules/mod_deflate.so
+LoadModule log_config_module modules/mod_log_config.so
+LoadModule log_forensic_module modules/mod_log_forensic.so
+LoadModule logio_module modules/mod_logio.so
+LoadModule env_module modules/mod_env.so
+LoadModule mime_magic_module modules/mod_mime_magic.so
+LoadModule expires_module modules/mod_expires.so
+LoadModule headers_module modules/mod_headers.so
+LoadModule usertrack_module modules/mod_usertrack.so
+LoadModule unique_id_module modules/mod_unique_id.so
+LoadModule setenvif_module modules/mod_setenvif.so
+LoadModule version_module modules/mod_version.so
+LoadModule proxy_module modules/mod_proxy.so
+LoadModule proxy_connect_module modules/mod_proxy_connect.so
+LoadModule proxy_ftp_module modules/mod_proxy_ftp.so
+LoadModule proxy_http_module modules/mod_proxy_http.so
+LoadModule proxy_scgi_module modules/mod_proxy_scgi.so
+LoadModule proxy_ajp_module modules/mod_proxy_ajp.so
+LoadModule proxy_balancer_module modules/mod_proxy_balancer.so
+LoadModule ssl_module modules/mod_ssl.so
+LoadModule socache_shmcb_module modules/mod_socache_shmcb.so
+LoadModule mime_module modules/mod_mime.so
+LoadModule dav_module modules/mod_dav.so
+LoadModule status_module modules/mod_status.so
+LoadModule autoindex_module modules/mod_autoindex.so
+LoadModule asis_module modules/mod_asis.so
+LoadModule info_module modules/mod_info.so
+LoadModule cgi_module modules/mod_cgi.so
+LoadModule cgid_module modules/mod_cgid.so
+LoadModule dav_fs_module modules/mod_dav_fs.so
+LoadModule dav_lock_module modules/mod_dav_lock.so
+LoadModule vhost_alias_module modules/mod_vhost_alias.so
+LoadModule negotiation_module modules/mod_negotiation.so
+LoadModule dir_module modules/mod_dir.so
+LoadModule actions_module modules/mod_actions.so
+LoadModule speling_module modules/mod_speling.so
+LoadModule userdir_module modules/mod_userdir.so
+LoadModule alias_module modules/mod_alias.so
+LoadModule rewrite_module modules/mod_rewrite.so
+LoadModule mpm_prefork_module modules/mod_mpm_prefork.so
 
 ServerAdmin ucldc@ucop.edu
 
@@ -136,7 +131,7 @@ LogLevel warn
 DefaultType text/plain
 
 <IfModule mime_module>
-    TypesConfig etc/httpd/mime.types
+    TypesConfig /etc/mime.types
     AddType application/x-compress .Z
     AddType application/x-gzip .gz .tgz
 </IfModule>
@@ -181,7 +176,7 @@ NameVirtualHost *:18880
 # Note: Configurations that use IPv6 but not IPv4-mapped addresses need two
 #       Listen directives: "Listen [::]:443" and "Listen 0.0.0.0:443"
 #
-Listen {{ ansible_default_ipv4.address }}:18443
+Listen 443
 
 ##
 ##  SSL Global Context
@@ -212,7 +207,7 @@ SSLSessionCacheTimeout  300
 #   Semaphore:
 #   Configure the path to the mutual exclusion semaphore the
 #   SSL engine uses internally for inter-process synchronization. 
-SSLMutex  "file:{{ role_home_dir.stdout }}/servers/httpd/run/ssl_mutex"
+#Mutex  "file:{{ role_home_dir.stdout }}/servers/httpd/run/ssl_mutex"
 
 ##
 ## SSL Virtual Host Context
@@ -232,7 +227,7 @@ SSLMutex  "file:{{ role_home_dir.stdout }}/servers/httpd/run/ssl_mutex"
 #
 # Load the Shibboleth module.
 #
-LoadModule mod_shib {{ role_home_dir.stdout }}/servers/shibboleth/lib/shibboleth/mod_shib_22.so
+LoadModule mod_shib {{ role_home_dir.stdout }}/servers/shibboleth/lib/shibboleth/mod_shib_24.so
 
 #
 # Used for example logo and style sheet in error templates.
@@ -270,12 +265,12 @@ Alias /Logos/ {{ role_home_dir.stdout }}/webroot/Logos/
 
 #   General setup for the virtual host
 DocumentRoot "{{ role_home_dir.stdout }}/webroot"
-ServerName {{ hostname.stdout }}:443
+# ServerName {{ hostname.stdout }}:443
 ServerAdmin oacops@cdlib.org
-TransferLog "|exec {{ role_home_dir.stdout }}/pkg/sbin/cronolog --symlink {{ role_home_dir.stdout }}/servers/httpd/logs/ssl_access_log {{ role_home_dir.stdout }}/servers/httpd/logs/ssl_access_log.%Y.%m.%d"
-ErrorLog  "|exec {{ role_home_dir.stdout }}/pkg/sbin/cronolog --symlink {{ role_home_dir.stdout }}/servers/httpd/logs/error {{ role_home_dir.stdout }}/servers/httpd/logs/error.%Y.%m.%d"
-CustomLog "|exec {{ role_home_dir.stdout }}/pkg/sbin/cronolog --symlink {{ role_home_dir.stdout }}/servers/httpd/logs/access {{ role_home_dir.stdout }}/servers/httpd/logs/access.%Y.%m.%d" combinedcookie
-CustomLog "|exec {{ role_home_dir.stdout }}/pkg/sbin/cronolog --symlink {{ role_home_dir.stdout }}/servers/httpd/logs/response-time {{ role_home_dir.stdout }}/servers/httpd/logs/response-time.%Y.%m.%d" responsetime
+TransferLog "|/usr/sbin/cronolog --symlink {{ role_home_dir.stdout }}/servers/httpd/logs/ssl_access_log {{ role_home_dir.stdout }}/servers/httpd/logs/ssl_access_log.%Y.%m.%d"
+ErrorLog  "|/usr/sbin/cronolog --symlink {{ role_home_dir.stdout }}/servers/httpd/logs/error {{ role_home_dir.stdout }}/servers/httpd/logs/error.%Y.%m.%d"
+CustomLog "|/usr/sbin/cronolog --symlink {{ role_home_dir.stdout }}/servers/httpd/logs/access {{ role_home_dir.stdout }}/servers/httpd/logs/access.%Y.%m.%d" combinedcookie
+CustomLog "|/usr/sbin/cronolog --symlink {{ role_home_dir.stdout }}/servers/httpd/logs/response-time {{ role_home_dir.stdout }}/servers/httpd/logs/response-time.%Y.%m.%d" responsetime
 
 #   SSL Engine Switch:
 #   Enable/Disable SSL for this virtual host.

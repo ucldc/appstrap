@@ -5,7 +5,6 @@
     - include: tasks/setvars.yml  # sets {{ role_home_dir.stdout }} and hostname.stdout
     - include: tasks/shibboleth.yml app=nuxeo
     - include: tasks/monit.yml app=nuxeo
-    - include: tasks/jq.yml
     - name: create users directory
       file: path=~/users state=directory
     - name: placeholder user list so apache will start

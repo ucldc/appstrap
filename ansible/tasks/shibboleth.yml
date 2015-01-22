@@ -17,11 +17,7 @@
 - name: generate httpd conf
   template: src=templates/shib-http/{{ app }}-httpd.conf.j2 dest=~/servers/httpd/conf/httpd.conf
 - name: httpd conf magic its the magic number
-  copy: src=~/pkg/etc/httpd/magic dest=~/servers/httpd/conf/magic
-- name: httpd config mime.types who does not like MIME?
-  copy: src=~/pkg/etc/httpd/mime.types dest=~/servers/httpd/conf/mime.types
-- name: var/run for wsgi sockets
-  file: path=~/pkg/var/run state=directory
+  copy: src=/etc/httpd/conf/magic dest=~/servers/httpd/conf/magic
 - name: generate shibboleth2.xml
   template: src=templates/shibboleth/shibboleth2.xml.j2  dest=~/servers/shibboleth/etc/shibboleth/shibboleth2.xml
 - name: copy attribute-map.xml into shibboleth
@@ -34,5 +30,7 @@
   command: ./change_email ucldc@ucop.edu chdir=~/code/ucds
 - name: set up robots.txt
   copy: src=~/appstrap/ansible/templates/shib-http/robots-restrictive.txt dest=~/webroot/robots.txt
+- name: create certs dir
+  file: path=~/certs/ state=directory
 - name: InCommon Intermediate_x509.cer
   copy: src=~/appstrap/cdl/Intermediate_x509.cer dest=~/certs/Intermediate_x509.cer

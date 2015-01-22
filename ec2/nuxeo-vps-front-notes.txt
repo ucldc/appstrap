@@ -1,0 +1,16 @@
+yum -y groupinstall "Development Tools"
+yum --enablerepo epel -y install \
+  boost141-devel \
+  cronolog \
+  curl-devel \
+  git \
+  httpd24-devel \
+  jq \
+  libxml2-devel \
+  libxslt-devel \
+  mod24_ssl \
+  openssl-devel \
+  python27-devel \
+  python27-pip
+pip-2.7 install virtualenv
+setcap 'cap_net_bind_service=+ep' /usr/sbin/httpd
