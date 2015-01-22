@@ -6,12 +6,12 @@ if [[ -x /usr/bin/cloud-init ]]
     public_hostname=$(curl http://169.254.169.254/latest/meta-data/public-hostname --silent)
     if [[ -z $public_hostname ]]
       then
-        myhostname="$public_hostname"
-      else 
       # fallback, VPC's don't have public hostname DNS by default
         host=$(host $(curl http://169.254.169.254/latest/meta-data/public-ipv4 --silent))
         host=${host##*domain name pointer }
         myhostname=${host::1,${#host}-1}
+      else 
+        myhostname="$public_hostname"
     fi
 
   else
