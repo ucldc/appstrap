@@ -9,6 +9,7 @@ yum --enablerepo epel -y install \
   libxml2-devel \
   libxslt-devel \
   mod24_ssl \
+  monit \
   openssl-devel \
   python27-devel \
   python27-pip
