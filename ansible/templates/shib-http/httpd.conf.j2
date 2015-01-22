@@ -138,8 +138,8 @@ DefaultType text/plain
 
 UseCanonicalName On
 
-NameVirtualHost *:18880
-<VirtualHost *:18880>
+NameVirtualHost *:80
+<VirtualHost *:80>
     Redirect permanent / https://{{ hostname.stdout }}/
 </VirtualHost>
 
@@ -213,7 +213,7 @@ SSLSessionCacheTimeout  300
 ## SSL Virtual Host Context
 ##
 
-<VirtualHost *:18443>
+<VirtualHost *:443>
 
 # https://spaces.internet2.edu/display/SHIB2/NativeSPApacheConfig
 
