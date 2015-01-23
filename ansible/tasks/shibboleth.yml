@@ -18,6 +18,8 @@
   template: src=templates/shib-http/{{ app }}-httpd.conf.j2 dest=~/servers/httpd/conf/httpd.conf
 - name: httpd conf magic its the magic number
   copy: src=/etc/httpd/conf/magic dest=~/servers/httpd/conf/magic
+- name: create shibboleth dir
+  file: path=~/servers/shibboleth/etc/shibboleth  state=directory
 - name: generate shibboleth2.xml
   template: src=templates/shibboleth/shibboleth2.xml.j2  dest=~/servers/shibboleth/etc/shibboleth/shibboleth2.xml
 - name: copy attribute-map.xml into shibboleth
