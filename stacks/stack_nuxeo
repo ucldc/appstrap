@@ -12,6 +12,9 @@ set -o errexit   ## set -e : exit the script if any statement returns a non-true
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
 cd $DIR
 
+# test ssl certs in ~/certs
+../roll_test_certs
+
 # set up virtualenv and activate it
 virtualenv python
 set +u
@@ -39,8 +42,6 @@ if [[ ! -x ~/servers/shibboleth/sbin/shibd ]]
       --apxs /usr/bin/apxs 
 fi
 
-# test ssl certs in ~/certs
-../roll_test_certs
 
 # okay, now we should have a good stack set up, let's install and configure the app!
 cd ../ansible
