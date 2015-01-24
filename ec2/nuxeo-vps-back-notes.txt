@@ -1,0 +1,8 @@
+yum install -y autoconf automake gcc gcc-c++ git libtool make nasm pkgconfig zlib-devel
+yum install -y \
+  cups-libs \
+  dbus-glib \
+  ghostscript \
+  git \
+  ImageMagick \
+  pdftohtml
