@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+if [[ -n "$DEBUG" ]]; then 
+  set -x
+fi
+
+set -o pipefail  # trace ERR through pipes
+set -o errtrace  # trace ERR through 'time command' and other functions
+set -o nounset   ## set -u : exit the script if you try to use an uninitialised variable
+set -o errexit   ## set -e : exit the script if any statement returns a non-true return value
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
+cd $DIR
+
+../pmake
+
+# get me some bmake
+. $DIR/../setenv-aws.sh
+bmake PKG_OPTIONS.ffmpeg="ass lame libvpx theora vaapi vdpau vorbis x264 xvid faac opencore-amr" \
+  ACCEPTABLE_LICENSES="lame-license" \
+  -C ${HOME}/pkgsrc/multimedia/ffmpeg1 install
+
+ln -f -s ${HOME}/pkg/bin/ffmpeg1 ${HOME}/pkg/bin/ffmpeg
+
+NUXEO_VER="6.0"
+
+if [[ ! -e "${HOME}/nuxeo-cap-${NUXEO_VER}-tomcat.zip" ]]; then
+  cd ${HOME}
+  wget "http://cdn.nuxeo.com/nuxeo-${NUXEO_VER}/nuxeo-cap-${NUXEO_VER}-tomcat"{.zip,.zip.md5} \
+  && md5sum -c *.md5
+fi
+
+cd
+ln -f -s appstrap/bashrc/role-account .bashrc
