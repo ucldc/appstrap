@@ -21,6 +21,8 @@ ProxyPass /Nuxeo/site/api/v1 ajp://{{ ansible_default_ipv4.address }}:8009/nuxeo
 ProxyPassReverse /Nuxeo/site/api/v1 ajp://{{ ansible_default_ipv4.address }}:8009/nuxeo/site/api/v1
 ProxyPass /Nuxeo/nxpicsfile ajp://{{ ansible_default_ipv4.address }}:8009/nuxeo/nxpicsfile
 ProxyPassReverse /Nuxeo/nxpicsfile ajp://{{ ansible_default_ipv4.address }}:8009/nuxeo/nxpicsfile
+ProxyPass /Nuxeo/nxbigfile ajp://{{ ansible_default_ipv4.address }}:8009/nuxeo/nxbigfile
+ProxyPassReverse /Nuxeo/nxbigfile ajp://{{ ansible_default_ipv4.address }}:8009/nuxeo/nxbigfile
 
 RedirectMatch ^/$ /nuxeo/
 
