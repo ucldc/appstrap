@@ -5,6 +5,8 @@
     - include: tasks/setvars.yml  # sets {{ role_home_dir.stdout }} and hostname.stdout
     - include: tasks/shibboleth.yml app=registry  
     - include: tasks/monit.yml app=registry
+    - name: "create documentation directory (TODO: build docs)"
+      file: dest={{ role_home_dir.stdout }}/webroot/documentation state=directory
     - name: clone registry source code
       git: repo=https://github.com/ucldc/avram dest=~/code/avram
     - name: build avram environment

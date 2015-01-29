@@ -1,13 +1,16 @@
 # util
 editors/nano
 www/cronolog
+www/curl
+security/openssl
+security/mozilla-rootcerts
 #databases/mysql55-client
-devel/scmgit-base
-devel/scmgit-docs
+devel/git
 devel/mercurial
 devel/gettext textproc/groff # needed for `perldoc` to work
 textproc/p5-ack
 
+lang/python27
 #
 databases/py-sqlite3
 databases/postgresql92

@@ -22,6 +22,7 @@
     - include: tasks/solr/tomcat_dir_setup.yml #create dirs and copy static files
     - include: tasks/solr/monit_setup.yml
     - include: tasks/solr/config_solr_server.yml
+    - include: tasks/solr/setup_log4j.yml
     - name: start tomcat to install solr war
       shell: monit start tomcat creates={{ role_home_dir.stdout}}/servers/tomcat/webapps/solr/
     - name: wait for tomcat
@@ -31,7 +32,7 @@
     - name: wait for tomcat
       command: /bin/sleep 60 creates={{ role_home_dir.stdout}}/servers/tomcat/webapps/solr
     - name: replace web.xml for solr webapp
-      template: src={{ dir_code_src }}/ucldc_solr/web.xml.j2 dest={{ dir_servers }}/tomcat/webapps/solr/WEB-INF/web.xml
+      template: src={{ dir_code_src }}/solr_api/web.xml.j2 dest={{ dir_servers }}/tomcat/webapps/solr/WEB-INF/web.xml
     - name: create init.d-monit
       template: src=./templates/solr/init.d-monit.j2 dest=~/init.d-monit backup=yes force=no
     - name: monit validate

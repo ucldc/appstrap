@@ -19,6 +19,15 @@ export LD_LIBRARY_PATH="${HOME}/pkg/lib:${HOME}/servers/shibboleth/lib"
 . $DIR/../setenv.sh
 
 stack_run_batch "../pmake" registry.pkgsrc.txt
+
+# build root certificates for ssl
+if [ ! -f ${HOME}/pkg/etc/openssl/certs/mozilla-rootcert-1.pem ]; then
+    set +e
+    mozilla-rootcerts install
+    echo "cdl_build: Ignore message about 'aborting' above. Continuing..."
+    set -e
+fi
+
 pip install lxml
 pip install staller
 if [[ ! -f "${HOME}/pkg/bin/python" ]]; then

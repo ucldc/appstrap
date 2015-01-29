@@ -18,19 +18,28 @@ LoadModule wsgi_module lib/httpd/mod_wsgi.so
   SetHandler default-handler 
 </Location> 
 
-<IfModule proxy_module>
-    ProxyRequests Off
-    ProxyVia On
-    ProxyPass /solr/query http://127.0.0.1:8080/solr/query
-    ProxyPass /solr/browse http://127.0.0.1:8080/solr/browse
-    ProxyPass /solr/dc-collection http://127.0.0.1:8080/solr/dc-collection
-    ProxyPass /solr/js http://127.0.0.1:8080/solr/js
-</IfModule>
+# reverse proxy
+ProxyRequests Off
+ProxyVia On
+RewriteEngine on
+
+# check for api key
+# Include RewriteCond %{HTTP:x-api-key} from external file not in revision control
+Include /apps/registry/users/api_key.conf
+RewriteRule ^/solr/(query|browse|js)(.*) http://127.0.0.1:8080/solr/$1$2 [P]
+
+# solrpy compatibility
+Include /apps/registry/users/api_key.conf
+RewriteRule ^/solr/(select)(.*) http://127.0.0.1:8080/solr/query$2 [P]
+
+# otherwise; forbidden
+RewriteRule ^/solr/(select|query|browse|js)(.*) http://127.0.0.1:8080/solr/$1$2 [F]
 
 RedirectMatch ^/api$ /api/v1/
 RedirectMatch ^/api/$ /api/v1/
 RedirectMatch ^/solr$ /solr/query
 RedirectMatch ^/solr/$ /solr/query
+
 
 <Directory {{ role_home_dir.stdout }}/webroot>
   Order deny,allow
@@ -51,5 +60,7 @@ WSGIScriptAlias / {{ role_home_dir.stdout }}/code/avram/collection_registry/wsgi
   Order allow,deny
   Allow from all
 </Directory>
+
+Alias /documentation/ {{ role_home_dir.stdout }}/webroot/documentation/
 
 {% endblock %}
