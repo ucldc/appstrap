@@ -1,0 +1,5 @@
+yum -y install \
+  ant \
+  hg \
+  java-1.7.0-openjdk.x86_64 \
+  python27-pip
