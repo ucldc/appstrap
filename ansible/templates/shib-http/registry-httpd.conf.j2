@@ -61,6 +61,7 @@ WSGIScriptAlias / {{ role_home_dir.stdout }}/code/avram/collection_registry/wsgi
   Allow from all
 </Directory>
 
-Alias /documentation/ {{ role_home_dir.stdout }}/webroot/documentation/
+RedirectMatch /documentation$ /documentation/
+Alias /documentation/ {{ role_home_dir.stdout }}/webroot/ucldc-docs/ucldc.github.io/ucldc-docs/
 
 {% endblock %}
