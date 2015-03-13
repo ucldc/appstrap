@@ -11,6 +11,8 @@
       command: ./mirror_docs.py chdir=~/webroot/ucldc-docs creates=~/webroot/ucldc-docs/ucldc.github.io
     - name: copy fonts for documentation
       copy: src=~/webroot/ucldc-docs/fonts dest=~/webroot/ucldc-docs/ucldc.github.io/ucldc-docs/vendor/bootstrap-partial
+    - name: get the bruin icon
+      get_url: url=http://ucldc.github.io/ucldc-docs/images/bruin.png  dest=~/webroot/ucldc-docs/ucldc.github.io/ucldc-docs/images/bruin.png
     - name: clone registry source code
       git: repo=https://github.com/ucldc/avram dest=~/code/avram
     - name: build avram environment
