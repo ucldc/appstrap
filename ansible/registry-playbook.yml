@@ -5,8 +5,10 @@
     - include: tasks/setvars.yml  # sets {{ role_home_dir.stdout }} and hostname.stdout
     - include: tasks/shibboleth.yml app=registry  
     - include: tasks/monit.yml app=registry
-    - name: "create documentation directory (TODO: build docs)"
-      file: dest={{ role_home_dir.stdout }}/webroot/documentation state=directory
+    - name: check out documentation
+      git: repo=https://github.com/ucldc/ucldc-docs.git version=mirror dest=~/webroot/ucldc-docs
+    - name: mirror the documentation from github (cheap trick)
+      command: ./mirror_docs.py chdir=~/webroot/ucldc-docs creates=~/webroot/ucldc-docs/ucldc.github.io 
     - name: clone registry source code
       git: repo=https://github.com/ucldc/avram dest=~/code/avram
     - name: build avram environment
