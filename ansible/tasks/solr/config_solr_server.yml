@@ -32,10 +32,13 @@
       template: src={{ dir_code_src }}/solr_api/dc-collection/conf/solrconfig.xml.j2 dest={{ dir_servers }}/solr/dc-collection/conf/solrconfig.xml force=yes backup=yes backup=yes
     - name: compile css, run compass to create css
       shell: cd {{ dir_code_src }}/solr_api/solritas_compass_project; compass compile
+      tags: install_velocity
     - name: Copy modified velocity files to dc-collection/conf/velocity
       shell: cp -rp {{ dir_code_src }}/solr_api/dc-collection/conf/velocity/* {{ dir_servers }}/solr/dc-collection/conf/velocity
+      tags: install_velocity
     - name: Template copy velocity.properties to dc-collection/conf/velocity
       template: src={{ dir_code_src }}/solr_api/dc-collection/conf/velocity/velocity.properties dest={{ dir_servers }}/solr/dc-collection/conf/velocity/ force=yes backup=yes
+      tags: install_velocity
     - name: copy dc-collection schema.xml into webapp
       copy: src={{ dir_code_src }}/solr_api/dc-collection/conf/schema.xml dest={{ dir_servers }}/solr/dc-collection/conf/ force=yes backup=yes
     - name: check for solr.war

@@ -5,9 +5,10 @@
     connection: local
     gather_facts: True         
     vars:
-      solr_version: 4.5.0 #TODO: get from ls?
+      solr_version: 4.10.1 #TODO: get from ls?
       dir_code_src: '~/code/'
       dir_servers: '~/servers/'
+      solr_log_dir: "{{ dir_servers }}/solr/log"
     tasks:
     - name: check_appstrap
       shell: . $HOME/appstrap/setenv.sh
@@ -19,6 +20,7 @@
     - name: put gitconfig in place
       template: src=./templates/solr/gitconfig.j2 dest=~/.gitconfig backup=yes force=no
     - include: tasks/solr/compass_setup.yml
+      tags: install_velocity
     - include: tasks/solr/tomcat_dir_setup.yml #create dirs and copy static files
     - include: tasks/solr/monit_setup.yml
     - include: tasks/solr/config_solr_server.yml
