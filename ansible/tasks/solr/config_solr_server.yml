@@ -19,13 +19,13 @@
       file: path={{ dir_servers }}/solr/dist state=directory
 
     - name: copy solr-cell jar
-      copy: src=~/java/solr/dist/solr-cell-${solr_version}.jar dest={{ dir_servers }}/solr/dist/solr-cell-${solr_version}.jar force=no
+      copy: src=~/java/solr/dist/solr-cell-{{solr_version}}.jar dest={{ dir_servers }}/solr/dist/solr-cell-{{solr_version}}.jar force=no
     - name: copy solr-clustering jar
-      copy: src=~/java/solr/dist/solr-clustering-${solr_version}.jar dest={{ dir_servers }}/solr/dist/solr-clustering-${solr_version}.jar force=no
+      copy: src=~/java/solr/dist/solr-clustering-{{solr_version}}.jar dest={{ dir_servers }}/solr/dist/solr-clustering-{{solr_version}}.jar force=no
     - name: copy solr-langid jar
-      copy: src=~/java/solr/dist/solr-langid-${solr_version}.jar dest={{ dir_servers }}/solr/dist/solr-langid-${solr_version}.jar force=no
+      copy: src=~/java/solr/dist/solr-langid-{{solr_version}}.jar dest={{ dir_servers }}/solr/dist/solr-langid-{{solr_version}}.jar force=no
     - name: copy solr-velocity jar
-      copy: src=~/java/solr/dist/solr-velocity-${solr_version}.jar dest={{ dir_servers }}/solr/dist/solr-velocity-${solr_version}.jar force=no
+      copy: src=~/java/solr/dist/solr-velocity-{{solr_version}}.jar dest={{ dir_servers }}/solr/dist/solr-velocity-{{solr_version}}.jar force=no
     - name: copy example collection files to dc-collection
       shell: cp -rp ~/java/solr/example/solr/collection1/* {{ dir_servers }}/solr/dc-collection
     - name: Write solrconfig to dc-collection/conf
@@ -46,7 +46,7 @@
       register: solr_war_exists
       ignore_errors: yes
     - name: copy solr to tomcat
-      copy: src=~/java/solr/dist/solr-${solr_version}.war dest={{ dir_servers }}/tomcat/webapps/solr.war #restart tomcat now, to unpack solr. then change WEB-INF/web.xml force=no
+      copy: src=~/java/solr/dist/solr-{{solr_version}}.war dest={{ dir_servers }}/tomcat/webapps/solr.war #restart tomcat now, to unpack solr. then change WEB-INF/web.xml force=no
       when: solr_war_exists|failed
 #TODO: set CATALINA_BASE AND CATALINA_HOME
     - name: check for solr jar files
