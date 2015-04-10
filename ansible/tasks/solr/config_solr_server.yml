@@ -29,7 +29,7 @@
     - name: copy example collection files to dc-collection
       shell: cp -rp ~/java/solr/example/solr/collection1/* {{ dir_servers }}/solr/dc-collection
     - name: Write solrconfig to dc-collection/conf
-      template: src={{ dir_code_src }}/solr_api/dc-collection/conf/solrconfig.xml.j2 dest={{ dir_servers }}/solr/dc-collection/conf/solrconfig.xml force=yes backup=yes backup=yes
+      template: src={{ dir_code_src }}/solr_api/dc-collection/conf/solrconfig.xml.j2 dest={{ dir_servers }}/solr/dc-collection/conf/solrconfig.xml force=yes backup=yes
     - name: compile css, run compass to create css
       shell: cd {{ dir_code_src }}/solr_api/solritas_compass_project; compass compile
       tags: install_velocity
