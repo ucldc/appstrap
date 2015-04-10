@@ -9,6 +9,7 @@
       dir_code_src: '~/code/'
       dir_servers: '~/servers/'
       solr_log_dir: "{{ dir_servers }}/solr/log"
+      solr_path: "{{ dir_servers }}/solr"
     tasks:
     - name: check_appstrap
       shell: . $HOME/appstrap/setenv.sh
