@@ -1,5 +1,11 @@
+Fatal
 XML::Schematron
 # File::List won't install with cpanm
 Date::Format
-autodie::hints # perl-autodie?
 IPC::System::Simple
+local::lib
+XML::LibXML
+BSD::Resource
+BerkeleyDB
+MLDBM
+DB_File

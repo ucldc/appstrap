@@ -1,20 +1,72 @@
-reportlab
-html5lib pyPdf pisa pp plac
-bpython
-south
-django_extensions
-selenium
-webtest
-django-webtest
-django-extensions
-coverage
-requests
-pymarc
-http://guichaz.free.fr/iotop/files/iotop-0.4.4.tar.gz
-#--src=$PREFIX/src -e "git+https://github.com/mredar/django-staticgenerator.git#egg=staticgenerator"
-http://github.com/mredar/django-staticgenerator/archive/master.zip
-#--src=$PREFIX/src -e "hg+https://bitbucket.org/mredar/ezid#egg=EZID"
-http://bitbucket.org/mredar/ezid/get/tip.tar.gz
-django-dublincore
-django-sortable
-twill
+--allow-external PIL
+--allow-unverified PIL
+--allow-external pp
+--allow-unverified pp
+--allow-external twill
+--allow-unverified twill
+BeautifulSoup==3.2.1
+Django==1.4.20
+-e hg+https://bitbucket.org/mredar/ezid@bf6f4925b0f60d3cbe06c12d9649715a0d9c837f#egg=EZID-dev
+GitPython==0.3.2.RC1
+Jinja2==2.7.3
+Logbook==0.4.1
+MarkupSafe==0.23
+MySQL-python==1.2.3
+PIL==1.1.7
+PyYAML==3.11
+Pygments==1.5
+South==0.7.6
+WebOb==1.2.2
+WebTest==1.3.4
+ansible==1.4.5
+argparse==1.2.1
+async==0.6.1
+boto==2.9.6
+bpython==0.11
+clint==0.3.1
+hg+https://bitbucket.org/btingle/config_reader
+coverage==3.5.2
+cssutils==0.9.10b1
+django-debug-toolbar==0.9.4
+django-debug-toolbar-template-timings==0.6.4
+django-dublincore==0.1
+django-extensions==1.1.1
+django-sortable==0.3.0
+-e git://github.com/mredar/django-staticgenerator.git@c73f295462363fff8512d0183a0eadff7517ed7b#egg=django_staticgenerator-master
+django-webtest==1.5.4
+docutils==0.9.1
+# dulwich==0.8.5
+eadator==0.3.3
+ecdsa==0.13
+gitdb==0.5.4
+# hg-git==0.3.3
+hgexternals==0.2
+html5lib==0.95
+httplib2==0.9
+legit==0.1.1
+logilab-astng==0.24.0
+logilab-common==0.58.1
+lxml==3.3.1
+paramiko==1.7.7.2
+pdfminer==20140328
+pdftrick==0.0.2
+pisa==3.0.33
+plac==0.9.1
+pp==1.6.2
+pyPdf==1.13
+pycrypto==2.1.0
+pylint==0.25.2
+pymarc==2.8.4
+pysqlite==2.6.3
+recaptcha-client==1.0.6
+reportlab==2.5
+requests==0.13.6
+selenium==2.37.0
+simplejson==2.6.1
+six==1.9.0
+smmap==0.8.2
+solrpy==0.9.5
+twill==0.9
+unittest2==0.5.1
+virtualenv==1.7.2
+wsgiref==0.1.2

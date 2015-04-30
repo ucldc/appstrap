@@ -15,12 +15,17 @@ cd $DIR
 . stack_run.sh
 
 . ../setenv.sh
+
+if [[ ! -d ~/python ]]; then
+  virtualenv ~/python
+fi
+
 set +u
 . ~/python/bin/activate 
 set -u
 
 which pip
-stack_run_batch  "pip install" dsc.pip.txt
+pip install -r dsc.pip.txt
 
 which cpanm
 if [[ $(perl -I ~/perl5/lib/perl5 -Mlocal::lib -e ';') ]]
@@ -33,5 +38,30 @@ eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
 set -u
 
 stack_run_batch "cpanm" dsc.cpanm.txt
-# ./monit_binary
+
+
 # install File::List "by hand"
+perl -MFile::List -e ';' || {
+  tempdir=$(mktemp -d "${TMPDIR:-/tmp}"/appstrap-pm.XXXX)
+  cd "$tempdir"
+  wget http://www.cpan.org/authors/id/D/DO/DOPACKI/File-List-0.3.1.tar.gz 
+  echo "0fdefea8d6dffabc3c2244ea0c627c50  File-List-0.3.1.tar.gz" | md5sum -c - 
+  tar zxf File-List-0.3.1.tar.gz 
+  cd File/List
+  perl Makefile.PL 
+  make install
+  trap "rm -rf $tempdir" EXIT
+}
+
+
+if [[ ! -e /dsc/local/bin/mysql ]]; then
+  mkdir -p /dsc/local/bin
+  ln -s /usr/bin/mysql /dsc/local/bin/mysql
+fi
+
+if [[ ! -e /dsc/local/sbin/cronolog ]]; then
+  mkdir -p /dsc/local/sbin
+  ln -s /usr/sbin/cronolog /dsc/local/sbin/cronolog
+fi
+
+# ./monit_binary
