@@ -5,6 +5,8 @@ Date::Format
 IPC::System::Simple
 local::lib
 XML::LibXML
+XML::LibXSLT
+Archive::Tar
 BSD::Resource
 BerkeleyDB
 MLDBM

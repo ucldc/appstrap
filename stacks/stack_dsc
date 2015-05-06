@@ -64,4 +64,8 @@ if [[ ! -e /dsc/local/sbin/cronolog ]]; then
   ln -s /usr/sbin/cronolog /dsc/local/sbin/cronolog
 fi
 
+if [[ ! -e /dsc/perllib ]]; then
+  ln -s /apps/dsc/perl5/lib/perl5 /apps/dsc/perllib
+fi
+
 # ./monit_binary
