@@ -14,15 +14,17 @@
 
 . /etc/rc.d/init.d/functions
 
+ROLE=nuxeo
+
 case "$1" in
   start)
-      /bin/su - dsc -c "/usr/bin/monit -c ~/.monitrc"
-      /bin/su - dsc -c "/usr/bin/monit -c ~/.monitrc start all"
+      /bin/su - $ROLE -c "/usr/bin/monit -c ~/.monitrc"
+      /bin/su - $ROLE -c "/usr/bin/monit -c ~/.monitrc start all"
       touch /var/lock/subsys/nuxeomonit
       ;;
   stop)
-      /bin/su - dsc -c "/usr/bin/monit -c ~/.monitrc stop all"
-      /bin/su - dsc -c "/usr/bin/monit -c ~/.monitrc quit"
+      /bin/su - $ROLE -c "/usr/bin/monit -c ~/.monitrc stop all"
+      /bin/su - $ROLE -c "/usr/bin/monit -c ~/.monitrc quit"
       rm -f /var/lock/subsys/nuxeomonit
       ;;
   *)
