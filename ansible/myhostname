@@ -14,6 +14,11 @@ if [[ -x /usr/bin/cloud-init ]]
         myhostname="$public_hostname"
     fi
 
+    case "$myhostname" in 
+      'ec2-54-187-56-197.us-west-2.compute.amazonaws.com' )
+        myhostname='nuxeo.cdlib.org' ;;
+    esac
+
   else
   # running in Kaiser
     hostname=$(hostname)
