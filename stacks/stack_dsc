@@ -14,35 +14,58 @@ cd $DIR
 
 . stack_run.sh
 
-# unset build-dsc-solaris10 environment
-unset CFLAGS
-unset CPPFLAGS
-unset LDFLAGS
-unset LD_LIBRARY_PATH
-unset LD_RUN_PATH
-unset PERL5LIB
-unset PREFIX
-# restore default path on SUSE
-export PATH=/usr/local/bin:/usr/bin:/bin:/usr/X11R6/bin:/usr/games:/usr/lib/mit/bin:/usr/lib/mit/sbin
-
-stack_run_batch "../pmake" dsc.pkgsrc.txt
-# install openquicktime "by hand" (needs patch?)
 . ../setenv.sh
+
+if [[ ! -d ~/python ]]; then
+  virtualenv ~/python
+fi
+
+set +u
+. ~/python/bin/activate 
+set -u
+
 which pip
-stack_run_batch  "pip install" dsc.pip.txt
+pip install -r dsc.pip.txt
+
 which cpanm
+if [[ $(perl -I ~/perl5/lib/perl5 -Mlocal::lib -e ';') ]]
+  then
+    cpanm --local-lib=~/perl5 local::lib
+fi
+
+set +u
+eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
+set -u
+
 stack_run_batch "cpanm" dsc.cpanm.txt
-./monit_binary
+
+
 # install File::List "by hand"
+perl -MFile::List -e ';' || {
+  tempdir=$(mktemp -d "${TMPDIR:-/tmp}"/appstrap-pm.XXXX)
+  cd "$tempdir"
+  wget http://www.cpan.org/authors/id/D/DO/DOPACKI/File-List-0.3.1.tar.gz 
+  echo "0fdefea8d6dffabc3c2244ea0c627c50  File-List-0.3.1.tar.gz" | md5sum -c - 
+  tar zxf File-List-0.3.1.tar.gz 
+  cd File/List
+  perl Makefile.PL 
+  make install
+  trap "rm -rf $tempdir" EXIT
+}
 
-# hack pkg
 
-cat <<HERE >  ~/pkg/setenv.bash
-export PATH="/apps/dsc/pkg/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/SUNWspro/bin:/usr/ccs/bin:/usr/perl5/5.8.4/bin:/cdlcommon/products/libxml2-2.5.8/bin:/usr/sfw/bin:/lib/
-svc/bin:/opt/SUNWspro/contrib/vim/bin:/usr/local/bin:/opt/csw/bin:/apps/dsc/pkg/lib/perl5/site_perl/bin/"
-unset PERL5LIB
-HERE
+if [[ ! -e /dsc/local/bin/mysql ]]; then
+  mkdir -p /dsc/local/bin
+  ln -s /usr/bin/mysql /dsc/local/bin/mysql
+fi
 
-cd $HOME/pkg
-ln -s sbin/httpd bin/httpd
-ln -s lib/httpd/ modules
+if [[ ! -e /dsc/local/sbin/cronolog ]]; then
+  mkdir -p /dsc/local/sbin
+  ln -s /usr/sbin/cronolog /dsc/local/sbin/cronolog
+fi
+
+if [[ ! -e /dsc/perllib ]]; then
+  ln -s /apps/dsc/perl5/lib/perl5 /apps/dsc/perllib
+fi
+
+# ./monit_binary
