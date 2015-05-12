@@ -11,3 +11,6 @@ BSD::Resource
 BerkeleyDB
 MLDBM
 DB_File
+CGI
+HTML::Template
+Date::Manip
