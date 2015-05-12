@@ -36,7 +36,7 @@ django-sortable==0.3.0
 django-webtest==1.5.4
 docutils==0.9.1
 # dulwich==0.8.5
-eadator==0.3.3
+eadator==0.3.4
 ecdsa==0.13
 gitdb==0.5.4
 # hg-git==0.3.3
