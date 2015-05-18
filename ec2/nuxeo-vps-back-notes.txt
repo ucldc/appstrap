@@ -5,4 +5,7 @@ yum install -y \
   ghostscript \
   git \
   ImageMagick \
-  pdftohtml
+  pdftohtml \
+  python27-devel \
+  python27-pip
+pip-2.7 install virtualenv
