@@ -1,6 +1,6 @@
 #!/bin/sh
 ### BEGIN INIT INFO
-# Provides: nuxeomonit
+# Provides: nuxeo
 # Required-Start: $local_fs $network $remote_fs
 # Should-Start: ypbind nscd ntpd xntpd
 # Required-Stop: $local_fs $network $remote_fs
@@ -18,14 +18,12 @@ ROLE=nuxeo
 
 case "$1" in
   start)
-      /bin/su - $ROLE -c "/usr/bin/monit -c ~/.monitrc"
-      /bin/su - $ROLE -c "/usr/bin/monit -c ~/.monitrc start all"
-      touch /var/lock/subsys/nuxeomonit
+      /bin/su - $ROLE -c "/home/nuxeo/nuxeo/bin/nuxeoctl startbg"
+      touch /var/lock/subsys/nuxeo
       ;;
   stop)
-      /bin/su - $ROLE -c "/usr/bin/monit -c ~/.monitrc stop all"
-      /bin/su - $ROLE -c "/usr/bin/monit -c ~/.monitrc quit"
-      rm -f /var/lock/subsys/nuxeomonit
+      /bin/su - $ROLE -c "/home/nuxeo/nuxeo/bin/nuxeoctl stop"
+      rm -f /var/lock/subsys/nuxeo
       ;;
   *)
       echo "dsc start/stop script"
