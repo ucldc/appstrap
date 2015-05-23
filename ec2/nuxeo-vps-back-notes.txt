@@ -1,0 +1,11 @@
+yum install -y autoconf automake gcc gcc-c++ git libtool make nasm pkgconfig zlib-devel
+yum install -y \
+  cups-libs \
+  dbus-glib \
+  ghostscript \
+  git \
+  ImageMagick \
+  pdftohtml \
+  python27-devel \
+  python27-pip
+pip-2.7 install virtualenv

@@ -22,8 +22,10 @@ else
   onAws='1'
 fi 
 
-if [[ -e "$HOME/java/jdk-7u51-linux-x64.tar.gz" ]]; then
-    echo "$HOME/java/jdk-7u51-linux-x64.tar.gz exists, been done?"
+# jdk-7u79-linux-x64.tar.gz
+
+if [[ -e "$HOME/java/jdk-7u79-linux-x64.tar.gz" ]]; then
+    echo "$HOME/java/jdk-7u79-linux-x64.tar.gz exists, been done?"
     exit 0
 fi
 
@@ -31,11 +33,11 @@ mkdir -p $HOME/java
 
 # do we even really need sun java?  (except for XTF)
 
-java_version="jdk-7u51"
-java_dir="jdk1.7.0_51"
+java_version="jdk-7u79"
+java_dir="jdk1.7.0_79"
 
 if [[ ! -e $HOME/${java_version}-linux-x64.tar.gz ]] && [[ ! -e java7 ]]; then
-  if [[ $onAws ]]; then 
+  if [[ $onAws && ! -d /apps/dsc ]]; then 
     aws s3 --region us-east-1 cp s3://dsc-internal-java/java7/${java_version}-linux-x64.tar.gz $HOME/java/${java_version}-linux-x64.tar.gz
   else
     curl http://dsc-aws1.cdlib.org/Java/${java_version}-linux-x64.tar.gz \

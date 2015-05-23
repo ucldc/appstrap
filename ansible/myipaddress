@@ -1,14 +1,24 @@
 #!/usr/bin/env bash
 
-hostname=$(hostname)
-ipaddress=$(hostname -i)
-case "$hostname" in
-  'publishing-stg' )
-    myipaddress='192.35.209.14' ;;
-  'cdl-ucpec-p01' )
-    myipaddress='128.48.120.59' ;;
-  * )
-    myipaddress="$ipaddress" ;;
-esac
+if [[ -x /usr/bin/cloud-init ]]
+  then
+  # running in Amazon
+    myipaddress=$(curl http://169.254.169.254/latest/meta-data/public-ipv4 --silent)
+
+  else
+  # running in Kaiser
+
+    hostname=$(hostname)
+    ipaddress=$(hostname -i)
+    case "$hostname" in
+      'publishing-stg' )
+        myipaddress='192.35.209.14' ;;
+      'cdl-ucpec-p01' )
+        myipaddress='128.48.120.59' ;;
+      * )
+        myipaddress="$ipaddress" ;;
+    esac
+fi
 
 echo "$myipaddress"
+

@@ -1,13 +1,13 @@
 {% extends "monitrc.j2" %}
 
 {% block appstrap %}
-check process postgres
-    with pidfile "{{ role_home_dir.stdout }}/servers/postgres/data/postmaster.pid"
-    start program "{{ role_home_dir.stdout }}/appstrap/envwrap pg_ctl -D {{ role_home_dir.stdout }}/servers/postgres/data/ start -l {{ role_home_dir.stdout }}/servers/postgres/log/logfile"
-    stop program "{{ role_home_dir.stdout }}/appstrap/envwrap pg_ctl -D {{ role_home_dir.stdout }}/servers/postgres/data/ stop -m fast"
-    if failed unixsocket /tmp/.s.PGSQL.5432 protocol pgsql then restart
-    if failed unixsocket /tmp/.s.PGSQL.5432 protocol pgsql then alert
-    if failed host localhost port 5432 protocol pgsql then restart
-    if failed host localhost port 5432 protocol pgsql then alert
-    if 5 restarts within 5 cycles then timeout
+#check process postgres
+#    with pidfile "{{ role_home_dir.stdout }}/servers/postgres/data/postmaster.pid"
+#    start program "{{ role_home_dir.stdout }}/appstrap/envwrap pg_ctl -D {{ role_home_dir.stdout }}/servers/postgres/data/ start -l {{ role_home_dir.stdout }}/servers/postgres/log/logfile"
+#    stop program "{{ role_home_dir.stdout }}/appstrap/envwrap pg_ctl -D {{ role_home_dir.stdout }}/servers/postgres/data/ stop -m fast"
+#    if failed unixsocket /tmp/.s.PGSQL.5432 protocol pgsql then restart
+#    if failed unixsocket /tmp/.s.PGSQL.5432 protocol pgsql then alert
+#    if failed host localhost port 5432 protocol pgsql then restart
+#    if failed host localhost port 5432 protocol pgsql then alert
+#    if 5 restarts within 5 cycles then timeout
 {% endblock %}
