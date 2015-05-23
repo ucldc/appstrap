@@ -21,7 +21,7 @@ check process http
     with pidfile "{{ role_home_dir.stdout }}/servers/httpd/logs/httpd.pid"
     start program "{{ role_home_dir.stdout }}/appstrap/envwrap {{ role_home_dir.stdout }}/servers/httpd/bin/apachectl start"
     stop program "{{ role_home_dir.stdout }}/appstrap/envwrap {{ role_home_dir.stdout }}/servers/httpd/bin/apachectl stop"
-    if failed host {{ ansible_fqdn }} port 443 type TCPSSL SSLV3 protocol http
+    if failed host {{ ansible_fqdn }} port 443 type TCPSSL protocol http
     then 
         restart
 
