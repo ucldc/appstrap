@@ -30,5 +30,9 @@ www/ap2-jk
 www/ap2-wsgi
 # www/ap2-perl
 
+lang/gcc45
 devel/boost-headers
 converters/libiconv
+
+#stunnel for redis proxying
+security/stunnel
