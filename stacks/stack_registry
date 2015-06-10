@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-
-if [[ -n "$DEBUG" ]]; then 
+export DEBUG=1
+if [[ -n ${DEBUG-} ]]; then 
   set -x
 fi
 
@@ -12,40 +12,41 @@ set -o errexit   ## set -e : exit the script if any statement returns a non-true
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
 cd $DIR
 
-. stack_run.sh  # gives us `stack_run_batch`
-
-export LD_LIBRARY_PATH="${HOME}/pkg/lib:${HOME}/servers/shibboleth/lib"
-
-. $DIR/../setenv.sh
-
-stack_run_batch "../pmake" registry.pkgsrc.txt
-
-# build root certificates for ssl
-if [ ! -f ${HOME}/pkg/etc/openssl/certs/mozilla-rootcert-1.pem ]; then
-    set +e
-    mozilla-rootcerts install
-    echo "cdl_build: Ignore message about 'aborting' above. Continuing..."
-    set -e
-fi
-
-pip install lxml
-pip install staller
-if [[ ! -f "${HOME}/pkg/bin/python" ]]; then
-    ln -s ${HOME}/pkg/bin/python2.7 ${HOME}/pkg/bin/python
-fi
-../cdl/get_java
-./monit_binary
-mkdir -p ${HOME}/tmp
-../shib_it -p ${HOME}/servers/shibboleth -o ${HOME}/pkg -t ${HOME}/tmp
+# test ssl certs in ~/certs
 ../roll_test_certs
+
+# set up virtualenv and activate it
+virtualenv-2.7 ~/python
+set +u
+source ~/python/bin/activate
+set -u
+
+# python libraries
+pip install \
+  appdirs \
+  daemonocle \
+  lxml \
+  mysql \
+  shove \
+  six
+pip install https://github.com/ucldc/staller/archive/master.zip
+pip install -r ../ansible/requirements.txt --use-mirrors
+pip install -r ~/code/avram/requirements.txt
+
+# check for shibboleth and build if needed
+if [[ ! -x ~/servers/shibboleth/sbin/shibd ]]
+  then
+    shib_it -p ${HOME}/servers/shibboleth \
+      --boost /usr/include/boost141 \
+      --curl /usr \
+      --openssl /usr \
+      --apxs /usr/bin/apxs 
+fi
+
 
 # okay, now we should have a good stack set up, let's install and configure the app!
 cd ../ansible
-./init.sh
-set +u
-. bin/activate
-set -u
+
 ansible-playbook -i host_inventory registry-playbook.yml
 cd
 ln -f -s appstrap/bashrc/role-account .bashrc
-

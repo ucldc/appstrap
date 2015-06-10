@@ -3,10 +3,9 @@
 # consult the online docs. You have been warned.  
 #
 ServerRoot "/etc/httpd"
+DefaultRuntimeDir "{{ role_home_dir.stdout }}/servers/httpd/run/"
 
 PidFile "{{ role_home_dir.stdout }}/servers/httpd/logs/httpd.pid"
-
-Listen 80
 
 # Example:
 # LoadModule foo_module modules/mod_foo.so
@@ -136,7 +135,10 @@ LogLevel warn
 
 UseCanonicalName On
 
+{% block listen80 %}
+Listen 80
 <VirtualHost *:80>
+{% endblock %}
     Redirect permanent / https://{{ hostname.stdout }}/
 </VirtualHost>
 
@@ -173,8 +175,6 @@ UseCanonicalName On
 # Note: Configurations that use IPv6 but not IPv4-mapped addresses need two
 #       Listen directives: "Listen [::]:443" and "Listen 0.0.0.0:443"
 #
-Listen 443
-
 ##
 ##  SSL Global Context
 ##
@@ -210,7 +210,10 @@ SSLSessionCacheTimeout  300
 ## SSL Virtual Host Context
 ##
 
+{% block listen443 %}
+Listen 443
 <VirtualHost *:443>
+{% endblock %}
 
 # https://spaces.internet2.edu/display/SHIB2/NativeSPApacheConfig
 
