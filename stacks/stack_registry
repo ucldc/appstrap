@@ -31,7 +31,6 @@ pip install \
   six
 pip install https://github.com/ucldc/staller/archive/master.zip
 pip install -r ../ansible/requirements.txt --use-mirrors
-pip install -r ~/code/avram/requirements.txt
 
 # check for shibboleth and build if needed
 if [[ ! -x ~/servers/shibboleth/sbin/shibd ]]
@@ -48,5 +47,9 @@ fi
 cd ../ansible
 
 ansible-playbook -i host_inventory registry-playbook.yml
+pip install -r ~/code/avram/requirements.txt
 cd
 ln -f -s appstrap/bashrc/role-account .bashrc
+touch: cannot touch ‘/apps/registry/users/api_key.conf’: No such file or directory
+mkdir -p ~/users
+touch ~/users/api_key.conf
