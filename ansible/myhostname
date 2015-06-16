@@ -17,6 +17,12 @@ if [[ -x /usr/bin/cloud-init ]]
     case "$myhostname" in 
       'ec2-54-187-56-197.us-west-2.compute.amazonaws.com' )
         myhostname='nuxeo.cdlib.org' ;;
+      'ec2-54-244-52-78.us-west-2.compute.amazonaws.com' )
+        myhostname='dsc-registry-dev.cdlib.org' ;;
+      'ec2-54-244-52-79.us-west-2.compute.amazonaws.com' )
+        myhostname='dsc-registry-stg.cdlib.org' ;;
+      'ec2-54-244-52-80.us-west-2.compute.amazonaws.com' )
+        myhostname='dsc-registry-prd.cdlib.org' ;;
     esac
 
   else
