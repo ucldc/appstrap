@@ -5,6 +5,10 @@
     - include: tasks/setvars.yml  # sets {{ role_home_dir.stdout }} and hostname.stdout
     - include: tasks/shibboleth.yml app=registry  
     - include: tasks/monit.yml app=registry
+    - name: add stunnel monit control file
+      template:
+        src: templates/registry/stunnel-monitrc
+        dest: ~/.monit/stunnel-monitrc
     - name: check out documentation
       git: repo=https://github.com/ucldc/ucldc-docs.git version=mirror dest=~/webroot/ucldc-docs
     - name: mirror the documentation from github (cheap trick)
