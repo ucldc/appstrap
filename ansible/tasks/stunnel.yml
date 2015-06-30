@@ -1,0 +1,13 @@
+---
+- name: create stunnel server dir
+  file:
+    state: directory
+    path: "{{ role_home_dir.stdout }}/servers/stunnel"
+- name: put stunnel.conf in place
+  template: 
+    src: templates/registry/stunnel.conf.j2
+    dest: "{{ role_home_dir.stdout }}/servers/stunnel/stunnel.conf"
+- name: put monit file in place 
+  template:
+    src: templates/registry/stunnel-monitrc
+    dest: "{{ role_home_dir.stdout }}/.monit/stunnel"
