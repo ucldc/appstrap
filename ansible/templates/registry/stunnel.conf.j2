@@ -1,0 +1,10 @@
+pid = {{ role_home_dir.stdout }}/servers/stunnel/stunnel.pid
+client = yes
+output = {{ role_home_dir.stdout }}/servers/stunnel/log
+client = yes
+cert = {{ role_home_dir.stdout}}/certs/stunnel.pem
+
+[redis]
+client = yes
+accept = 6380
+connect = {{ ingest_front_tunnel }}
