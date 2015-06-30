@@ -16,4 +16,5 @@ sudo yum --enablerepo epel -y install \
   python26-virtualenv \
   python27-devel \
   python27-pip \
-  python27-virtualenv
+  python27-virtualenv \
+  stunnel

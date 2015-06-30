@@ -1,0 +1,8 @@
+check process stunnel
+    with pidfile "{{ role_home_dir.stdout }}/servers/stunnel/stunnel.pid"
+    start program "{{ role_home_dir.stdout }}/appstrap/envwrap /usr/bin/stunnel {{ role_home_dir.stdout }}/servers/stunnel/stunnel.conf"
+    stop program "/bin/bash -c 'kill -s SIGTERM `cat {{ role_home_dir.stdout }}/servers/stunnel/stunnel.pid`
+    if failed host {{ ansible_fqdn }} port 6379 type TCPSSL SSLV3 protocol REDIS
+    then 
+        restart
+
