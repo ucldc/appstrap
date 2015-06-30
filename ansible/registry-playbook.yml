@@ -1,14 +1,25 @@
 ---
   - hosts: localhost
     gather_facts: True         
+    vars:
+        ingest_front_tunnel: 52.11.19440:6379 
     tasks: 
     - include: tasks/setvars.yml  # sets {{ role_home_dir.stdout }} and hostname.stdout
     - include: tasks/shibboleth.yml app=registry  
     - include: tasks/monit.yml app=registry
-    - name: add stunnel monit control file
-      template:
-        src: templates/registry/stunnel-monitrc
-        dest: ~/.monit/stunnel-monitrc
+    - name: put stunnel.conf in place
+      template: 
+        src: stunnel.conf.j2
+        dest: /etc/stunnel/stunnel.conf
+    - name: put init.d script in place
+      copy:
+        src: stunnel.init.d
+        dest: /etc/init.d/stunnel
+        mode: 0744
+    - name: chkconfig stunnel to run at boot
+      command: chkconfig --add stunnel
+    - name: start stunnel in daemon mode
+      command: /etc/init.d/stunnel start
     - name: check out documentation
       git: repo=https://github.com/ucldc/ucldc-docs.git version=mirror dest=~/webroot/ucldc-docs
     - name: mirror the documentation from github (cheap trick)
