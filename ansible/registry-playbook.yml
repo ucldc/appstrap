@@ -2,7 +2,7 @@
   - hosts: localhost
     gather_facts: True         
     vars:
-        ingest_front_tunnel: 52.11.19440:6379 
+        ingest_front_tunnel: 52.11.194.40:6379 
     tasks: 
     - include: tasks/setvars.yml  # sets {{ role_home_dir.stdout }} and hostname.stdout
     - include: tasks/shibboleth.yml app=registry  
