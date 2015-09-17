@@ -27,3 +27,11 @@ user=`who -m | awk '{ print $1 }'`
 if [ -e $HOME/.bashrc-${user} ]; then
   . "$HOME/.bashrc-${user}"
 fi
+
+alias monit="monit -c ~/.monitrc"
+
+# put the role account virtualenv on the $PATH (if not there already)
+# virtualenv ~/python
+if [[ ! ":$PATH:" == *":$HOME/python/bin:"* ]]; then
+    export PATH=$HOME/python/bin:$PATH
+fi

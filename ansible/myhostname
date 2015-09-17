@@ -1,25 +1,54 @@
 #!/usr/bin/env bash
 
-hostname=$(hostname)
-case "$hostname" in
-  'registry-dev' )
-    myhostname='registry-dev.cdlib.org' ;;
-  'registry-stg' )
-    myhostname='registry-stg.cdlib.org' ;;
-  'cdl-registry-p01' )
-    myhostname='registry.cdlib.org' ;;
-  'nuxeo-dev' )
-    myhostname='nuxeo-dev.cdlib.org' ;;
-  'nuxeo-stg' )
-    myhostname='nuxeo-stg.cdlib.org' ;;
-  'cdl-nuxeo-p01' )
-    myhostname='nuxeo.cdlib.org' ;;
-  'publishing-stg' )
-    myhostname='licensed-stg.cdlib.org' ;;
-  'cdl-ucpec-p01' )
-    myhostname='licensed.cdlib.org' ;;
-  * )
-    myhostname="$hostname" ;;
-esac
+if [[ -x /usr/bin/cloud-init ]]
+  then
+  # running in Amazon
+    public_hostname=$(curl http://169.254.169.254/latest/meta-data/public-hostname --silent)
+    if [[ -z $public_hostname ]]
+      then
+      # fallback, VPC's don't have public hostname DNS by default
+        host=$(host $(curl http://169.254.169.254/latest/meta-data/public-ipv4 --silent))
+        host=${host##*domain name pointer }
+        myhostname=${host::1,${#host}-1}
+      else 
+        myhostname="$public_hostname"
+    fi
+
+    case "$myhostname" in 
+      'ec2-54-187-56-197.us-west-2.compute.amazonaws.com' )
+        myhostname='nuxeo.cdlib.org' ;;
+      'ec2-54-244-52-78.us-west-2.compute.amazonaws.com' )
+        myhostname='registry-dev.cdlib.org' ;;
+      'ec2-54-244-52-79.us-west-2.compute.amazonaws.com' )
+        myhostname='registry-stg.cdlib.org' ;;
+      'ec2-54-244-52-80.us-west-2.compute.amazonaws.com' )
+        myhostname='registry.cdlib.org' ;;
+    esac
+
+  else
+  # running in Kaiser
+    hostname=$(hostname)
+
+    case "$hostname" in
+      'registry-dev' )
+        myhostname='registry-dev.cdlib.org' ;;
+      'registry-stg' )
+        myhostname='registry-stg.cdlib.org' ;;
+      'cdl-registry-p01' )
+        myhostname='registry.cdlib.org' ;;
+      'nuxeo-dev' )
+        myhostname='nuxeo-dev.cdlib.org' ;;
+      'nuxeo-stg' )
+        myhostname='nuxeo-stg.cdlib.org' ;;
+      'cdl-nuxeo-p01' )
+        myhostname='nuxeo.cdlib.org' ;;
+      'publishing-stg' )
+        myhostname='licensed-stg.cdlib.org' ;;
+      'cdl-ucpec-p01' )
+        myhostname='licensed.cdlib.org' ;;
+      * )
+        myhostname="$hostname" ;;
+    esac
+fi
 
 echo "$myhostname"

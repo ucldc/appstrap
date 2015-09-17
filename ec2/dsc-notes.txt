@@ -1,0 +1,6 @@
+sudo yum -y install autoconf automake gcc gcc-c++ git libtool make nasm pkgconfig zlib-devel
+sudo yum -y install ant hg python27-pip java-1.7.0-openjdk.x86_64
+sudo yum -y install ack
+sudo yum -y install perl-App-cpanminus
+sudo yum -y install --enablerepo=epel python-virtualenv
+sudo yum -y install libxml2 libxslt

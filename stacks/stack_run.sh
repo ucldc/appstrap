@@ -15,8 +15,8 @@ stack_run_batch() {
   # stack_run_batch "command" file
   # will run the command for every line in the file
   # tries to ignore comments marked with `#` and blank links
-  local command=$1
-  local file=$2
+  local command="$1"
+  local file="$2"
   # http://stackoverflow.com/a/1521498/1763984
   while read p; do
     package=`stack_run_line "$p"`

@@ -12,15 +12,13 @@ set -o errexit   ## set -e : exit the script if any statement returns a non-true
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
 cd $DIR
 
-./registry.yum.sh
-
 # test ssl certs in ~/certs
 ../roll_test_certs
 
 # set up virtualenv and activate it
-virtualenv-2.7 ~/python
+virtualenv python
 set +u
-source ~/python/bin/activate
+source python/bin/activate
 set -u
 
 # python libraries
@@ -28,10 +26,10 @@ pip install \
   appdirs \
   daemonocle \
   lxml \
-  mysql \
   shove \
   six
 pip install https://github.com/ucldc/staller/archive/master.zip
+pip install https://github.com/tingletech/fixity_checker/archive/master.tar.gz
 pip install -r ../ansible/requirements.txt --use-mirrors
 
 # check for shibboleth and build if needed
@@ -48,9 +46,6 @@ fi
 # okay, now we should have a good stack set up, let's install and configure the app!
 cd ../ansible
 
-ansible-playbook -i host_inventory registry-playbook.yml
-pip install -r ~/code/avram/requirements.txt
+ansible-playbook -i host_inventory nuxeo-front-playbook.yml
 cd
 ln -f -s appstrap/bashrc/role-account .bashrc
-mkdir -p ~/users
-touch ~/users/api_key.conf
