@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-export DEBUG=1
-if [[ -n ${DEBUG-} ]]; then 
+
+if [[ -n "$DEBUG" ]]; then 
   set -x
 fi
 
@@ -12,31 +12,19 @@ set -o errexit   ## set -e : exit the script if any statement returns a non-true
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
 cd $DIR
 
-. stack_run.sh  # gives us `stack_run_batch`
-export LD_LIBRARY_PATH="${HOME}/pkg/lib:${HOME}/servers/shibboleth/lib"
+. stack_run.sh
 
-. $DIR/../setenv.sh
+. ../setenv.sh
 
 if [[ ! -d ~/python ]]; then
-  virtualenv-2.7 ~/python
+  virtualenv ~/python
 fi
 
 set +u
-. ~/python/bin/activate
+. ~/python/bin/activate 
 set -u
 
-../roll_test_certs
-
 which pip
-pip install lxml
-pip install twill
-pip install netaddr
-pip install staller
-jpache --prefix=${HOME}/java -f
+pip install -r licensed.pip.txt
 
-# okay, now we should have a good stack set up, let's install and configure the app!
-cd ../ansible
-pip install -r requirements.txt --use-mirrors
-ansible-playbook -i host_inventory licensed-playbook.yml
-cd
-ln -f -s appstrap/bashrc/role-account .bashrc
+
