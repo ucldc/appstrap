@@ -5,7 +5,7 @@ sudo yum --enablerepo epel -y install \
   git \
   hg \
   httpd-devel \
-  java-1.8.0-openjdk \
+  java-1.8.0-openjdk-devel \
   jq \
   libxml2-devel \
   libxslt-devel \
