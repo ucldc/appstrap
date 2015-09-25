@@ -16,6 +16,6 @@
 - name: copy ip list for AETB restricitons
   copy: src=templates/licensed/ipList.txt  dest=~/servers/httpd/conf/ipList.txt
 - name: httpd conf magic its the magic number
-  copy: src=~/pkg/etc/httpd/magic dest=~/servers/httpd/conf/magic
+  copy: src=/etc/httpd/conf/magic dest=~/servers/httpd/conf/magic
 - name: httpd config mime.types who does not like MIME?
-  copy: src=~/pkg/etc/httpd/mime.types dest=~/servers/httpd/conf/mime.types
+  copy: src=/etc/mime.types dest=~/servers/httpd/conf/mime.types
