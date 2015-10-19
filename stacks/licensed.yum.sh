@@ -1,20 +1,18 @@
 sudo yum -y groupinstall "Development Tools"
 sudo yum --enablerepo epel -y install \
-  boost141-devel \
   cronolog \
   curl-devel \
   git \
-  httpd24-devel \
+  hg \
+  httpd-devel \
+  java-1.8.0-openjdk-devel \
   jq \
   libxml2-devel \
   libxslt-devel \
-  mod24_ssl \
-  mod24_wsgi-python27 \
+  mod_ssl \
   monit \
   mysql-devel \
   openssl-devel \
-  python26-virtualenv \
   python27-devel \
   python27-pip \
-  python27-virtualenv \
-  stunnel
+  python27-virtualenv

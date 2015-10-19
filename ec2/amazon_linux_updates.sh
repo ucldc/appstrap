@@ -12,5 +12,5 @@ yum --security check-update || {
   sudo yum update --security -y
   wall "applied security patches, time for a reboot in 30 seconds"
   sleep 30
-  sudo init 6
+  sudo /sbin/init 6
 }

@@ -12,6 +12,8 @@ set -o errexit   ## set -e : exit the script if any statement returns a non-true
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
 cd $DIR
 
+./registry.yum.sh
+
 # test ssl certs in ~/certs
 ../roll_test_certs
 
@@ -50,6 +52,5 @@ ansible-playbook -i host_inventory registry-playbook.yml
 pip install -r ~/code/avram/requirements.txt
 cd
 ln -f -s appstrap/bashrc/role-account .bashrc
-touch: cannot touch ‘/apps/registry/users/api_key.conf’: No such file or directory
 mkdir -p ~/users
 touch ~/users/api_key.conf
