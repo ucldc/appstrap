@@ -224,11 +224,11 @@ DocumentRoot "/apps/licensed/webroot"
   ProxyVia on
   RewriteEngine on
 
-  ProxyPassReverse / http://licensed-stg.cdlib.org:10890/
+  ProxyPassReverse / http://{{ privateipaddress.stdout }}:10890/
   RewriteRule ^/xtf_aetb/licensed/js(.*) /js$1 [R]
   RewriteRule ^/bootstrap/js(.*) /js$1 [R]
-  RewriteRule ^/xtf_aetb(.*) http://licensed-stg.cdlib.org:10890/xtf_aetb$1 [P]
-  RewriteRule ^/xtf_crc(.*) http://licensed-stg.cdlib.org:10890/xtf_crc$1 [P]
+  RewriteRule ^/xtf_aetb(.*) http://{{ privateipaddress.stdout }}:10890/xtf_aetb$1 [P]
+  RewriteRule ^/xtf_crc(.*) http://{{ privateipaddress.stdout }}:10890/xtf_crc$1 [P]
 
 #
 # DirectoryIndex: sets the file that Apache will serve if a directory
