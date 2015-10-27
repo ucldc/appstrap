@@ -4,7 +4,7 @@ check process tomcat
     stop program "{{ role_home_dir.stdout }}/servers/monit/bin/monit-wrapper.bash {{ role_home_dir.stdout }}/java/apache-tomcat/bin/shutdown.sh"
     #if failed host {{ ansible_fqdn }} port 8080 #fqdn changes on restart
     if failed URL http://{{ ipaddress.stdout }}:10890/xtf_crc/search
-    and content == "OAC"
+    and content == "Search Results"
     and timeout 30 seconds
     then 
         restart
