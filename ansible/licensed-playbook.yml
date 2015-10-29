@@ -6,6 +6,9 @@
     - name: figure out my ip address
       shell: ~/appstrap/ansible/myipaddress
       register: ipaddress   # {{ ipaddress.stdout }}
+    - name: figure out my private ip address
+      shell: ~/appstrap/ec2/private-ipv4.sh
+      register: privateipaddress  # {{ privateipaddress.stdout }}
     - include: tasks/licensed/apache_setup.yml
     - include: tasks/licensed/monit_setup.yml
     - include: tasks/licensed/tomcat_setup.yml
@@ -14,9 +17,9 @@
     - name: soruce appstrap environment
       shell: . $HOME/appstrap/setenv.sh
     - name: clone xtf for aetb
-      hg: repo=https://bitbucket.org/barbarahui/xtf_aetb dest=~/code/xtf_aetb revision=aetb executable=/apps/licensed/pkg/bin/hg force=no
+      hg: repo=https://bitbucket.org/barbarahui/xtf_aetb dest=~/code/xtf_aetb revision=aetb force=no
     - name: clone xtf for crc netbooks
-      hg: repo=https://bitbucket.org/barbarahui/xtf_aetb dest=~/code/xtf_crc revision=crc executable=/apps/licensed/pkg/bin/hg force=no
+      hg: repo=https://bitbucket.org/barbarahui/xtf_aetb dest=~/code/xtf_crc revision=crc force=no
     - name: build xtf_aetb
       command: /apps/licensed/java/apache-ant/bin/ant chdir=~/code/xtf_aetb/WEB-INF
     - name: build xtf_crc
@@ -30,7 +33,7 @@
     - name: create symbolic link for CRC xtf
       file: src=~/code/xtf_crc path=~/servers/tomcat/webapps/xtf_crc state=link
     - name: clone licensed-common
-      hg: repo=https://bitbucket.org/barbarahui/licensed-common dest=~/licensed-common revision=default executable=/apps/licensed/pkg/bin/hg force=no
+      hg: repo=https://bitbucket.org/barbarahui/licensed-common dest=~/licensed-common revision=default force=no
     #- name: remove webroot directory
       #file: path=~/webroot state=absent
     - name: create symbolic link for webroot
