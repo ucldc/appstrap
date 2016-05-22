@@ -6,6 +6,9 @@
     - name: figure out my ip address
       shell: ~/appstrap/ansible/myipaddress
       register: ipaddress   # {{ ipaddress.stdout }}
+    - name: figure out my private ip address
+      shell: ~/appstrap/ec2/private-ipv4.sh
+      register: privateipaddress  # {{ privateipaddress.stdout }}
     - include: tasks/licensed/apache_setup.yml
     - include: tasks/licensed/monit_setup.yml
     - include: tasks/licensed/tomcat_setup.yml

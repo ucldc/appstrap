@@ -39,6 +39,7 @@ pip install twill
 pip install netaddr
 pip install staller
 python -c 'import lxml'
+mkdir -p ${HOME}/java
 jpache --prefix=${HOME}/java -f
 
 # okay, now we should have a good stack set up, let's install and configure the app!
