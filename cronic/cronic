@@ -13,11 +13,11 @@ set -o pipefail  # trace ERR through pipes
 set -o errtrace  # trace ERR through 'time command' and other functions
 set -o nounset   ## set -u : exit the script if you try to use an uninitialised variable
 set -o errexit   ## set -e : exit the script if any statement returns a non-true return value
-logname=`basename $1`
-TIMESTAMP=`date +%Y%m%d_%H%M%S`
+logname=$(basename "$1")
+TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
 LOGDIR=$DIR/log
-mkdir -p $LOGDIR
+mkdir -p "$LOGDIR"
 OUT=$LOGDIR/${logname}.$TIMESTAMP.out
 ERR=$LOGDIR/${logname}.$TIMESTAMP.err
 TRACE=$LOGDIR/${logname}.$TIMESTAMP.trc
@@ -27,7 +27,7 @@ renice -n 10 $$ > /dev/null
 
 # run command
 set +e
-"$@" >$OUT 2>$TRACE
+"$@" >"$OUT" 2>"$TRACE"
 RESULT=$?
 set -e
 
@@ -40,9 +40,9 @@ else
 fi
 
 PATTERN="^${PS4:0:1}\\+${PS4:1}"
-if $GREP -q "$PATTERN" $TRACE
+if $GREP -q "$PATTERN" "$TRACE"
 then
-    ! $GREP -v "$PATTERN" $TRACE > $ERR
+    ! $GREP -v "$PATTERN" "$TRACE" > "$ERR"
 else
     ERR=$TRACE
 fi
@@ -59,7 +59,7 @@ if [ $RESULT -ne 0 -o -s "$ERR" ]
     echo
     echo "STANDARD OUTPUT: tail $OUT"
     tail "$OUT"
-    if [ $TRACE != $ERR ]
+    if [ "$TRACE" != "$ERR" ]
     then
         echo
         echo "TRACE-ERROR OUTPUT: tail $TRACE"
@@ -70,14 +70,14 @@ fi
 # remove empty log files
 # : is a null command
 if [ -s "$ERR" ] ; then gzip "$ERR"
-	elif [ -e "$ERR" ] ; then rm $ERR
+	elif [ -e "$ERR" ] ; then rm "$ERR"
 fi
 
 if [ -s "$OUT" ]  ; then gzip "$OUT"
-	elif [ -e "$OUT" ] ; then rm $OUT
+	elif [ -e "$OUT" ] ; then rm "$OUT"
 fi
 
 if [ -s "$TRACE" ] ; then gzip "$TRACE"
-	elif [ -e "$TRACE" ] ; then rm $TRACE
+	elif [ -e "$TRACE" ] ; then rm "$TRACE"
 fi
 
