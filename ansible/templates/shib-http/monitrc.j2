@@ -10,7 +10,7 @@ set httpd port 28812
 
 check process shibd
     with pidfile "{{ role_home_dir.stdout }}/servers/shibboleth/var/run/shibd.pid"
-    start program "{{ role_home_dir.stdout }}/appstrap/envwrap {{ role_home_dir.stdout }}/servers/shibboleth/sbin/shibd -p {{ role_home_dir.stdout }}/servers/shibboleth/var/run/shibd.pid"
+    start program "{{ role_home_dir.stdout }}/appstrap/shibd-clean-start"
         with timeout 90 seconds
     stop program "{{ role_home_dir.stdout }}/appstrap/shibd-clean-stop"
     if failed unixsocket
