@@ -11,14 +11,15 @@ set -o errexit   ## set -e : exit the script if any statement returns a non-true
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # http://stackoverflow.com/questions/59895
 cd "$DIR"
-. setenv-aws.sh
-./shibd-clean-stop
 
 # there is no $HOME in monit...
 export USER
 export HOME
 USER=$(/usr/bin/whoami) # http://codeblog.vurdalakov.net/2010/12/how-to-get-current-user-name-in-bash.html
 HOME=$(getent passwd "$USER" | cut -d: -f6) # http://stackoverflow.com/a/7359006/1763984
+
+. setenv-aws.sh
+./shibd-clean-stop
 
 "$HOME/servers/shibboleth/sbin/shibd" -p "$HOME/servers/shibboleth/var/run/shibd.pid"
 
