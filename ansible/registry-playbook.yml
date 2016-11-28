@@ -24,3 +24,7 @@
    #  command: ~/code/avram/init.sh creates=~/code/avram/bin/activate
     - name: setup db dump cron
       cron: name="dump django db" hour="1" minute="7" job="~/code/avram/dbdump.sh" backup=True
+    - name: copy .harvester-env to set REDIS_HOST
+      copy:
+        src: files/harvester-env
+        dest: ~/.harvester-env
