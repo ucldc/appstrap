@@ -51,6 +51,10 @@ RedirectMatch ^/api/$ /api/v1/
 RedirectMatch ^/solr$ /solr/query
 RedirectMatch ^/solr/$ /solr/query
 
+RedirectMatch ^/documentation/docs/dams/.*$ https://help.oac.cdlib.org/support/solutions/folders/9000174412
+RedirectMatch ^/documentation/docs/technical/.*$ https://help.oac.cdlib.org/support/solutions/articles/9000101639-calisphere-api
+RedirectMatch ^/documentation/.*$ https://help.oac.cdlib.org/support/home/
+
 
 <Directory {{ role_home_dir.stdout }}/webroot>
   Order deny,allow
