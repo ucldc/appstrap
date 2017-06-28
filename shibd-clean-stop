@@ -22,6 +22,7 @@ HOME=$(getent passwd "$USER" | cut -d: -f6) # http://stackoverflow.com/a/7359006
 
 rm -f "$HOME/servers/shibboleth/var/run/shibd.pid"
 rm -f "$HOME/servers/shibboleth/var/run/shibboleth/shibd.sock"
+find "/apps/registry/servers/shibboleth/var/run/shibboleth/" -name "InCommon-metadata.xml.????" -mtime +1 -exec rm {} \;
 
 # http://www.cyberciti.biz/faq/bash-comment-out-multiple-line-code/
 : '
