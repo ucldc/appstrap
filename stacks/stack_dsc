@@ -39,6 +39,8 @@ set -u
 
 stack_run_batch "cpanm" dsc.cpanm.txt
 
+cpanm -f GD
+
 
 # install File::List "by hand"
 perl -MFile::List -e ';' || {

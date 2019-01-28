@@ -14,3 +14,5 @@ DB_File
 CGI
 HTML::Template
 Date::Manip
+Time::HiRes
+Image::Size
