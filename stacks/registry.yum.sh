@@ -1,20 +1,20 @@
 sudo yum -y groupinstall "Development Tools"
-sudo yum --enablerepo epel -y install \
-  boost141-devel \
+sudo amazon-linux-extras install epel
+sudo yum -y install \
+  boost \
   cronolog \
-  curl-devel \
   git \
-  httpd24-devel \
+  httpd24 \
   jq \
-  libxml2-devel \
-  libxslt-devel \
-  mod24_ssl \
-  mod24_wsgi-python27 \
-  monit \
-  mysql-devel \
-  openssl-devel \
-  python26-virtualenv \
-  python27-devel \
-  python27-pip \
-  python27-virtualenv \
+  libxslt \
+  mod_ssl \
+  mod_wsgi \
+  mariadb \
+  mariadb-devel \
+  openssl \
+  python3 \
+  python-virtualenv \
   stunnel
+
+ln ~/bin/python /usr/lib/python3
+ln ~/bin/pip /usr/lib/pip3

@@ -18,7 +18,7 @@ cd $DIR
 ../roll_test_certs
 
 # set up virtualenv and activate it
-virtualenv-2.7 ~/python
+virtualenv ~/python --python=/usr/bin/python3
 set +u
 source ~/python/bin/activate
 set -u
@@ -37,11 +37,11 @@ pip install -r ../ansible/requirements.txt --use-mirrors
 # check for shibboleth and build if needed
 if [[ ! -x ~/servers/shibboleth/sbin/shibd ]]
   then
-    shib_it -p ${HOME}/servers/shibboleth \
-      --boost /usr/include/boost141 \
-      --curl /usr \
-      --openssl /usr \
-      --apxs /usr/bin/apxs 
+    curl -X POST -H "Content-Type: application/x-www-form-urlencoded" -d "platform=CentOS_7" https://shibboleth.net/cgi-bin/sp_repo.cgi -o shib_centos7.repo
+    sudo yum-config-manager --add-repo shib_centos7.repo
+    rm shib_centos7.repo
+    sudo yum -y install shibboleth
+
 fi
 
 
