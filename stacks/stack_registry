@@ -33,7 +33,7 @@ pip install \
   mysql \
   shove \
   six
-pip install -r ../ansible/requirements.txt --use-mirrors
+pip install -r ../ansible/requirements.txt
 
 # check for shibboleth and build if needed
 if [[ ! -x /usr/sbin/shibd ]]

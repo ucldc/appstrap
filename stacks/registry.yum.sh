@@ -15,6 +15,3 @@ sudo yum -y install \
   python36-pip \
   python36-virtualenv \
   stunnel
-
-ln -s /usr/bin/python3 ~/bin/python
-ln -s /usr/bin/pip3 ~/bin/pip
