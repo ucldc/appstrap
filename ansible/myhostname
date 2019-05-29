@@ -23,6 +23,8 @@ if [[ -x /usr/bin/cloud-init ]]
         myhostname='registry-stg.cdlib.org' ;;
       'ec2-54-244-52-80.us-west-2.compute.amazonaws.com' )
         myhostname='registry.cdlib.org' ;;
+      'ec2-35-164-191-210.us-west-2.compute.amazonaws.com' )
+        myhostname='dsc-registry2-dev.cdlib.org'
     esac
 
   else

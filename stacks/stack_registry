@@ -17,8 +17,10 @@ cd $DIR
 # test ssl certs in ~/certs
 ../roll_test_certs
 
+pip3 install virtualenv
+
 # set up virtualenv and activate it
-virtualenv ~/python --python=/usr/bin/python3
+virtualenv-3 ~/python --python=/usr/bin/python3
 set +u
 source ~/python/bin/activate
 set -u
@@ -31,11 +33,10 @@ pip install \
   mysql \
   shove \
   six
-pip install https://github.com/ucldc/staller/archive/master.zip
 pip install -r ../ansible/requirements.txt --use-mirrors
 
 # check for shibboleth and build if needed
-if [[ ! -x ~/servers/shibboleth/sbin/shibd ]]
+if [[ ! -x /usr/sbin/shibd ]]
   then
     curl -X POST -H "Content-Type: application/x-www-form-urlencoded" -d "platform=CentOS_7" https://shibboleth.net/cgi-bin/sp_repo.cgi -o shib_centos7.repo
     sudo yum-config-manager --add-repo shib_centos7.repo
@@ -43,7 +44,6 @@ if [[ ! -x ~/servers/shibboleth/sbin/shibd ]]
     sudo yum -y install shibboleth
 
 fi
-
 
 # okay, now we should have a good stack set up, let's install and configure the app!
 cd ../ansible

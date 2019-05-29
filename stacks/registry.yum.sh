@@ -1,20 +1,20 @@
 sudo yum -y groupinstall "Development Tools"
 sudo amazon-linux-extras install epel
 sudo yum -y install \
-  boost \
+  boost-devel \
   cronolog \
   git \
-  httpd24 \
+  httpd-devel \
   jq \
-  libxslt \
+  libxslt-devel \
+  mariadb-devel \
   mod_ssl \
   mod_wsgi \
-  mariadb \
-  mariadb-devel \
-  openssl \
-  python3 \
-  python-virtualenv \
+  monit \
+  python36-devel \
+  python36-pip \
+  python36-virtualenv \
   stunnel
 
-ln ~/bin/python /usr/lib/python3
-ln ~/bin/pip /usr/lib/pip3
+ln -s /usr/bin/python3 ~/bin/python
+ln -s /usr/bin/pip3 ~/bin/pip
