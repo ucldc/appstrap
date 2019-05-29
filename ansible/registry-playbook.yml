@@ -9,9 +9,9 @@
     - include: tasks/monit.yml app=registry
     - include: tasks/stunnel.yml app=registry
     - name: clone registry source code
-      git: repo=https://github.com/ucldc/avram dest=~/code/avram
+      git: repo=https://github.com/ucldc/avram dest=~/code/avram version=python3
     - name: install registry requirements
-      pip3: requirements=~/code/avram/requirements.txt
+      pip: requirements=~/code/avram/requirements.txt virtualenv=~/python
    #- name: build avram environment
    #  command: ~/code/avram/init.sh creates=~/code/avram/bin/activate
     - name: copy .harvester-env to set REDIS_HOST
