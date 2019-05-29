@@ -11,7 +11,7 @@
     - name: clone registry source code
       git: repo=https://github.com/ucldc/avram dest=~/code/avram
     - name: install registry requirements
-      pip: requirements=~/code/avram/requirements.txt
+      pip3: requirements=~/code/avram/requirements.txt
    #- name: build avram environment
    #  command: ~/code/avram/init.sh creates=~/code/avram/bin/activate
     - name: copy .harvester-env to set REDIS_HOST
