@@ -66,7 +66,7 @@ RedirectMatch ^/documentation/.*$ https://help.oac.cdlib.org/support/home/
   Allow from all
 </Directory>
 
-WSGIDaemonProcess registry processes=2 threads=15 python-path={{ role_home_dir.stdout }}/python/lib/python3.6/site-packages:{{ role_home_dir.stdout }}/python/lib/python3.6/dist-packages
+WSGIDaemonProcess registry processes=2 threads=15 python-home={{ role_home_dir.stdout }}/python python-path={{ role_home_dir.stdout }}/python/lib/python3.6/site-packages:{{ role_home_dir.stdout }}/python/lib/python3.6/dist-packages
 WSGIProcessGroup registry
 
 WSGIScriptAlias / {{ role_home_dir.stdout }}/code/avram/collection_registry/wsgi.py
