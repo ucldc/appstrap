@@ -12,7 +12,7 @@ Listen 18443
 {% endblock %}
 
 {% block appstrap %}
-LoadModule wsgi_module modules/mod_wsgi.so
+LoadModule wsgi_module {{ role_home_dir.stdout }}/python/lib/python3.6/site-packages/mod_wsgi/server/mod_wsgi-py36.cpython-36m-x86_64-linux-gnu.so
 <Location "/admin">
   AuthType shibboleth
   ShibRequestSetting requireSession 1
@@ -66,7 +66,7 @@ RedirectMatch ^/documentation/.*$ https://help.oac.cdlib.org/support/home/
   Allow from all
 </Directory>
 
-WSGIDaemonProcess registry processes=2 threads=15 python-home={{ role_home_dir.stdout }}/python python-path={{ role_home_dir.stdout }}/python/lib/python3.6/site-packages:{{ role_home_dir.stdout }}/python/lib/python3.6/dist-packages
+WSGIDaemonProcess registry processes=2 threads=15 python-home={{ role_home_dir.stdout }}/python python-path={{ role_home_dir.stdout }}/code/avram:{{ role_home_dir.stdout }}/python/lib/python3.6/site-packages:{{ role_home_dir.stdout }}/python/lib/python3.6/dist-packages
 WSGIProcessGroup registry
 
 WSGIScriptAlias / {{ role_home_dir.stdout }}/code/avram/collection_registry/wsgi.py

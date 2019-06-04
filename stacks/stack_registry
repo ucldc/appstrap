@@ -32,7 +32,8 @@ pip install \
   lxml \
   mysql \
   shove \
-  six
+  six \
+  mod_wsgi
 pip install -r ../ansible/requirements.txt
 
 # check for shibboleth and build if needed
