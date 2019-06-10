@@ -214,7 +214,7 @@ Listen 443
 <VirtualHost *:443>
 {% endblock %}
 
-# https://spaces.internet2.edu/display/SHIB2/NativeSPApacheConfig
+# https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPApacheConfig
 
 # RPM installations on platforms with a conf.d directory will
 # result in this file being copied into that directory for you
@@ -228,15 +228,32 @@ Listen 443
 #
 LoadModule mod_shib /usr/lib64/shibboleth/mod_shib_24.so
 
+
+#
+# Turn this on to support "require valid-user" rules from other
+# mod_authn_* modules, and use "require shib-session" for anonymous
+# session-based authorization in mod_shib.
+#
+ShibCompatValidUser Off
+ShibConfig /apps/registry/servers/shibboleth/etc/shibboleth2.xml
+#
+# Ensures handler will be accessible.
+#
+<Location /Shibboleth.sso>
+  AuthType None
+  Require all granted
+</Location>
+
+
 #
 # Used for example logo and style sheet in error templates.
 #
 <IfModule mod_alias.c>
   <Location /shibboleth-sp>
-    Allow from all
+    AuthType None
+    Require all granted
   </Location>
-  Alias /shibboleth-sp/main.css {{ role_home_dir.stdout }}/pkg/share/doc/shibboleth-2.4.3/main.css
-  Alias /shibboleth-sp/logo.jpg {{ role_home_dir.stdout }}/pkg/share/doc/shibboleth-2.4.3/logo.jpg
+  Alias /shibboleth-sp/main.css /usr/share/shibboleth/main.css
 </IfModule>
 
 #

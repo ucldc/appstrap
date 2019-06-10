@@ -18,13 +18,13 @@ if [[ -x /usr/bin/cloud-init ]]
       'ec2-54-187-56-197.us-west-2.compute.amazonaws.com' )
         myhostname='nuxeo.cdlib.org' ;;
       'ec2-54-244-52-78.us-west-2.compute.amazonaws.com' )
-        myhostname='registry-dev.cdlib.org' ;;
+        myhostname='dsc-registry-dev.cdlib.org' ;;
       'ec2-54-244-52-79.us-west-2.compute.amazonaws.com' )
         myhostname='registry-stg.cdlib.org' ;;
       'ec2-54-244-52-80.us-west-2.compute.amazonaws.com' )
         myhostname='registry.cdlib.org' ;;
       'ec2-35-164-191-210.us-west-2.compute.amazonaws.com' )
-        myhostname='dsc-registry2-dev.cdlib.org'
+        myhostname='registry-dev.cdlib.org'
     esac
 
   else
