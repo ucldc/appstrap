@@ -19,13 +19,17 @@
 - name: httpd conf magic its the magic number
   copy: src=/etc/httpd/conf/magic dest=~/servers/httpd/conf/magic
 - name: create shibboleth dir
-  file: path=~/servers/shibboleth/etc/shibboleth  state=directory
+  file: path=~/servers/shibboleth/etc  state=directory
 - name: generate shibboleth2.xml
-  template: src=templates/shibboleth/shibboleth2.xml.j2  dest=~/servers/shibboleth/etc/shibboleth/shibboleth2.xml
+  template: src=templates/shibboleth/shibboleth2.xml.j2  dest=~/servers/shibboleth/etc/shibboleth2.xml
 - name: copy attribute-map.xml into shibboleth
-  copy: src=~/appstrap/ansible/templates/shibboleth/attribute-map.xml dest=~/servers/shibboleth/etc/shibboleth/attribute-map.xml
+  copy: src=~/appstrap/ansible/templates/shibboleth/attribute-map.xml dest=~/servers/shibboleth/etc/attribute-map.xml
 - name: get incommons public key
-  get_url: url=https://wayf.incommonfederation.org/bridge/certs/incommon.pem dest=~/servers/shibboleth/etc/shibboleth/incommon.pem
+  get_url: url=https://wayf.incommonfederation.org/bridge/certs/incommon.pem dest=~/servers/shibboleth/etc/incommon.pem
+- name: create shibd.logger
+  template: src=templates/shibboleth/shibd.logger.j2 dest=~/servers/shibboleth/etc/shibd.logger
+- name: create native.logger
+  template: src=templates/shibboleth/native.logger.j2 dest=~/servers/shibboleth/etc/native.logger
 - name: clone embedded discovery service
   git: repo=https://github.com/ucldc/ucds.git dest=~/code/ucds version=master
 - name: bulid shibboleth EDS

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <SPConfig xmlns="urn:mace:shibboleth:2.0:native:sp:config" xmlns:conf="urn:mace:shibboleth:2.0:native:sp:config" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" clockSkew="180">
-  <UnixListener address="shibd.sock"/>
+  <UnixListener address="{{ role_home_dir.stdout }}/servers/shibboleth/var/shibd.sock"/>
   <ApplicationDefaults entityID="https://{{ hostname.stdout }}/shibboleth" REMOTE_USER="mail persistent-id targeted-id">
     <Sessions lifetime="28800" timeout="3600" checkAddress="false" relayState="ss:mem" handlerSSL="true" cookieProps="https">
       <!-- https://wiki.shibboleth.net/confluence/display/EDS10/3.1+Configuring+the+Service+Provider#id-31ConfiguringtheServiceProvider-311SPsinstalledsinceVersion24andlater
@@ -13,8 +13,8 @@
       <Handler type="DiscoveryFeed" Location="/DiscoFeed"/>
     </Sessions>
     <Errors supportContact="oacops@cdlib.org" logoLocation="/shibboleth-sp/logo.jpg" styleSheet="/shibboleth-sp/main.css"/>
-    <MetadataProvider type="XML" uri="http://md.incommon.org/InCommon/InCommon-metadata.xml" backingFilePath="/{{ role_home_dir.stdout }}/servers/shibboleth/var/run/shibboleth/InCommon-metadata.xml" maxRefreshDelay="28800" legacyOrgNames="true">
-      <MetadataFilter type="Signature" certificate="incommon.pem" verifyBackup="false"/>
+    <MetadataProvider type="XML" uri="http://md.incommon.org/InCommon/InCommon-metadata.xml" backingFilePath="/{{ role_home_dir.stdout }}/servers/shibboleth/var/InCommon-metadata.xml" maxRefreshDelay="28800" legacyOrgNames="true">
+      <MetadataFilter type="Signature" certificate="{{ role_home_dir.stdout }}/servers/shibboleth/etc/incommon.pem" verifyBackup="false"/>
       <!-- https://atyourserviceonline.ucop.edu/Shibboleth.sso/DiscoFeed -->
       <MetadataFilter type="Whitelist">
         <Include>urn:mace:incommon:berkeley.edu</Include>
@@ -34,10 +34,10 @@
       <TrustEngine type="ExplicitKey"/>
       <TrustEngine type="PKIX"/>
     </TrustEngine>
-    <AttributeExtractor type="XML" validate="true" path="attribute-map.xml"/>
+    <AttributeExtractor type="XML" validate="true" path="{{ role_home_dir.stdout }}/servers/shibboleth/etc/attribute-map.xml"/>
     <AttributeResolver type="Query" subjectMatch="true"/>
     <AttributeFilter type="XML" validate="true" path="attribute-policy.xml"/>
-    <CredentialResolver type="File" key="sp-key.pem" certificate="sp-cert.pem"/>
+    <CredentialResolver type="File" key="{{ role_home_dir.stdout }}/servers/shibboleth/etc/sp-key.pem" certificate="{{ role_home_dir.stdout }}/servers/shibboleth/etc/sp-cert.pem"/>
     <!-- sp-key.pem and sp-cert.pem will be different on each virtual machine -->
   </ApplicationDefaults>
   <SecurityPolicyProvider type="XML" validate="true" path="security-policy.xml"/>
