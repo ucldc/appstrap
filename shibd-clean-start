@@ -21,7 +21,7 @@ HOME=$(getent passwd "$USER" | cut -d: -f6) # http://stackoverflow.com/a/7359006
 . setenv-aws.sh
 ./shibd-clean-stop
 
-"$HOME/servers/shibboleth/sbin/shibd" -p "$HOME/servers/shibboleth/var/run/shibd.pid"
+/usr/sbin/shibd -p "$HOME/servers/shibboleth/var/run/shibd.pid" -f -c "$HOME/servers/shibboleth/etc/shibboleth2.xml"
 
 # http://www.cyberciti.biz/faq/bash-comment-out-multiple-line-code/
 : '
