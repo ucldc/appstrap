@@ -49,14 +49,18 @@ log4j.appender.shibd_log.fileName={{ role_home_dir.stdout }}/servers/shibboleth/
 log4j.appender.shibd_log.maxFileSize=1000000
 log4j.appender.shibd_log.maxBackupIndex=10
 log4j.appender.shibd_log.layout=org.apache.log4j.PatternLayout
+{% raw %}
 log4j.appender.shibd_log.layout.ConversionPattern=%d{%Y-%m-%d %H:%M:%S} %p %c %x: %m%n
+{% endraw %}
 
 log4j.appender.warn_log=org.apache.log4j.RollingFileAppender
 log4j.appender.warn_log.fileName={{ role_home_dir.stdout }}/servers/shibboleth/log/shibd_warn.log
 log4j.appender.warn_log.maxFileSize=1000000
 log4j.appender.warn_log.maxBackupIndex=10
 log4j.appender.warn_log.layout=org.apache.log4j.PatternLayout
+{% raw %}
 log4j.appender.warn_log.layout.ConversionPattern=%d{%Y-%m-%d %H:%M:%S} %p %c %x: %m%n
+{% endraw %}
 log4j.appender.warn_log.threshold=WARN
 
 log4j.appender.tran_log=org.apache.log4j.RollingFileAppender
@@ -64,7 +68,9 @@ log4j.appender.tran_log.fileName={{ role_home_dir.stdout }}/servers/shibboleth/l
 log4j.appender.tran_log.maxFileSize=1000000
 log4j.appender.tran_log.maxBackupIndex=20
 log4j.appender.tran_log.layout=org.apache.log4j.PatternLayout
+{% raw %}
 log4j.appender.tran_log.layout.ConversionPattern=%d{%Y-%m-%d %H:%M:%S}|%c|%m%n
+{% endraw %}
 
 log4j.appender.sig_log=org.apache.log4j.FileAppender
 log4j.appender.sig_log.fileName={{ role_home_dir.stdout }}/servers/shibboleth/log/signature.log
