@@ -1,0 +1,7 @@
+appdirs==1.4.3
+daemonocle==1.0.1
+lxml==4.3.4
+mod-wsgi==4.6.6
+mysql==0.0.2
+shove==0.6.6
+six==1.10.0

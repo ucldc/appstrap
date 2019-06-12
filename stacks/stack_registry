@@ -26,14 +26,7 @@ source ~/python/bin/activate
 set -u
 
 # python libraries
-pip install \
-  appdirs \
-  daemonocle \
-  lxml \
-  mysql \
-  shove \
-  six \
-  mod_wsgi
+pip install -r registry.pip.txt
 pip install -r ../ansible/requirements.txt
 
 # check for shibboleth and build if needed
