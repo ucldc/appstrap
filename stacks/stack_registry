@@ -41,9 +41,8 @@ fi
 
 # okay, now we should have a good stack set up, let's install and configure the app!
 cd ../ansible
-
 ansible-playbook -i host_inventory registry-playbook.yml
-pip install -r ~/code/avram/requirements.txt
+
 cd
 ln -f -s appstrap/bashrc/role-account .bashrc
 mkdir -p ~/users
