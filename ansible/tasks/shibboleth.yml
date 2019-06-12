@@ -28,6 +28,10 @@
   get_url: url=https://wayf.incommonfederation.org/bridge/certs/incommon.pem dest=~/servers/shibboleth/etc/incommon.pem
 - name: create shibd.logger
   template: src=templates/shibboleth/shibd.logger.j2 dest=~/servers/shibboleth/etc/shibd.logger
+- name: create shibboleth logs dir
+  file: path=~/servers/shibboleth/log  state=directory
+- name: create shibboleth var dir
+  file: path=~/servers/shibboleth/var  state=directory
 - name: create native.logger
   template: src=templates/shibboleth/native.logger.j2 dest=~/servers/shibboleth/etc/native.logger
 - name: clone embedded discovery service
