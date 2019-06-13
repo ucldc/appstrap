@@ -11,6 +11,7 @@ sudo yum -y install \
   mod_ssl \
   mod_wsgi \
   monit \
+  python-virtualenv \
   python36-devel \
   python36-pip \
   python36-virtualenv \

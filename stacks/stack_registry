@@ -43,6 +43,16 @@ fi
 cd ../ansible
 ansible-playbook -i host_inventory registry-playbook.yml
 
+# deactivate python3 virtualenv to setup python2 virtualenv and harvest queuing
+deactivate
+cd ../../code
+git clone https://github.com/ucldc/harvester.git
+cd harvester
+virtualenv . --python=/usr/bin/python2
+source ./bin/activate
+python setup_queuing_only.py install
+deactivate
+
 cd
 ln -f -s appstrap/bashrc/role-account .bashrc
 mkdir -p ~/users
