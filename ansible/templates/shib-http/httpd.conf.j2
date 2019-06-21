@@ -138,7 +138,7 @@ UseCanonicalName On
 Listen 80
 <VirtualHost *:80>
 {% endblock %}
-    Redirect permanent / https://{{ hostname.stdout }}/
+    Redirect / https://{{ hostname.stdout }}/
 </VirtualHost>
 
 # Secure (SSL/TLS) connections
