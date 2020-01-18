@@ -449,7 +449,7 @@ BrowserMatch "MSIE [2-5]" \
 #   Per-Server Logging:
 #   The home of a custom SSL log file. Use this when you want a
 #   compact non-error SSL logfile on a virtual host basis.
-CustomLog "{{ role_home_dir.stdout }}/servers/httpd/logs/ssl_request_log" \
+CustomLog "|/usr/sbin/cronolog --symlink {{ role_home_dir.stdout }}/servers/httpd/logs/ssl_request_log {{ role_home_dir.stdout }}/servers/httpd/logs/ssl_request_log.%Y.%m.%d" \
           "%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \"%r\" %b"
 
 </VirtualHost>
