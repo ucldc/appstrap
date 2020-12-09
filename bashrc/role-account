@@ -27,6 +27,7 @@ user=`who -m | awk '{ print $1 }'`
 if [ -e $HOME/.bashrc-${user} ]; then
   . "$HOME/.bashrc-${user}"
 fi
+if [ -f "/home/${user}/.${user}.bash_env" ]; then source /home/${user}/.${user}.bash_env; fi
 
 alias monit="monit -c ~/.monitrc"
 
@@ -35,3 +36,7 @@ alias monit="monit -c ~/.monitrc"
 if [[ ! ":$PATH:" == *":$HOME/python/bin:"* ]]; then
     export PATH=$HOME/python/bin:$PATH
 fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
