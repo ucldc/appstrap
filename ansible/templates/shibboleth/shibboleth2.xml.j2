@@ -13,8 +13,11 @@
       <Handler type="DiscoveryFeed" Location="/DiscoFeed"/>
     </Sessions>
     <Errors supportContact="oacops@cdlib.org" logoLocation="/shibboleth-sp/logo.jpg" styleSheet="/shibboleth-sp/main.css"/>
-    <MetadataProvider type="XML" uri="http://md.incommon.org/InCommon/InCommon-metadata.xml" backingFilePath="/{{ role_home_dir.stdout }}/servers/shibboleth/var/InCommon-metadata.xml" maxRefreshDelay="28800" legacyOrgNames="true">
-      <MetadataFilter type="Signature" certificate="{{ role_home_dir.stdout }}/servers/shibboleth/etc/incommon.pem" verifyBackup="false"/>
+     <MetadataProvider type="MDQ" id="incommon" ignoreTransport="true" cacheDirectory="inc-mdq-cache"
+        maxCacheDuration="86400" minCacheDuration="60"
+        baseUrl="https://mdq.incommon.org/">
+      <MetadataFilter type="Signature" certificate="{{ role_home_dir.stdout }}/servers/shibboleth/etc/inc-md-cert-mdq.pem"/>
+      <MetadataFilter type="RequireValidUntil" maxValidityInterval="1209600"/>
       <!-- https://atyourserviceonline.ucop.edu/Shibboleth.sso/DiscoFeed -->
       <MetadataFilter type="Whitelist">
         <Include>urn:mace:incommon:berkeley.edu</Include>

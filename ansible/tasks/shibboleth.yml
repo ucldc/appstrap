@@ -25,7 +25,7 @@
 - name: copy attribute-map.xml into shibboleth
   copy: src=~/appstrap/ansible/templates/shibboleth/attribute-map.xml dest=~/servers/shibboleth/etc/attribute-map.xml
 - name: get incommons public key
-  get_url: url=https://wayf.incommonfederation.org/bridge/certs/incommon.pem dest=~/servers/shibboleth/etc/incommon.pem
+  get_url: url=http://md.incommon.org/certs/inc-md-cert-mdq.pem dest=~/servers/shibboleth/etc/inc-md-cert-mdq.pem
 - name: create shibd.logger
   template: src=templates/shibboleth/shibd.logger.j2 dest=~/servers/shibboleth/etc/shibd.logger
 - name: create shibboleth logs dir
