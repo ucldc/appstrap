@@ -40,7 +40,7 @@
   command: ./change_email ucldc@ucop.edu chdir=~/code/ucds
 - name: set up robots.txt
   copy: src=~/appstrap/ansible/templates/shib-http/robots-restrictive.txt dest=~/webroot/robots.txt
-- name: create certs dir
-  file: path=~/certs/ state=directory
-- name: InCommon Intermediate_x509.cer
-  copy: src=~/appstrap/cdl/Intermediate_x509.cer dest=~/certs/Intermediate_x509.cer
+
+
+
+

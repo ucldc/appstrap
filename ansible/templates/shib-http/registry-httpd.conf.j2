@@ -70,6 +70,7 @@ WSGIDaemonProcess registry processes=2 threads=15 python-home={{ role_home_dir.s
 WSGIProcessGroup registry
 
 WSGIScriptAlias / {{ role_home_dir.stdout }}/code/avram/collection_registry/wsgi.py
+Alias /static/ {{ role_home_dir.stdout }}/code/avram/admin_bootstrap/static/
 
 <Directory /apps/registry/code/avram/collection_registry>
   Order allow,deny

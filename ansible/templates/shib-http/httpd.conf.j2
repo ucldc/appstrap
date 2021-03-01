@@ -138,6 +138,10 @@ UseCanonicalName On
 Listen 80
 <VirtualHost *:80>
 {% endblock %}
+    DocumentRoot {{ role_home_dir.stdout }}/webroot
+    Alias /.well-known/acme-challenge/ "{{ role_home_dir.stdout }}/webroot/.well-known/acme-challenge/"
+    ## comment out the following redirect to boot start the first https certificate
+    ## certbot --config-dir ~/letsencrypt/config/ --work-dir ~/letsencrypt/work/ --logs-dir ~/letsencrypt/logs/
     Redirect / https://{{ hostname.stdout }}/
 </VirtualHost>
 
@@ -235,7 +239,7 @@ LoadModule mod_shib /usr/lib64/shibboleth/mod_shib_24.so
 # session-based authorization in mod_shib.
 #
 ShibCompatValidUser Off
-ShibConfig /apps/registry/servers/shibboleth/etc/shibboleth2.xml
+ShibConfig {{ role_home_dir.stdout }}/servers/shibboleth/etc/shibboleth2.xml
 #
 # Ensures handler will be accessible.
 #
@@ -271,8 +275,8 @@ RedirectMatch /ds$ /ds/
 Alias /ds/ {{ role_home_dir.stdout }}/code/ucds/build/
 AliasMatch ^/([^/]*\.css) {{ role_home_dir.stdout }}/webroot/styles/$1
 
-Alias /static/ {{ role_home_dir.stdout }}/code/avram/admin_bootstrap/static/
 Alias /Logos/ {{ role_home_dir.stdout }}/webroot/Logos/
+Alias /.well-known/acme-challenge/ "{{ role_home_dir.stdout }}/webroot/.well-known/acme-challenge/"
 
 <Directory {{ role_home_dir.stdout }}/code/ucds/build>
   Order deny,allow
@@ -322,14 +326,14 @@ SSLCipherSuite HIGH:MEDIUM:!aNULL:!MD5
 #   in mind that if you have both an RSA and a DSA certificate you
 #   can configure both in parallel (to also allow the use of DSA
 #   ciphers, etc.)
-SSLCertificateFile "{{ role_home_dir.stdout }}/certs/this.crt"
+SSLCertificateFile "{{ role_home_dir.stdout }}/letsencrypt/config/live/{{ hostname.stdout }}/cert.pem"
 
 #   Server Private Key:
 #   If the key is not combined with the certificate, use this
 #   directive to point at the key file.  Keep in mind that if
 #   you've both a RSA and a DSA private key you can configure
 #   both in parallel (to also allow the use of DSA ciphers, etc.)
-SSLCertificateKeyFile "{{ role_home_dir.stdout }}/certs/this.key"
+SSLCertificateKeyFile "{{ role_home_dir.stdout }}/letsencrypt/config/live/{{ hostname.stdout }}/privkey.pem"
 
 #   Server Certificate Chain:
 #   Point SSLCertificateChainFile at a file containing the
@@ -338,7 +342,7 @@ SSLCertificateKeyFile "{{ role_home_dir.stdout }}/certs/this.key"
 #   the referenced file can be the same as SSLCertificateFile
 #   when the CA certificates are directly appended to the server
 #   certificate for convinience.
-SSLCertificateChainFile "{{ role_home_dir.stdout }}/certs/Intermediate_x509.cer"
+SSLCertificateChainFile "{{ role_home_dir.stdout }}/letsencrypt/config/live/{{ hostname.stdout }}/fullchain.pem"
 
 #   Certificate Authority (CA):
 #   Set the CA certificate verification path where to find CA
