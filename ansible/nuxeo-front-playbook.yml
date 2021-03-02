@@ -1,6 +1,13 @@
 ---
   - hosts: localhost
-    gather_facts: True         
+    gather_facts: True
+    vars_prompt:
+
+    - name: nuxeoback
+      prompt: Nuxeo backend private ip address
+      default: nuxeoback
+      private: no
+
     tasks: 
     - include: tasks/setvars.yml  # sets {{ role_home_dir.stdout }} and hostname.stdout
     - include: tasks/shibboleth.yml app=nuxeo

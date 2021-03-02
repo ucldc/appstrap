@@ -2,37 +2,79 @@
 
 {% block appstrap %}
 
-RewriteEngine On
-RewriteRule ^/{{ ansible_user_id }}/img/workspace_open.gif$ /{{ ansible_user_id }}/icons/workspace_open.gif [R]
-RewriteRule ^/{{ ansible_user_id }}/img/folder.gif$ /{{ ansible_user_id }}/icons/folder.gif [R]
+# nuxeo specific conf
+Define nuxeoback {{ nuxeoback }}
 
-ProxyPass /{{ ansible_user_id }} ajp://{{ ansible_default_ipv4.address }}:8009/{{ ansible_user_id }}
-<Location "/{{ ansible_user_id }}">
+RewriteEngine On
+RewriteRule ^/nuxeo/img/workspace_open.gif$ /nuxeo/icons/workspace.gif [R]
+RewriteRule ^/nuxeo/img/folder.gif$ /nuxeo/icons/folder.gif [R]
+RewriteRule ^/nuxeo/icons/workspace_open.gif$ /nuxeo/icons/workspace.gif [R]
+RewriteRule ^/nuxeo/icons/assets_library.png$ /nuxeo/icons/workspace.gif [R]
+
+
+ProxyPass /nuxeo http://{$nuxeoback}:8080/nuxeo
+
+<Location "/nuxeo">
         AuthType shibboleth
         ShibRequestSetting requireSession 1
+        ShibRequireSession On
         ShibUseHeaders On
         Include {{ role_home_dir.stdout }}/users/users.httpd.txt
         # just in case users.httpd.txt is empty
         Require user
+        RequestHeader append nuxeo-virtual-host "https://nuxeo.cdlib.org/"
 </Location>
 
+<Location "/Nuxeo">
+        RequestHeader append nuxeo-virtual-host "https://nuxeo.cdlib.org/"
+</Location>
+
+Timeout 3000000
+RequestReadTimeout header=20-40,MinRate=500 body=20,MinRate=250
+ProxyBadHeader Ignore
+
 # applicaiton level basic auth behind ssl
-ProxyPass /Nuxeo/site/api/v1 ajp://{{ ansible_default_ipv4.address }}:8009/nuxeo/site/api/v1 timeout=1000
-ProxyPass /Nuxeo/nxpicsfile ajp://{{ ansible_default_ipv4.address }}:8009/nuxeo/nxpicsfile timeout=1000
-ProxyPass /Nuxeo/nxbigfile ajp://{{ ansible_default_ipv4.address }}:8009/nuxeo/nxbigfile timeout=1000
-ProxyPass /Nuxeo/nxfile ajp://{{ ansible_default_ipv4.address }}:8009/nuxeo/nxfile timeout=1000
-ProxyPass /Nuxeo/site/automation ajp://{{ ansible_default_ipv4.address }}:8009/nuxeo/site/automation timeout=1000
-ProxyPass /Nuxeo/nxdoc ajp://{{ ansible_default_ipv4.address }}:8009/nuxeo/nxdoc timeout=1000
-ProxyPass /Nuxeo/restAPI ajp://{{ ansible_default_ipv4.address }}:8009/nuxeo/restAPI timeout=1000
-ProxyPassReverse /Nuxeo/site/api/v1 ajp://{{ ansible_default_ipv4.address }}:8009/nuxeo/site/api/v1
-ProxyPassReverse /Nuxeo/nxpicsfile ajp://{{ ansible_default_ipv4.address }}:8009/nuxeo/nxpicsfile
-ProxyPassReverse /Nuxeo/nxbigfile ajp://{{ ansible_default_ipv4.address }}:8009/nuxeo/nxbigfile
-ProxyPassReverse /Nuxeo/nxfile ajp://{{ ansible_default_ipv4.address }}:8009/nuxeo/nxfile
-ProxyPassReverse /Nuxeo/site/automation ajp://{{ ansible_default_ipv4.address }}:8009/nuxeo/site/automation
-ProxyPassReverse /Nuxeo/nxdoc ajp://{{ ansible_default_ipv4.address }}:8009/nuxeo/nxdoc
-ProxyPassReverse /Nuxeo/restAPI ajp://{{ ansible_default_ipv4.address }}:8009/nuxeo/restAPI
+ProxyPass /Nuxeo/api/v1 http://${nuxeoback}:8080/nuxeo/api/v1 timeout=3000000
+ProxyPass /Nuxeo/site/api/v1 http://${nuxeoback}:8080/nuxeo/site/api/v1 timeout=3000000
+#<Location "/Nuxeo/site/api/v1">
+  #ProxyPass "http://${nuxeoback}:8080/nuxeo/site/api/v1"
+  #SetEnv proxy-sendchunked 1
+#</Location>
+ProxyPass /Nuxeo/nxpicsfile http://${nuxeoback}:8080/nuxeo/nxpicsfile timeout=3000000
+ProxyPass /Nuxeo/nxbigfile http://${nuxeoback}:8080/nuxeo/nxbigfile timeout=3000000
+ProxyPass /Nuxeo/nxfile http://${nuxeoback}:8080/nuxeo/nxfile timeout=3000000
+ProxyPass /Nuxeo/site/automation http://${nuxeoback}:8080/nuxeo/site/automation timeout=3000000
+ProxyPass /Nuxeo/nxdoc http://${nuxeoback}:8080/nuxeo/nxdoc timeout=3000000
+ProxyPass /Nuxeo/restAPI http://${nuxeoback}:8080/nuxeo/restAPI timeout=3000000
+ProxyPass /Nuxeo/oauth2 http://${nuxeoback}:8080/nuxeo/oauth2 timeout=3000000
+ProxyPass /Nuxeo/json http://${nuxeoback}:8080/nuxeo/json timeout=3000000
+ProxyPassReverse /Nuxeo/site/api/v1 http://${nuxeoback}:8080/nuxeo/site/api/v1
+ProxyPassReverse /Nuxeo/api/v1 http://${nuxeoback}:8080/nuxeo/api/v1
+ProxyPassReverse /Nuxeo/nxpicsfile http://${nuxeoback}:8080/nuxeo/nxpicsfile
+ProxyPassReverse /Nuxeo/nxbigfile http://${nuxeoback}:8080/nuxeo/nxbigfile
+ProxyPassReverse /Nuxeo/nxfile http://${nuxeoback}:8080/nuxeo/nxfile
+ProxyPassReverse /Nuxeo/site/automation http://${nuxeoback}:8080/nuxeo/site/automation
+ProxyPassReverse /Nuxeo/nxdoc http://${nuxeoback}:8080/nuxeo/nxdoc
+ProxyPassReverse /Nuxeo/restAPI http://${nuxeoback}:8080/nuxeo/restAPI
+ProxyPassReverse /Nuxeo/oauth2 http://${nuxeoback}:8080/nuxeo/oauth2
+ProxyPassReverse /Nuxeo/json http://${nuxeoback}:8080/nuxeo/json
+
+# ProxyPass /Nuxeo/site/api/v1 ajp://${nuxeoback}:8009/nuxeo/site/api/v1 timeout=1000
+# ProxyPass /Nuxeo/nxpicsfile ajp://${nuxeoback}:8009/nuxeo/nxpicsfile timeout=1000
+# ProxyPass /Nuxeo/nxbigfile ajp://${nuxeoback}:8009/nuxeo/nxbigfile timeout=1000
+# ProxyPass /Nuxeo/nxfile ajp://${nuxeoback}:8009/nuxeo/nxfile timeout=1000
+# ProxyPass /Nuxeo/site/automation ajp://${nuxeoback}:8009/nuxeo/site/automation timeout=1000
+# ProxyPass /Nuxeo/nxdoc ajp://${nuxeoback}:8009/nuxeo/nxdoc timeout=1000
+# ProxyPass /Nuxeo/restAPI ajp://${nuxeoback}:8009/nuxeo/restAPI timeout=1000
+# ProxyPassReverse /Nuxeo/site/api/v1 ajp://${nuxeoback}:8009/nuxeo/site/api/v1
+# ProxyPassReverse /Nuxeo/nxpicsfile ajp://${nuxeoback}:8009/nuxeo/nxpicsfile
+# ProxyPassReverse /Nuxeo/nxbigfile ajp://${nuxeoback}:8009/nuxeo/nxbigfile
+# ProxyPassReverse /Nuxeo/nxfile ajp://${nuxeoback}:8009/nuxeo/nxfile
+# ProxyPassReverse /Nuxeo/site/automation ajp://${nuxeoback}:8009/nuxeo/site/automation
+# ProxyPassReverse /Nuxeo/nxdoc ajp://${nuxeoback}:8009/nuxeo/nxdoc
+# ProxyPassReverse /Nuxeo/restAPI ajp://${nuxeoback}:8009/nuxeo/restAPI
 
 RedirectMatch ^/$ /nuxeo/
-RewriteRule ^/Merritt/(.*).xml$ ajp://{{ ansible_default_ipv4.address }}:8009/nuxeo/restAPI/default/$1/export?format=XML [P]
+RewriteRule ^/Merritt/(.*).xml$ http://${nuxeoback}:8080/nuxeo/restAPI/default/$1/export?format=XML [P]
 
 {% endblock %}
