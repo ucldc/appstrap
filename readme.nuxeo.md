@@ -10,6 +10,15 @@ $ rm shib_centos7.repo
 $ sudo yum -y install shibboleth
 ```
 
+## no port mapping
+Rather than the CDL standard of mapping 80<->18880; this host uses "linux capabilities" to give the apache server permission to listen on 80.
+
+```
+sudo setcap 'cap_net_bind_service=+ep' /usr/sbin/httpd
+```
+This needs to get reset whenver the package manager updates `httpd` or the binary otherwise changes.
+
+
 ## other packages
 ```
 sudo yum install httpd
@@ -38,3 +47,5 @@ ansible-playbook -i host_inventory nuxeo-front-playbook.yml
 these go in `/home/nuxeo/servers/shibboleth/etc/`
 
 ## user setup from blackstar
+
+made sure `authorized_keys` were set on the new machine (`ec2-user` and `nuxeo` acconts).  Set up TOFU from blackstar `nuxeo` account, and tested ssh command.
