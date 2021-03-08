@@ -12,7 +12,7 @@ RewriteRule ^/nuxeo/icons/workspace_open.gif$ /nuxeo/icons/workspace.gif [R]
 RewriteRule ^/nuxeo/icons/assets_library.png$ /nuxeo/icons/workspace.gif [R]
 
 
-ProxyPass /nuxeo http://{$nuxeoback}:8080/nuxeo
+ProxyPass /nuxeo http://${nuxeoback}:8080/nuxeo
 
 <Location "/nuxeo">
         AuthType shibboleth
