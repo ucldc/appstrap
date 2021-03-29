@@ -10,13 +10,11 @@ $ rm shib_centos7.repo
 $ sudo yum -y install shibboleth
 ```
 
-## no port mapping
-Rather than the CDL standard of mapping 80<->18880; this host uses "linux capabilities" to give the apache server permission to listen on 80.
+## Enable extra packages
 
 ```
-sudo setcap 'cap_net_bind_service=+ep' /usr/sbin/httpd
+sudo /usr/bin/amazon-linux-extras install epel
 ```
-This needs to get reset whenver the package manager updates `httpd` or the binary otherwise changes.
 
 
 ## other packages
@@ -31,6 +29,13 @@ sudo yum install mod_ssl
 sudo yum install cronolog
 ```
 
+## no port mapping
+Rather than the CDL standard of mapping 80<->18880; this host uses "linux capabilities" to give the apache server permission to listen on 80.
+
+```
+sudo setcap 'cap_net_bind_service=+ep' /usr/sbin/httpd
+```
+This needs to get reset whenver the package manager updates `httpd` or the binary otherwise changes.
 
 ## setup role account
 
