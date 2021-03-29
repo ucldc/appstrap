@@ -23,7 +23,7 @@ if [[ -x /usr/bin/cloud-init ]]
         myhostname='dsc-registry-stg.cdlib.org' ;;
       'ec2-54-244-52-80.us-west-2.compute.amazonaws.com' )
         myhostname='dsc-registry-prd.cdlib.org' ;;
-      'ec2-34-218-117-246.us-west-2.compute.amazonaws.com' )
+      'ec2-34-217-123-111.us-west-2.compute.amazonaws.com' )
         myhostname='nuxeo-stg.cdlib.org' ;;
       'ec2-52-35-63-249.us-west-2.compute.amazonaws.com' )
         myhostname='registry-stg.cdlib.org' ;;
